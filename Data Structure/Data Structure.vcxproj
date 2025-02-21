@@ -128,15 +128,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="ChooseMenu.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="GUIObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SLL.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ChooseMenu.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="GUIObject.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="SinglyLinkedListNode.h" />
+    <ClInclude Include="SLL.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

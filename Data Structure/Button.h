@@ -2,8 +2,9 @@
 #include "GUIObject.h"
 #include<string>
 class Button : public GUIObject {
-protected:
-    Rectangle rect;
+private:
+    Rectangle hitBox;
+    float width, height;
     std::string text;
 
     Color idleColor=BLACK;
@@ -11,7 +12,7 @@ protected:
     Color activeColor=RED;
 
     Vector2 textPos;
-    int textSize=500;
+    int textSize=30;
     void ComputeTextPos();
 
 public:
@@ -24,6 +25,9 @@ public:
     void SetIdleColor(Color color);
     void SetHoverColor(Color color);
     void SetActiveColor(Color color);
+    //Set Text
+    void SetTextSize(int textSize);
+    void SetTextPos(Vector2 TextPos);
     // Render
 
     void render() override;
