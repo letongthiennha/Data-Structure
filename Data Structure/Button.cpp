@@ -28,16 +28,11 @@
 
 	// Mouse 
 	bool Button::isHover() const {
-		if (CheckCollisionPointRec(GetMousePosition(), this->hitBox) && !IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-			return true;
-		}
-		return false;
+		return(CheckCollisionPointRec(GetMousePosition(), this->hitBox) && !IsMouseButtonPressed(MOUSE_BUTTON_LEFT));
 	}
+
 	bool Button::isClicked() const {
-		if (CheckCollisionPointRec(GetMousePosition(), this->hitBox) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-			return true;
-		}
-		return false;
+		return(CheckCollisionPointRec(GetMousePosition(), this->hitBox) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT));
 	}
 
 	//Set color
@@ -45,13 +40,25 @@
 	void Button::SetHoverColor(Color color) { hoverColor = color; }
 	void Button::SetIdleColor(Color color) { idleColor = color; }
 
+
+	//Update
+	void Button::update() {
+		if (this->isClicked()) {
+			renderColor = activeColor;
+			activeTimer = clickDuration;
+		}
+		if (activeTimer > 0) {
+			renderColor = activeColor;
+			activeTimer -= GetFrameTime();
+		}
+		else
+		if (this->isHover()) renderColor = hoverColor;
+
+		else renderColor = idleColor;
+	}
 	//Render
 	void Button::render() {
-		Color renderColor;
-		if (this->isHover()) renderColor = hoverColor;
-		else
-			if (this->isClicked()) renderColor = activeColor;
-			else renderColor = idleColor;
+		
 		DrawRectangle(pos.x, pos.y, width, height, renderColor);
 		// Draw text
 		DrawText(text.c_str(), static_cast<int>(textPos.x), static_cast<int>(textPos.y), textSize, BLUE);

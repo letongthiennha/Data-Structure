@@ -11,10 +11,12 @@ private:
     Color hoverColor=YELLOW;
     Color activeColor=RED;
 
+    Color renderColor = idleColor;
     Vector2 textPos;
     int textSize=30;
     void ComputeTextPos();
-
+    float activeTimer;      
+    const float clickDuration = 0.17f;
 public:
     // Constructor
     Button() = default;
@@ -29,7 +31,7 @@ public:
     void SetTextSize(int textSize);
     void SetTextPos(Vector2 TextPos);
     // Render
-
+    void update();
     void render() override;
     bool isHover() const;
     bool isClicked() const;

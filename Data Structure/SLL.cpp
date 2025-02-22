@@ -1,9 +1,10 @@
 #include "SLL.h"
 #include <string>
-const float DELTA_TIME = 1.0f / 24;
-bool isAdding = false;
+//Moving A Node
+
 //Node Render
 void LinkedList::Node::render() {
+	if (!isRender) return;
 	std::string text = std::to_string(val);
 
 	int fontSize = 20;
@@ -33,61 +34,114 @@ LinkedList::~LinkedList() {
 	}
 	delete dummy;
 }
-//Animation
-//bool LinkedList::highlightOneByOneToTheEnd() {
-//	static Node* curr = dummy->next;
-//	static Node* prev = dummy;
-//	//Set Highlight
-//	if (prev) {//Still Node left to highlight
-//		curr->setHighlight();
-//		prev->unHighlight();
-//		if (curr);
-//		curr = curr->next;
-//		prev = prev->next;
-//		return false;
-//	}
-//	else{//Out of left Node reset
-//		curr = dummy->next;
-//		prev = dummy;
-//		return true;
-//	}
-//}
+
 //Operation 
 
 void LinkedList::push_back(int n) {
+	pTail->isRender = true;
+	pTail->unHighlight();
+
 	Node* nextNode = new Node(n, nullptr);
 	if (pTail == dummy) nextNode->pos.x = 100.0f;
 	else nextNode->pos.x = pTail->pos.x + dx;
 	nextNode->pos.y = 100.0f;
+	isAdding = true;
+	nextNode->isRender = false;//Wait until complete animation to render the node
+
 	pTail->next = nextNode;
 	pTail = pTail->next;
 }
-void LinkedList::remove(Node* &curr){
-	Node* prev = dummy;
-	while (prev&&prev->next!=curr) {
-		prev = prev->next;
+//void LinkedList::remove(int n){
+//	isRemoving = true;
+//	Node* curr = dummy->next;
+//	while (curr->next) {
+//		if (curr->next->val == n) {
+//			prev = curr;          
+//			removeNode = curr->next; 
+//			next = removeNode->next;
+//			break;
+//		}
+//		curr = curr->next;
+//	}
+//	next = removeNode->next;
+//}
+//Animation
+void LinkedList::updateForAdding() {
+	static Node* curr = nullptr; // To highlight
+	static Node* prev = nullptr; // to unhighlight
+	static int frameCounter = 0; // Controls the animation speed
+
+
+		if (!curr) {
+			curr = dummy->next;
+			prev = dummy;
+		}
+
+		frameCounter++;
+
+		if (frameCounter >= 0.5f * GetFPS()) {//After 0
+			if (curr) {
+				if (prev) prev->unHighlight();
+				curr->setHighlight();
+
+				prev = curr;
+				curr = curr->next;
+			}
+
+			frameCounter = 0; // Reset frame counter
+
+			// Reach the end, stop highlighting
+			if (!curr) {
+				pTail->isRender = true; // Show the newly added node
+				isAdding = false;       // Stop animation
+				curr = nullptr;
+				prev = nullptr;
+			}
 	}
-	prev->next = curr->next;
-	while (prev && prev->next) prev=prev->next;
-	pTail = prev;
-	delete curr;
-	curr = nullptr;
+}
+void LinkedList::updateForRemoving() {
+	if (!removeNode) return;
+
+	//Count Frame
+
+	static const float timeUpdate = 1.0f / 60;
+	static float time = 0;
+	time += GetFrameTime();
+	if (time >= timeUpdate) {
+		//Animation move down curr Node each state
+		const float speed = 4.0f / 3; //Speed Move Down
+		static const float deletePos = removeNode->pos.y + 80.0f;
+		if (removeNode->pos.y < deletePos) {
+			removeNode->pos.y += speed;
+		}
+		else {
+				delete removeNode;
+				removeNode = nullptr;
+				prev->next = next;
+				prev = nullptr;
+				next = nullptr;
+				isRemoving = false;
+			}
+		time -= timeUpdate;
+	} 
+	if (!isRemoving) time = 0;
 }
 
-
 //Update Position for Operation
-//void LinkedList::update() {
-//	if (highlightOneByOneToTheEnd()) {
-//		push_back(500);
-//		pTail->setHighlight();
-//	}
-//}
+
+void LinkedList::update() {
+	if (isAdding) updateForAdding();
+	if (isRemoving) updateForRemoving();
+}
+
 //Render
 void LinkedList::render() {
-	update();
 	Node* curr = dummy->next;
+
 	while (curr) {
-		curr->render();
+		if(curr->next&&curr->next->isRender)
+		DrawLine(curr->pos.x, curr->pos.y, curr->next->pos.x, curr->next->pos.y, GRAY);
+		curr->render(); 
 		curr = curr->next;
 	}
 }

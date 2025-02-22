@@ -19,15 +19,24 @@ private:
 		//Constructor
 		Node(int n, Node* next) : val(n), next(next) {};
 
+		//Determine whether to render or not
+		bool isRender = true;
 		void render() override;
 	};
 	const float dx = 80.0f;
 	Node* dummy;
 	Node* pTail;
 
+	//Adding State
+	bool isAdding = false;
+	//Removing State
+	bool isRemoving = false;
+	Node* removeNode = nullptr;
+	Node* prev = nullptr;
+	Node* next = nullptr;
 	//Animation
-	bool highlightOneByOneToTheEnd();
-
+	void updateForAdding();
+	void updateForRemoving();
 public:
 //Constructor and destructor
 	LinkedList();
@@ -35,7 +44,7 @@ public:
 
 //Function to add or remove
 	void push_back(int n);
-	void remove(Node* &curr);
+	void remove(int n);
 
 //Function for GUI
 	void update();
