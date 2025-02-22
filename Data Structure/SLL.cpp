@@ -51,20 +51,20 @@ void LinkedList::push_back(int n) {
 	pTail->next = nextNode;
 	pTail = pTail->next;
 }
-//void LinkedList::remove(int n){
-//	isRemoving = true;
-//	Node* curr = dummy->next;
-//	while (curr->next) {
-//		if (curr->next->val == n) {
-//			prev = curr;          
-//			removeNode = curr->next; 
-//			next = removeNode->next;
-//			break;
-//		}
-//		curr = curr->next;
-//	}
-//	next = removeNode->next;
-//}
+void LinkedList::remove(int n){
+	isRemoving = true;
+	Node* curr = dummy->next;
+	while (curr->next) {
+		if (curr->next->val == n) {
+			prev = curr;          
+			removeNode = curr->next; 
+			next = removeNode->next;
+			break;
+		}
+		curr = curr->next;
+	}
+	next = removeNode->next;
+}
 //Animation
 void LinkedList::updateForAdding() {
 	static Node* curr = nullptr; // To highlight
