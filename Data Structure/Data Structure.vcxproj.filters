@@ -13,22 +13,28 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\SLL">
+      <UniqueIdentifier>{ba742564-e1e1-4db0-ac35-65cc8ae3452e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SLL">
+      <UniqueIdentifier>{f7854271-5b7b-43d2-b69a-8a5d88ae858c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SLL.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Menu.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="GUIObject.cpp">
       <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SLL.cpp">
+      <Filter>Source Files\SLL</Filter>
+    </ClCompile>
+    <ClCompile Include="SLLState.cpp">
+      <Filter>Source Files\SLL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,11 +44,11 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SLL.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\SLL</Filter>
+    </ClInclude>
+    <ClInclude Include="SLLState.h">
+      <Filter>Header Files\SLL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
