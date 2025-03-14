@@ -1,7 +1,9 @@
-// GUIObject.cpp
 #include "GUIObject.h"
 
-GUIObject::GUIObject(float x, float y) {
-    pos.x = x;
-    pos.y = y;
+void GUIObject::setPosition(Vector2 position) {
+	m_pos = position;
+}
+
+Vector2 GUIObject::getPosition() {
+	return m_pos;
 }

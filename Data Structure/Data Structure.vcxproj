@@ -129,12 +129,16 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="GUIObject.cpp" />
+    <ClCompile Include="GUIText.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="movableObject.h" />
+    <ClCompile Include="moveableObject.cpp" />
     <ClCompile Include="SLL.cpp" />
-    <ClCompile Include="SLLState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUIObject.h" />
+    <ClInclude Include="GUIText.h" />
+    <ClInclude Include="TextBox.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="SLL.h" />
     <ClInclude Include="SLLState.h" />

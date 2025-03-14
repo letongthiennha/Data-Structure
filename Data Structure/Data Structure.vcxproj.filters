@@ -19,36 +19,54 @@
     <Filter Include="Header Files\SLL">
       <UniqueIdentifier>{f7854271-5b7b-43d2-b69a-8a5d88ae858c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Base">
+      <UniqueIdentifier>{d8413d83-8410-45b0-8a43-ead503df5b6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Base">
+      <UniqueIdentifier>{2abf2110-0201-4fd8-83ba-9035e1a11a82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIObject.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="SLL.cpp">
       <Filter>Source Files\SLL</Filter>
     </ClCompile>
-    <ClCompile Include="SLLState.cpp">
-      <Filter>Source Files\SLL</Filter>
+    <ClCompile Include="movableObject.h">
+      <Filter>Header Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="moveableObject.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIObject.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIText.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GUIObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SLL.h">
       <Filter>Header Files\SLL</Filter>
     </ClInclude>
     <ClInclude Include="SLLState.h">
       <Filter>Header Files\SLL</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIObject.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIText.h">
+      <Filter>Header Files\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
