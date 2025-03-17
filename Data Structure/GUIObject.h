@@ -1,23 +1,24 @@
 #pragma once
-
-#include "raylib.h"
-//Every object render on screen
-class GUIObject {
+#include "GUIState.h"
+#include "memory"
+class GUIObject{
 protected:
-	Vector2 m_pos;
+	std::unique_ptr<GUIState>	m_state;
 public:
-	GUIObject() :m_pos{ 0,0 } {};
+	//Constructor
+	GUIObject();
+	GUIObject(std::unique_ptr<GUIState> state);
 
-	//Render and update
-	virtual void		update()=0,
-						render()=0;
+	Vector2						getPosition();
 
-	//Set And Get Position
-	Vector2				getPosition();
 	virtual void				setPosition(Vector2 position);
+	virtual void				setMainColor(Color color);
 
+	//Draw function
+	virtual void				render()=0;
 
-	virtual				~GUIObject()=default;
+	// Destructor
+	virtual						~GUIObject() = default;
 };
 
- 
+

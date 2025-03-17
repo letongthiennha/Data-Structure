@@ -33,13 +33,13 @@
     <ClCompile Include="SLL.cpp">
       <Filter>Source Files\SLL</Filter>
     </ClCompile>
-    <ClCompile Include="movableObject.h">
+    <ClCompile Include="GUIAnimatingObject.h">
       <Filter>Header Files\Base</Filter>
     </ClCompile>
-    <ClCompile Include="moveableObject.cpp">
+    <ClCompile Include="GUIAnimatingObject.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
-    <ClCompile Include="GUIObject.cpp">
+    <ClCompile Include="GUIState.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="GUIText.cpp">
@@ -47,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIObject.cpp">
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,17 +59,17 @@
     <ClInclude Include="SLLState.h">
       <Filter>Header Files\SLL</Filter>
     </ClInclude>
-    <ClInclude Include="TextBox.h">
+    <ClInclude Include="GUIState.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
+    <ClInclude Include="GUIText.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
     <ClInclude Include="GUIObject.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
-    <ClInclude Include="GUIText.h">
-      <Filter>Header Files\Base</Filter>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
