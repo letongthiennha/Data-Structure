@@ -33,9 +33,6 @@
     <ClCompile Include="SLL.cpp">
       <Filter>Source Files\SLL</Filter>
     </ClCompile>
-    <ClCompile Include="GUIAnimatingObject.h">
-      <Filter>Header Files\Base</Filter>
-    </ClCompile>
     <ClCompile Include="GUIAnimatingObject.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
@@ -50,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="GUIObject.cpp">
       <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIAnimatingObject.h">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

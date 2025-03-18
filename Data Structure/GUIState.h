@@ -9,7 +9,10 @@ protected:
 public:
 	GUIState() :m_pos{ 0,0 },m_main_color(BLACK) {};
 
-
+	GUIState(const GUIState& other) {
+		this->m_pos = other.m_pos;
+		this->m_main_color = other.m_main_color;
+	}
 	//Set And Get Position
 	Vector2				getPosition();
 	virtual void		setPosition(Vector2 position);
