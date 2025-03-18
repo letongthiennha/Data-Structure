@@ -1,8 +1,10 @@
 #pragma once
+#define defaultFPS 60
 
 #include "raylib.h"
 #include "GUIObject.h"
 #include "queue"
+
 inline bool isSameColor(Color c1, Color c2) {
 	return (c1.r == c2.r) &&
 		(c1.g == c2.g) &&
@@ -15,7 +17,9 @@ inline bool isSamePosition(Vector2 v1, Vector2 v2) {
 //Abstract Class For any Animating Object, Update state step by step after 1 Frame
 class GUIAnimatingObject: public GUIObject {
 protected:
-	std::unique_ptr<GUIState>m_targetState=std::make_unique<GUIState>(*m_state);
+	//=================State Control=================
+	//Helper Pointer to determine next	state
+	std::unique_ptr<GUIState>m_targetState = std::make_unique<GUIState>(*m_state);
 
 
 	//================Flow Control==============
@@ -33,8 +37,9 @@ protected:
 	//=======================Animation Control======================
 	
 	//Change Color Status
-	float			m_ChangingColorDuration;
-					
+	float			m_ChangingColorDuration,
+					m_ChangingColorSpeed;
+	Vector3			deltaColor;
 	//Moving Status
 	float			m_MovingDuration,
 					m_MovingSpeed;
@@ -78,7 +83,7 @@ public:
 	GUIAnimatingObject()
 		: m_ChangingColorDuration(1.0f),
 		m_MovingDuration(1.0f),
-		m_MovingSpeed(0.0f) {
+		m_MovingSpeed(1.0f) {
 		m_state = std::make_unique<GUIState>();
 	}
 };

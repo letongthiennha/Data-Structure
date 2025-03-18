@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,12 +129,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="GUIAnimatingObject.cpp" />
     <ClCompile Include="GUIObject.cpp" />
     <ClCompile Include="GUIState.cpp" />
     <ClCompile Include="GUIText.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GUIAnimatingObject.h" />
-    <ClCompile Include="GUIAnimatingObject.cpp" />
     <ClCompile Include="SLL.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +144,9 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="SLL.h" />
     <ClInclude Include="SLLState.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\include\arial.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

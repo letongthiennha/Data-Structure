@@ -27,14 +27,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Button.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="SLL.cpp">
       <Filter>Source Files\SLL</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIAnimatingObject.cpp">
-      <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="GUIState.cpp">
       <Filter>Source Files\Base</Filter>
@@ -49,7 +43,13 @@
       <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="GUIAnimatingObject.h">
+      <Filter>Header Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIAnimatingObject.cpp">
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,5 +71,10 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\include\arial.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

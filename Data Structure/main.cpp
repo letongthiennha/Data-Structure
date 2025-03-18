@@ -1,20 +1,33 @@
+
 #include "raylib.h"
 #include "Button.h"
 #include "SLL.h"
-#include "movableObject.h"
+#include "GUIText.h"
+
 int main(void){
-    InitWindow(800, 600, "test");
-    Rectangle a;
-    a.width = 200;
-    a.height = 200;
-    a.x = 100.0f;
-    a.y = 100.0f;
     SetTargetFPS(60);
+    Font myFont = LoadFont(".. / include / arial.ttf");
+    GUIText myText;
+    myText.setMovingDuration(2);
+    myText.setContent("Hello World");
+    myText.setFont(myFont);
+    myText.moveToPosition({ 400, 300 });
+    myText.addStep();
+    myText.setColoringDuration(2);
+    myText.changeColor(RED);
+    myText.addStep();
+    myText.moveToPosition({ 0, 0 });
+    myText.addStep();
+    myText.changeColor(BLUE);
+	myText.addStep();
+    InitWindow(1280, 720, "test");
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        DrawRectangleRounded(a, 1.0f, 500, RED);
+        myText.update();
+        myText.render();
         EndDrawing();
     }
+    
     return 0;
 }

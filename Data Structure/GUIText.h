@@ -1,19 +1,17 @@
 #pragma once
-#include "GUIObject.h"
+#include "GUIAnimatingObject.h"
 #include <string>
-class GUIText: public GUIObject{
+
+class GUIText:  public GUIAnimatingObject{
 private:
 	std::string			m_content;
 
 	Font				m_font;
+
 	float				m_fontSize,
 						m_spacing;
-	Color				m_color;
-	
 public:
-	//Constructor
 	GUIText();
-
 	//Modify content
 	void				setFont(const Font font),
 
@@ -28,8 +26,11 @@ public:
 	std::string			getContent();
 
 	float				getTextSize();
+
+
 	
-	void				update() override,
+	
+	virtual void		update() override,
 						render() override;
 						
 };
