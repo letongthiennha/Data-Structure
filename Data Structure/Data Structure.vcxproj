@@ -133,9 +133,12 @@
     <ClCompile Include="GUIObject.cpp" />
     <ClCompile Include="GUIState.cpp" />
     <ClCompile Include="GUIText.cpp" />
+    <ClCompile Include="ListNode.cpp" />
+    <ClCompile Include="ListNode.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GUIAnimatingObject.h" />
     <ClCompile Include="SLL.cpp" />
+    <ClCompile Include="TextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUIObject.h" />
@@ -144,6 +147,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="SLL.h" />
     <ClInclude Include="SLLState.h" />
+    <ClInclude Include="TextBox.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="..\include\arial.ttf" />

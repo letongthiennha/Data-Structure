@@ -15,75 +15,87 @@ inline bool isSamePosition(Vector2 v1, Vector2 v2) {
 	return (v1.x == v2.x) && (v1.y == v2.y);
 }
 //Abstract Class For any Animating Object, Update state step by step after 1 Frame
-class GUIAnimatingObject: public GUIObject {
+class GUIAnimatingObject : public GUIObject {
 protected:
-	//=================State Control=================
-	//Helper Pointer to determine next	state
-	std::unique_ptr<GUIState>m_targetState = std::make_unique<GUIState>(*m_state);
+	struct instruction {
+		std::unique_ptr<GUIState> m_targetState;
+		float time;
+		instruction() : m_targetState(nullptr), time(0.0f) {}
+		instruction(const instruction& other)
+			: /* copy other members */
+			m_targetState(other.m_targetState ? std::make_unique<GUIState>(*other.m_targetState) : nullptr),time(other.time)
+		{
+		}
 
+		instruction& operator=(const instruction& other) {
+			if (this != &other) {
+				// Copy other members...
+				m_targetState = other.m_targetState ? std::make_unique<GUIState>(*other.m_targetState) : nullptr;
+			}
+			return *this;
+		};
+	};
+	//=================State Control=================
+	//Helper Pointer to determine next state
+	std::unique_ptr<GUIState> m_targetState = std::make_unique<GUIState>(*m_state);
 
 	//================Flow Control==============
-	
+
 	//History queue for undo features
-	std::deque<std::unique_ptr<GUIState>>	m_historyQueue;
+	std::deque<instruction> m_historyQueue;
 
 	//Target Status
-	std::deque<std::unique_ptr<GUIState>>	m_animationQueue;
+	std::deque<instruction> m_animationQueue;
 
 	//Future for redo features
-	std::deque<std::unique_ptr<GUIState>>	m_futureQueue;
-
+	std::deque<instruction> m_futureQueue;
 
 	//=======================Animation Control======================
-	
+	float				m_animationTime = 0;
+	instruction			m_buildingInstruction;
 	//Change Color Status
-	float			m_ChangingColorDuration,
-					m_ChangingColorSpeed;
-	Vector3			deltaColor;
+	float				m_ChangingColorSpeed;
+
+	Vector3				deltaColor;
 	//Moving Status
-	float			m_MovingDuration,
-					m_MovingSpeed;
+	float				m_MovingSpeed;
 
+	//virtual void		setColoringDuration(float time);
 
-
-
-
+	//virtual void		setMovingDuration(float time);
 public:
-
-	//Moving Function
+	//=================================================Timing Function=======================
+	virtual void				setAnimationDuration(float time);
+	//=================================================Coloring Function=======================================
 	virtual void		setPosition(Vector2 position) override,
 						//After Use This Function, must confirm Step to do it
-						moveToPosition(Vector2 newPos),	//Move Slowly
 
-						setMovingDuration(float time);		//Set Duration of animation
+						moveToPosition(Vector2 newPos); //Move Slowly
 
-	//Change Color Function
+	//=================================================Coloring Function=======================================
 	virtual void		setMainColor(Color color) override,
 						//After Use This Function, must confirm Step to do it
+						changeColor(Color color);
 
-						changeColor(Color color),
-
-						setColoringDuration(float time);
-
+	//=======================Update Function============================
 	//Update after 1 frame
 	virtual void		update_position(),
 						update_color(),
 						update(),
-	
-	//Render frame
-						render() override =0;
+						//Render frame
+						render()  = 0;
 
-
-	virtual				~GUIAnimatingObject() = default;
-
+	virtual ~GUIAnimatingObject() = default;
 
 	//=======================Confirm Step============================
 
-	virtual void		addStep();
+	virtual void addStep();	
+
+	//=======================Constructor============================
 	GUIAnimatingObject()
-		: m_ChangingColorDuration(1.0f),
-		m_MovingDuration(1.0f),
-		m_MovingSpeed(1.0f) {
+		: deltaColor({ 0,0,0 }), m_ChangingColorSpeed(1.0f),
+		 m_MovingSpeed(1.0f) {
 		m_state = std::make_unique<GUIState>();
+		m_targetState = std::make_unique<GUIState>(*m_state);
 	}
 };

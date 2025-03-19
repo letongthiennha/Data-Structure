@@ -42,14 +42,23 @@
     <ClCompile Include="GUIObject.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
-    <ClCompile Include="GUIAnimatingObject.h">
-      <Filter>Header Files\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="GUIAnimatingObject.cpp">
       <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ListNode.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextBox.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ListNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIAnimatingObject.h">
+      <Filter>Header Files\SLL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>Header Files\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
