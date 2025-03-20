@@ -14,6 +14,10 @@ inline bool isSameColor(Color c1, Color c2) {
 inline bool isSamePosition(Vector2 v1, Vector2 v2) {
 	return (v1.x == v2.x) && (v1.y == v2.y);
 }
+inline bool isSameState(std::unique_ptr<GUIState> s1, std::unique_ptr<GUIState> s2) {
+	return isSameColor(s1->getMainColor(), s2->getMainColor()) && isSamePosition(s1->getPosition(), s2->getPosition());
+}
+
 //Abstract Class For any Animating Object, Update state step by step after 1 Frame
 class GUIAnimatingObject : public GUIObject {
 protected:
@@ -60,13 +64,11 @@ protected:
 	//Moving Status
 	float				m_MovingSpeed;
 
-	//virtual void		setColoringDuration(float time);
 
-	//virtual void		setMovingDuration(float time);
 public:
 	//=================================================Timing Function=======================
-	virtual void				setAnimationDuration(float time);
-	//=================================================Coloring Function=======================================
+	virtual void		setAnimationDuration(float time);
+	//=================================================Position Function=======================================
 	virtual void		setPosition(Vector2 position) override,
 						//After Use This Function, must confirm Step to do it
 
@@ -90,7 +92,7 @@ public:
 	//=======================Confirm Step============================
 
 	virtual void addStep();	
-
+	bool isAnimationDone();
 	//=======================Constructor============================
 	GUIAnimatingObject()
 		: deltaColor({ 0,0,0 }), m_ChangingColorSpeed(1.0f),
