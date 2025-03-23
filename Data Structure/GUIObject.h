@@ -4,6 +4,7 @@
 class GUIObject{
 protected:
 	std::unique_ptr<GUIState>	m_state;
+	bool isVisible=true;
 public:
 	//Constructor
 	GUIObject();

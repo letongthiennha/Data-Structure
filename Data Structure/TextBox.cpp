@@ -1,28 +1,12 @@
 #include "TextBox.h"
-//=============================================BoxState=============================================
-BoxState::BoxState() : GUIState(), m_outline_color(WHITE) {}
-
-BoxState::BoxState(Color outline_color, Color backgroud_color, Vector2 position) {
-	//Color
-	m_outline_color = outline_color;
-	m_main_color = backgroud_color;
-	//Position
-	m_pos = position;
-}
-
-void BoxState::setOutlineColor(Color color) {
-	m_outline_color = color;
-}
-Color BoxState::getOutlineColor() {
-	return m_outline_color;
-}
 //=============================================TextBox=============================================
 
-TextBox::TextBox() {
-	static_cast<BoxState*>(m_state.get());
+TextBox::TextBox():m_thickness(1), m_outline_color(BLACK) {
+	GUIAnimatingObject::setPosition({ 0,0 });
+	m_text.setPosition({ 0,0 });
 }
 TextBox::TextBox(float x, float y, std::string text) {
-	m_state = std::make_unique<BoxState>(Color{ 255,255,255,255 }, Color{ 255,255,255,255 }, Vector2{ x,y });
+	m_state = std::make_unique<GUIState>();
 	m_text.setContent(text);
 	m_text.setPosition({ x, y });
 }
@@ -48,19 +32,22 @@ std::string TextBox::getText() {
 void TextBox::changeTextColor(Color color) {
 	m_text.changeColor(color);
 }
+void TextBox::setThickness(int thickness) {
+	m_thickness = thickness;
+}
 
 //=================================================Color Function=======================================
 void TextBox::setOutlineColor(Color color) {
-	static_cast<BoxState*>(m_state.get())->setOutlineColor(color);
+	m_outline_color = color;
 }
 void TextBox::setBackgroundColor(Color color) {
-	m_state->setMainColor(color);
+	GUIAnimatingObject::setMainColor(color);
 }
 void TextBox::changeBackgroundColor(Color color) {
 	GUIAnimatingObject::changeColor(color);
 }
 Color TextBox::getOutlineColor() {
-	return static_cast<BoxState*>(m_state.get())->getOutlineColor();
+	return m_outline_color;
 }
 //=================================================Combine Funtion=======================================
 //==========Timing Functioin=======================
@@ -78,7 +65,10 @@ void TextBox::moveToPosition(Vector2 newPos) {
 	m_text.moveToPosition(newPos);
 	GUIAnimatingObject::moveToPosition(newPos);
 }
-
+void TextBox::addStep() {
+	m_text.addStep();
+	GUIAnimatingObject::addStep();
+}
 //=================================================Update===============================================
 void TextBox::update() {
 	m_text.update();

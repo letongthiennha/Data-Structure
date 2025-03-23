@@ -141,6 +141,7 @@
     <ClCompile Include="TextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Font.h" />
     <ClInclude Include="GUIObject.h" />
     <ClInclude Include="GUIState.h" />
     <ClInclude Include="GUIText.h" />

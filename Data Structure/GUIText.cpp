@@ -11,7 +11,7 @@ GUIText::GUIText() {
 
 //Modify content
 
-void GUIText::setFont(const Font font) {
+void GUIText::setFont( Font font) {
 	m_font = font;
 }
 
@@ -42,6 +42,13 @@ float GUIText::getTextSize() {
 	return m_fontSize;
 }
 
+Font GUIText::getTextFont() {
+	return m_font;
+}	
+
+float GUIText::getSpacing() {
+	return m_spacing;
+}
 //Update for 1 frame
 void GUIText::update() {
 	GUIAnimatingObject::update();

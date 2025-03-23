@@ -33,9 +33,6 @@
     <ClCompile Include="GUIState.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
-    <ClCompile Include="GUIText.cpp">
-      <Filter>Source Files\Base</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,23 +45,23 @@
     <ClCompile Include="GUIAnimatingObject.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
-    <ClCompile Include="ListNode.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="TextBox.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
-    <ClCompile Include="ListNode.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GUIText.cpp">
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="GUIAnimatingObject.h">
+      <Filter>Header Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ListNode.h">
       <Filter>Header Files\SLL</Filter>
+    </ClCompile>
+    <ClCompile Include="ListNode.cpp">
+      <Filter>Source Files\SLL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SLL.h">
-      <Filter>Header Files\SLL</Filter>
-    </ClInclude>
     <ClInclude Include="SLLState.h">
       <Filter>Header Files\SLL</Filter>
     </ClInclude>
@@ -82,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="TextBox.h">
       <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="SLL.h">
+      <Filter>Header Files\SLL</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

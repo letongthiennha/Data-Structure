@@ -1,75 +1,44 @@
-//#pragma once
-//#include "GUIObject.h"
-//#include "SLLState.h"
-//#include <string>
-//#include <deque>
-//
-//class LinkedList {
-//private:
-//	static constexpr float dx = 80.0f;
-//	static constexpr float dy = 100.0f;
-//	class Node:public GUIObject {
-//	private:
-//		//Properties
-//		Color highlight = RED;
-//		Color texture = YELLOW;
-//		Color outLineColor = BLACK;
-//		const float radius = 30;
-//		
-//		//Speed
-//		const float speed = 5.0f;
-//		//Direction
-//		bool right = true;
-//		//Operation
-//		bool isHighlight = false;
-//	public:
-//		int val;
-//		Node* next;
-//
-//		//Constructor
-//		Node(int n, Node* next) : val(n), next(next), targetPos{ 0,0 } {};
-//
-//		float getRadius() { return radius; }
-//
-//
-//
-//		//Highlight
-//		void setHighlight() { isHighlight = true; }
-//		void unHighlight() { isHighlight = false; }
-//
-//
-//		//General Animation
-//		Vector2 targetPos;
-//		bool moveToAPos(Vector2 newPos);
-//
-//		//Moving 
-//		Vector2 getNextPos();
-//
-//		//Render
-//		void update();
-//		void render() override;
-//	};
-//	int nodeCount;
-//	Node* dummy;	
-//
-//	//=====================Logic Function==================
-//	Node* push_back(int n);
-//	void remove(int n);
-//
-//	//====================Animation Function===============
-//	void MoveIn(Node* node) {
-//		LinkedList newSLL= *this;
-//
-//
-//	}
-//public:	
-//
-//
-//	LinkedList();
-//	~LinkedList();
-//
-//
-//	
-//	void update();
-//	void render();
-//};
+#pragma once	
+#include "vector"
+#include "ListNode.h"
+class SLL{
+private:
+	//=======================Property=================
+	std::vector<ListNode*> m_list;
+	float distanceBetweenNode;
+	Color m_mainBackgroundColor;
+	Color m_textColor;
+	Color m_highlightBackgroundColor;
+	Color m_highLightTextColor;
+	float m_animationDuration;
+	//===================Calculate Position====================
+	Vector2 startPostion;
+
+	Vector2 positionAtIndex(int index);
+	//===================Animation Helper=============
+	void moveRightAllAfter(int index);
+	void highlighToIndex(int index);
+	void deHighlight(int index);
+	bool isStepDone(std::vector<ListNode*>step);
+
+	std::deque<std::vector<ListNode*>> animationQueue;
+
+public:
+	SLL();
+
+	~SLL();
+	//========================Operation==================
+	// Insert After an Index, insert at Head is index -1
+	void	insert(int val,int index) ;
+
+	void	remove(int val)  ;
+
+	void	search(int val)  ;
+	//======================Animation Control=======================
+	void	addStep(std::vector<ListNode*>step);
+
+	void	update() ;
+
+	void	render();
+
+};

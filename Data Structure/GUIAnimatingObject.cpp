@@ -90,7 +90,7 @@ void GUIAnimatingObject::changeColor(Color color) {
 void GUIAnimatingObject::update_color() {
 	if (m_animationQueue.empty()) return;
 	if (m_animationQueue.front().time == 0) {
-		m_state->setPosition(m_animationQueue.front().m_targetState->getPosition());
+		m_state->setMainColor(m_animationQueue.front().m_targetState->getMainColor());
 		return;
 	}
 	float deltaTime = m_animationQueue.front().time - m_animationTime;
@@ -141,7 +141,6 @@ void GUIAnimatingObject::addStep() {
 		m_historyQueue.push_front(instruction(m_buildingInstruction));
 		m_animationQueue.push_back(instruction(m_buildingInstruction));
 		m_targetState = std::make_unique<GUIState>(*m_animationQueue.back().m_targetState);
-
 		m_buildingInstruction = instruction();
 }
 
