@@ -5,19 +5,21 @@
 #include "GUIText.h"
 #include "ListNode.h"
 #include "SLL.h"
+#include"Button.h"
 int main(void){
-	SLL myList;
-	myList.insert(1,0);
-    myList.insert(2, 0);
-    myList.insert(5, 1);
-    myList.insert(6, 2);
+    Button test;
+    test.setText("Test", 20);
+    test.setPosition({ 100,100 });
+    test.SetColor(BLUE, RED, YELLOW);
+    test.setSize({ 500,100 });
     SetTargetFPS(60);
     InitWindow(1280, 720, "test");
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
-		myList.update();
-		myList.render();
+        test.update();
+        test.drawRectangle();
+        test.drawText(BLACK);
         EndDrawing();
     }
     

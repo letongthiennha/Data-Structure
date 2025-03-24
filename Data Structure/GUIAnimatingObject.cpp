@@ -10,8 +10,8 @@ void GUIAnimatingObject::setAnimationDuration(float time) {
 
 //==============Moving Function========================
 void GUIAnimatingObject::setPosition(Vector2 position) {
+	m_state->setPosition(position);
 	m_targetState->setPosition(position);
-	setAnimationDuration(0);
 }
 
 //Determine position to move to, called before adding Step
@@ -72,8 +72,8 @@ void GUIAnimatingObject::update_position() {
 
 //====================Coloring Function=================
 void GUIAnimatingObject::setMainColor(Color color) {
+	m_state->setMainColor(color);
 	m_targetState->setMainColor(color);
-	setAnimationDuration(0);
 }
 
 //Determine color to change to, called before adding Step
