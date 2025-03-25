@@ -5,6 +5,8 @@
 const std::string searchKey {
     "if NULL\n"
     "   return NOT_FOUND\n"
+    "if key == value\n"
+    "   return FOUND\n"
     "if key < value\n"
     "   searchLeft\n"
     "if key > value\n"
