@@ -1,122 +1,113 @@
 //#include "SLL.h"
-//#include <string>
-//#include "raylib.h"
+////Constructor and destructor
+//SLL::SLL() {
+//	startPostion={ 100,100 };
+//	distanceBetweenNode = 80;
+//	m_list = std::vector<ListNode*> (0);
+//	m_mainBackgroundColor = WHITE;
+//	m_textColor = GRAY;
+//	m_highlightBackgroundColor = ORANGE;
+//	m_highLightTextColor = YELLOW	;
+//	m_animationDuration = 0.75;
+//}
+//SLL::~SLL() {
+//	for (int i = 0; i < m_list.size(); ++i) {
+//		delete m_list[i];
+//		m_list[i] = nullptr;
+//	}
+//}
+////Calculate Position
+//Vector2 SLL::positionAtIndex(int index) {
+//	return Vector2{ startPostion.x + index * distanceBetweenNode,startPostion.y };
+//}
+////==========================Animation Helper=================
+//void::SLL::moveRightAllAfter(int index) {
+//	if (index < m_list.size()) {
+//		std::vector <ListNode*> step;
+//		for (int i = index; i < m_list.size(); ++i) {
+//			m_list[i]->moveToPosition(positionAtIndex(i + 1));
+//			m_list[i]->setAnimationDuration(m_animationDuration);
+//			m_list[i]->addStep();
+//			step.push_back(m_list[i]);
+//		}
+//		addStep(step);
+//	}
+//}
+//void::SLL::deHighlight(int index) {
+//	std::vector<ListNode*> highLightStep;
+//	for (int i = 0; i < index; ++i) {
+//		m_list[i]->changeBackgroundColor(m_mainBackgroundColor);
+//		m_list[i]->setAnimationDuration(m_animationDuration);
+//		m_list[i]->changeTextColor(m_textColor);
+//		m_list[i]->addStep();
+//		highLightStep.push_back(m_list[i]);
 //
-////=============================Node===================================
+//	}
+//	addStep(highLightStep);
+//}
+//void::SLL::highlighToIndex(int index) {
+//	for (int i = 0; i < index; ++i) {
+//		std::vector<ListNode*> highLightStep;
+//		m_list[i]->changeBackgroundColor(m_highlightBackgroundColor);
+//		m_list[i]->changeTextColor(m_highLightTextColor);
+//		m_list[i]->setAnimationDuration(m_animationDuration);
+//
+//		m_list[i]->addStep();
+//		highLightStep.push_back(m_list[i]);
+//		addStep(highLightStep);
+//	}
+//}
 //
 //
-////General Moving 
-//	
-//bool LinkedList::Node::moveToAPos(Vector2 newPos) {
-//	float xDistance = newPos.x - pos.x;
-//	float yDistance = newPos.y - pos.y;
-//	float totalDistance = sqrt(xDistance * xDistance + yDistance * yDistance);
-//
-//	if (totalDistance <= speed) {
-//		pos = newPos;
-//		return true;
+////========================================Operation==================================
+//void::SLL::insert(int val,int index) {
+//	if (index > m_list.size() || index < 0) return;
+//	highlighToIndex(index);
+//	moveRightAllAfter(index);
+//	ListNode* newNode = new ListNode(Vector2{ positionAtIndex(index).x ,positionAtIndex(index).y + 100.0f },m_mainBackgroundColor,val) ;
+//	m_list.insert(m_list.begin() + index, newNode);
+//	if (index + 1 < m_list.size()) {
+//		newNode->setNext(m_list[index + 1]);
 //	}
 //
-//	// Calculate dynamic speed based on remaining distance
-//	float dynamicSpeed = speed * (0.5f + 0.5f * (totalDistance / 100.0f)); // Adjust 100.0f for scaling
-//	dynamicSpeed = fmax(dynamicSpeed, speed * 0.4f); // Min speed threshold
-//	dynamicSpeed = fmin(dynamicSpeed, speed * 1.8f); // Max speed cap
-//
-//	// Normalize movement vector
-//	float moveX = (xDistance / totalDistance) * dynamicSpeed;
-//	float moveY = (yDistance / totalDistance) * dynamicSpeed;
-//
-//	// Update position
-//	pos.x += moveX;
-//	pos.y += moveY;
-//
-//	return false;
+//	//Move in
+//	std::vector<ListNode*>step2;
+//	newNode->moveToPosition(positionAtIndex(index));
+//	newNode->setAnimationDuration(m_animationDuration);
+//	newNode->addStep();
+//	step2.push_back(newNode);
+//	addStep(step2);
+//	//Back to normal
+//	deHighlight(index);
 //}
-//	
-//
-////Moving to the next position
-//Vector2 LinkedList::Node::getNextPos() {
-//	//Next position to the right
-//	if (this->right && this->pos.x + dx + radius < GetRenderWidth()) return Vector2{ pos.x + dx, pos.y };
-//	//Start a new line and go to the left
-//	if (this->right && this->pos.x + dx + radius > GetRenderWidth()) {
-//		right = false;
-//		return Vector2{ pos.x, pos.y + dy };
+//void::SLL::addStep(std::vector<ListNode*> step) {
+//	animationQueue.push_back(step);
+//}
+//bool::SLL::isStepDone(std::vector<ListNode*>step) {
+//	for (auto x : step) {
+//		if (!x->isAnimationDone()) return false;
 //	}
-//	//Go to the left
-//	if (!this->right && this->pos.x - dx - radius > 0) return Vector2{ pos.x - dx,pos.y };
-//	//Start a new line and go to the right
-//	right = true;
-//	return Vector2{ pos.x,pos.y + dy };
+//	return true;
 //}
-//
-////ADDING MOVING
-//
-//
-//// Update
-//void LinkedList::Node::update() {
-//
-//}
-////Render
-//void LinkedList::Node::render() {
-//	std::string text = std::to_string(val);
-//
-//	int fontSize = 20;
-//	int textWidth = MeasureText(text.c_str(), fontSize);
-//	int textHeight = fontSize;
-//
-//	// Center
-//	DrawCircle(pos.x, pos.y, radius, texture);
-//	if (isHighlight)
-//		DrawCircleLines(pos.x, pos.y, radius + 1, highlight);
-//	DrawCircleLines(pos.x, pos.y, radius, outLineColor);
-//	DrawText(text.c_str(), pos.x - textWidth / 2, pos.y - textHeight / 2, fontSize, BLACK);
-//
-//}   
-//
-//
-//
-////============================Linked List====================================
-//
-////Constructor Destructor
-//LinkedList::LinkedList() {
-//	dummy = new Node{ 0,nullptr };
-//	nodeCount = 0;
-//};
-//LinkedList::~LinkedList() {
-//	Node* curr = dummy->next;
-//	while (curr) {
-//		Node* del=curr;
-//		curr = curr->next;
-//		delete del;
+//void::SLL::update() {
+//	if (animationQueue.empty()) return;
+//	if (!isStepDone(animationQueue.front())) {
+//		for (auto x : animationQueue.front()) {
+//			x->update();
+//		}
 //	}
-//	delete dummy;
+//	else {
+//		for (auto x : animationQueue.front()) {
+//			x->update();
+//		}
+//		animationQueue.pop_front();
+//	}
 //}
-//
-//
-//
-////1.============Logic Function=================
-//LinkedList::Node* LinkedList::push_back(int n) {
-//	Node* curr = dummy;
-//	while (curr && curr->next) curr = curr->next;
-//
-//	curr->next = new Node(n, nullptr);
-//}
-//
-//
-//void LinkedList::remove(int n){
-//
-//}
-//
-////2.==========Animation Function===============
-//
-//
-////Render
-//void LinkedList::render() {
-//	Node* curr = dummy->next;
-//
-//	while (curr) {
-//		curr->render(); 
-//		curr = curr->next;
+//void::SLL::render() {
+//	for (int i = 0; i < m_list.size();++i) {
+//		m_list[i]->render();
+//		if (i + 1 < m_list.size()) {
+//			DrawLineV(m_list[i]->getPosition(), positionAtIndex(i + 1), YELLOW);
+//		}
 //	}
 //}

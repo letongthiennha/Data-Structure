@@ -19,11 +19,35 @@
     <Filter Include="Header Files\SLL">
       <UniqueIdentifier>{f7854271-5b7b-43d2-b69a-8a5d88ae858c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Base">
-      <UniqueIdentifier>{d8413d83-8410-45b0-8a43-ead503df5b6a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Base">
       <UniqueIdentifier>{2abf2110-0201-4fd8-83ba-9035e1a11a82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ShortestPath">
+      <UniqueIdentifier>{1176d2cc-00a8-47c1-90a7-977758fd8c0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HashTable">
+      <UniqueIdentifier>{327c4a71-413f-445c-a35d-20bf3f30ba67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AVL">
+      <UniqueIdentifier>{5a1198df-ebea-464c-bd37-27501a2d409f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HashTable">
+      <UniqueIdentifier>{f850dd20-6143-4951-90e5-3fc7d5c82b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ShortestPath">
+      <UniqueIdentifier>{6c380d81-f439-49d9-8e20-af56d4345a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menu Screen">
+      <UniqueIdentifier>{fa1eb1e7-d9bc-4896-9ed4-f1d52f531cb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menu Screen">
+      <UniqueIdentifier>{49a8bd19-5c18-4cd6-bf5c-6297a9fef266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AVLTree">
+      <UniqueIdentifier>{b2c6da51-0fb1-44a1-b752-ba144e049d0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Base">
+      <UniqueIdentifier>{d8413d83-8410-45b0-8a43-ead503df5b6a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,30 +57,54 @@
     <ClCompile Include="GUIState.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
-    <ClCompile Include="GUIText.cpp">
-      <Filter>Source Files\Base</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GUIObject.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
-    <ClCompile Include="GUIAnimatingObject.h">
-      <Filter>Header Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="GUIAnimatingObject.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
+    <ClCompile Include="TextBox.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIText.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIAnimatingObject.h">
+      <Filter>Header Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ListNode.h">
+      <Filter>Header Files\SLL</Filter>
+    </ClCompile>
+    <ClCompile Include="ListNode.cpp">
+      <Filter>Source Files\SLL</Filter>
+    </ClCompile>
+    <ClCompile Include="AVLScreen.h">
+      <Filter>Header Files\AVLTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AVLScreen.cpp">
+      <Filter>Source Files\AVL</Filter>
+    </ClCompile>
+    <ClCompile Include="HashTableScreen.cpp">
+      <Filter>Source Files\HashTable</Filter>
+    </ClCompile>
+    <ClCompile Include="ShortestPathScreen.cpp">
+      <Filter>Source Files\ShortestPath</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu Screen.cpp">
+      <Filter>Source Files\Menu Screen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SLL.h">
-      <Filter>Header Files\SLL</Filter>
-    </ClInclude>
-    <ClInclude Include="SLLState.h">
+    <ClInclude Include="SLLScreen.h">
       <Filter>Header Files\SLL</Filter>
     </ClInclude>
     <ClInclude Include="GUIState.h">
@@ -68,8 +116,29 @@
     <ClInclude Include="GUIObject.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="SLL.h">
+      <Filter>Header Files\SLL</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
     <ClInclude Include="Button.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ShortestPathScreen.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="HashTableScreen.h">
+      <Filter>Header Files\HashTable</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu Screen.h">
+      <Filter>Header Files\Menu Screen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

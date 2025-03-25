@@ -27,8 +27,9 @@ public:
 
 	float				getTextSize();
 
-
+	Font				getTextFont();
 	
+	float				getSpacing();
 	
 	virtual void		update() override,
 						render() override;
