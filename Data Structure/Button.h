@@ -54,8 +54,8 @@ public:
     void setSize(Vector2 size);
 
     //=================================State===================
-    bool isHover() ;
-    bool isClicked() ;
+    bool isHover() const;
+    bool isClicked() const;
     void Select();
     void unSelect();
     void active();
