@@ -1,38 +1,38 @@
 #include "Pointer.h"
 
-Arrow::Arrow(Vector2 pos) : position(pos), targetPosition(pos), destination(pos), targetDestination(pos) {}
+Pointer::Pointer(Vector2 pos) : position(pos), targetPosition(pos), destination(pos), targetDestination(pos) {}
 
-void Arrow::setDestination(Vector2 destination) {
+void Pointer::setDestination(Vector2 destination) {
     this->destination = destination;
     this->targetDestination = destination;
 }
 
-void Arrow::setTargetDestination(Vector2 targetDes) {
+void Pointer::setTargetDestination(Vector2 targetDes) {
     this->targetDestination = targetDes;
 }
 
-void Arrow::setPosition(Vector2 position) {
+void Pointer::setPosition(Vector2 position) {
     this->position = position;
     this->targetPosition = position;
 }
 
-void Arrow::setTargetPosition(Vector2 targetPos) {
+void Pointer::setTargetPosition(Vector2 targetPos) {
     this->targetPosition = targetPos;
 }
 
-Vector2 Arrow::getPosition() {
+Vector2 Pointer::getPosition() {
     return position;
 }
 
-Vector2 Arrow::getDestination() {
+Vector2 Pointer::getDestination() {
     return destination;
 }
 
-void Arrow::setColor(Color color) {
+void Pointer::setColor(Color color) {
     this->color = color;
 }
 
-void Arrow::update() {
+void Pointer::update() {
     if (destination.x == targetDestination.x && destination.y == targetDestination.y && position.x == targetPosition.x && position.y == targetPosition.y) return;
 
     float deltaTime = GetFrameTime();
@@ -72,7 +72,7 @@ void Arrow::update() {
     }
 }
 
-void Arrow::renderArrow(Vector2 position, Vector2 destination) {
+void Pointer::renderPointer(Vector2 position, Vector2 destination) {
     DrawCircle(position.x, position.y, 2, color);
     DrawLineEx(position, destination, 2, color);
 
@@ -84,14 +84,16 @@ void Arrow::renderArrow(Vector2 position, Vector2 destination) {
     direction.y /= length;
 
     Vector2 ArrowHead = destination;
-    Vector2 left = { ArrowHead.x - direction.x * 10.0f + direction.y * 5.0f, ArrowHead.y - direction.y * 10.0f - direction.x * 5.0f };
-    Vector2 right = { ArrowHead.x - direction.x * 10.0f - direction.y * 5.0f, ArrowHead.y - direction.y * 10.0f + direction.x * 5.0f };
+    Vector2 left = { ArrowHead.x - direction.x * 5.0f + direction.y * 5.0f,
+                    ArrowHead.y - direction.y * 5.0f - direction.x * 5.0f };
+    Vector2 right = { ArrowHead.x - direction.x * 5.0f - direction.y * 5.0f,
+                     ArrowHead.y - direction.y * 5.0f + direction.x * 5.0f };
 
     DrawTriangle(ArrowHead, left, right, color);
 }
 
-void Arrow::render() {
-    renderArrow(position, destination);
+void Pointer::render() {
+    renderPointer(position, destination);
 }
 
 

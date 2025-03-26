@@ -4,9 +4,9 @@
 #include <string>
 #include <math.h>
 
-class Arrow {
+class Pointer {
 public:
-    Arrow(Vector2 pos);
+    Pointer(Vector2 pos);
 
     void setDestination(Vector2 destination);
     void setTargetDestination(Vector2 targetDes);
@@ -16,7 +16,7 @@ public:
     Vector2 getDestination();
     void setColor(Color color);
 
-    virtual void renderArrow(Vector2 position, Vector2 destination);
+    virtual void renderPointer(Vector2 position, Vector2 destination);
     virtual void update();
     virtual void render();
 protected:
