@@ -30,6 +30,9 @@
     <ClCompile Include="GUIObject.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pointer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUIObject.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SLL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pointer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
