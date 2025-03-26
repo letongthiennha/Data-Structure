@@ -37,7 +37,7 @@ public:
     void SetIdleColor(Color color);
     void SetHoverColor(Color color);
     void SetActiveColor(Color color);
-    void SetColor(Color idle, Color Clicked, Color hover);
+    void SetColor(Color idle, Color hovering, Color clicked);
 
 
     //====================================Text=====================

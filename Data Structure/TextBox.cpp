@@ -65,16 +65,18 @@ void TextBox::update() {
     else m_boxColor = textBoxColorInputing;
     //Enter typing mode
     if (m_isTyping) {
-        int input = GetCharPressed();
-        while (input > 0) {//Check if there is input
-            //Only allow alphabet and digit
-            if (isalpha(input) || isdigit(input))
-                m_content += (char)(input);
-            //Multiple input in 1 second
-            input = GetCharPressed();
+        if (m_content.length() <= m_maxLength) {
+            int input = GetCharPressed();
+            while (input > 0) {//Check if there is input
+                //Only allow alphabet and digit
+                if (isalpha(input) || isdigit(input))
+                    m_content += (char)(input);
+                //Multiple input in 1 second
+                input = GetCharPressed();
+            }
         }
         //Delete
-        if (!m_content.empty() && (IsKeyPressed(KEY_BACKSPACE) || (IsKeyDown(KEY_BACKSPACE) && m_timer > 0.1f))) {
+        if (!m_content.empty() &&(IsKeyPressed(KEY_BACKSPACE))) {
             m_content.pop_back();
         }
     }
@@ -87,11 +89,11 @@ void TextBox::render() {
     //Draw OutLine
     DrawRectangleLinesEx(m_box, 2, BLACK);
     //Draw Text
-    DrawText(m_content.c_str(), m_box.x + 5, m_box.y + m_box.height / 4.0f, textBoxTextSize, m_textColor);
+    DrawText(m_content.c_str(), m_box.x + 7, m_box.y + m_box.height *0.5f, textBoxTextSize, m_textColor);
     DrawText(m_textBoxTitle.c_str(), m_box.x, m_box.y- textBoxTitleTextSize, textBoxTitleTextSize, m_textColor);
     //Draw blinker
     if (m_isTyping && m_showBlinker) {
-        DrawText("|", m_box.x + 5 + MeasureText(m_content.c_str(), textBoxTextSize), m_box.y + m_box.height / 4.0f, textBoxTextSize, m_textColor);
+        DrawText("|", m_box.x + 7 + MeasureText(m_content.c_str(), textBoxTextSize), m_box.y + m_box.height*0.5f, textBoxTextSize, m_textColor);
     }
 }
 
