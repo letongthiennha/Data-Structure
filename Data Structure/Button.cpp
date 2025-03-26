@@ -19,10 +19,10 @@ void Button::SetActiveColor(Color color) {
     m_activeColor = color;
 }
 
-void Button::SetColor(Color idle, Color Clicked, Color hover) {
+void Button::SetColor(Color idle, Color hovering, Color clicked) {
     m_idleColor = idle;
-    m_activeColor = Clicked;
-    m_hoverColor = hover;
+    m_activeColor = clicked;
+    m_hoverColor = hovering;
 }
 //===================================Text==========================
 void Button::SetTextSize(int textSize) {
@@ -54,12 +54,12 @@ void Button::setSize(Vector2 size) {
 }
 //===============================State=============================
 
-bool Button::isHover()  {
+bool Button::isHover()  const{
     Vector2 mousePos = GetMousePosition();
     return isActive&&CheckCollisionPointRec(mousePos, hitBox);
 }
 
-bool Button::isClicked()  {
+bool Button::isClicked()  const{
     return (isHover() && IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
 }
 

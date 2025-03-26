@@ -37,7 +37,7 @@ public:
     void SetIdleColor(Color color);
     void SetHoverColor(Color color);
     void SetActiveColor(Color color);
-    void SetColor(Color idle, Color Clicked, Color hover);
+    void SetColor(Color idle, Color hovering, Color clicked);
 
 
     //====================================Text=====================
@@ -54,8 +54,8 @@ public:
     void setSize(Vector2 size);
 
     //=================================State===================
-    bool isHover() ;
-    bool isClicked() ;
+    bool isHover() const;
+    bool isClicked() const;
     void Select();
     void unSelect();
     void active();

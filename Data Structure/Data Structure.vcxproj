@@ -132,6 +132,7 @@
     <ClCompile Include="AVLScreen.cpp" />
     <ClCompile Include="AVLScreen.h" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ControllerBoard.cpp" />
     <ClCompile Include="GUIAnimatingObject.cpp" />
     <ClCompile Include="GUIObject.cpp" />
     <ClCompile Include="GUIState.cpp" />
@@ -142,12 +143,15 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GUIAnimatingObject.h" />
     <ClCompile Include="Menu Screen.cpp" />
+    <ClCompile Include="Motion.cpp" />
+    <ClCompile Include="Pointer.cpp" />
     <ClCompile Include="ShortestPathScreen.cpp" />
     <ClCompile Include="SLL.cpp" />
     <ClCompile Include="TextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="ControllerBoard.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GUIObject.h" />
     <ClInclude Include="GUIState.h" />
@@ -155,6 +159,9 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="HashTableScreen.h" />
     <ClInclude Include="Menu Screen.h" />
+    <ClInclude Include="Motion.h" />
+    <ClInclude Include="Pointer.h" />
+    <ClInclude Include="Setting.h" />
     <ClInclude Include="ShortestPathScreen.h" />
     <ClInclude Include="SLL.h" />
     <ClInclude Include="SLLScreen.h" />
