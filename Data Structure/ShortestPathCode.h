@@ -34,7 +34,7 @@ const std::string Dijkstra = {
     "distances[source] = 0;\n"
     "pQueue.push(source);\n"
     "while (!pQueue.empty()) {\n"
-    "    current = priorityQueue.pop();\n"
+    "    current = pQueue.pop();\n"
     "    for (neighbor : graph.getNeighbors(current)) {\n"
     "        if (distances[current] + weight < distances[neighbor]) {\n"
     "            distances[neighbor] = distances[current] + weight;\n"
