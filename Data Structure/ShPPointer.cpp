@@ -1,15 +1,22 @@
 ﻿#include "ShPPointer.h"
 
-ShPPointer::ShPPointer(ShPNode* startNode, ShPNode* endNode, float weight)
-    : m_startNode(startNode), m_endNode(endNode), m_weight(weight) {
-    m_tailPos = startNode->getPos();
-    m_headPos = endNode->getPos();
-    m_color = BLACK;
+ShPPointer::ShPPointer(ShPNode* startNode, ShPNode* endNode, int weight)
+    : m_startNode(startNode), m_endNode(endNode), m_weight(weight), m_color(BLACK), visited(false) {
 }
+
 
 ShPPointer::~ShPPointer() {
 }
 
+bool ShPPointer::isVisited() const {
+    return visited;
+}
+void ShPPointer::setVisited(bool visited) {
+    this->visited = visited;
+}
+Color ShPPointer::getColor() {
+    return m_color;
+}
 void ShPPointer::setColor(Color color) {
     m_color = color;
 }

@@ -17,9 +17,8 @@ public:
 	Vector2 getPos();
 	void draw();
 	bool visited;
-
-private:
 	Vector2 m_pos;
+private:
 	int m_id;
 	int m_dis;
 	ShPNode* m_prev;

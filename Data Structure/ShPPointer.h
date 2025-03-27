@@ -5,16 +5,8 @@
 #include <math.h>
 
 class ShPPointer {
-protected:
-    ShPNode* m_startNode;
-    ShPNode* m_endNode;
-    Vector2 m_tailPos;
-    Vector2 m_headPos;
-    int m_weight;
-    Color m_color;
-
 public:
-    ShPPointer(ShPNode* startNode, ShPNode* endNode, float weight);
+    ShPPointer(ShPNode* startNode, ShPNode* endNode, int weight);
     ~ShPPointer();
 
     void setColor(Color color);
@@ -25,7 +17,19 @@ public:
     ShPNode* getEndNode();
     Vector2 getTailPos();
     Vector2 getHeadPos();
+    Color getColor();
+    bool isVisited() const; // New method to check if the edge is visited
+    void setVisited(bool visited); // New method to set the visited status
 
     void update();
     void render();
+
+private:
+    ShPNode* m_startNode;
+    ShPNode* m_endNode;
+    Vector2 m_tailPos;
+    Vector2 m_headPos;
+    int m_weight;
+    Color m_color;
+    bool visited; // New member to track if the edge is visited
 };

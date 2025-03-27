@@ -1,10 +1,14 @@
 #pragma once
-class ShortestPathScreen
-{
+
+#include "ShortestPath.h"
+
+class ShortestPathScreen {
 public:
-	bool goBack();
-
-	void render();
-	void update();
+    void render();
+    void update();
+    ShortestPath sp;
+private:
+    float timeSinceLastStep;
+    float delay = 0.5f;
+    bool animating = true;
 };
-
