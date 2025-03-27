@@ -34,10 +34,12 @@ int HashTable::getCurrent() {
 
 bool HashTable::isFull() {
     if (current == size) return true;
+    return false;
 }
 
 bool HashTable::isEmpty() {
     if (size == 0) return true;
+    return false;
 }
 
 void HashTable::resize(int newSize) {
