@@ -1,6 +1,7 @@
 #include "HashTableCell.h"
 
-HashTableCell::HashTableCell(int val) : val(val), position({ 0,0 }), backgroundColor(WHITE), textColor(BLACK), isHighlighted(false), isPersistentHighlighted(false) {}
+HashTableCell::HashTableCell(int val) : val(val), position({ 0,0 }), backgroundColor(WHITE), textColor(BLACK) /*isHighlighted(false), isPersistentHighlighted(false) */ {}
+
 HashTableCell::~HashTableCell() {
     val = EMPTY;
 }
@@ -17,12 +18,12 @@ void HashTableCell::setPosition(Vector2 pos) {
 void HashTableCell::setTargetPosition(Vector2 targetpos) {
     targetPosition = targetpos;
 }
-
+/*
 void HashTableCell::setHighlight(float duration) {
     highlightTimer = duration;
     isHighlighted = true;
 }
-
+ 
 void HashTableCell::unHighlight() {
     isHighlighted = false;
     isPersistentHighlighted = false;
@@ -30,9 +31,9 @@ void HashTableCell::unHighlight() {
 void HashTableCell::setPersistentHighlight() {
     isPersistentHighlighted = true;
 }
-
+ */
 void HashTableCell::update(float deltaTime) {
-    if (isHighlighted && !isPersistentHighlighted) {
+    /* if (isHighlighted && !isPersistentHighlighted) {
         highlightTimer -= deltaTime;
         if (highlightTimer <= 0) {
             unHighlight();
@@ -45,7 +46,7 @@ void HashTableCell::update(float deltaTime) {
     else {
         backgroundColor = WHITE;
         textColor = BLACK;
-    }
+    } */
     if (position.x != targetPosition.x && position.y != targetPosition.y) {
         slowMovingBetWeen2Pos(position, targetPosition);
     }

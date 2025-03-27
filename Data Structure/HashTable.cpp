@@ -2,16 +2,16 @@
 
 HashTable::HashTable(int initsize)
     : table(initsize, HashTableCell(EMPTY)), current(0), size(initsize), hashPrime(7) {
+    float initX = startX;
+    float initY = 100;
     for (int i = 0; i < size; i++) {
-        float initX = startX;
-        float initY = 100;
         table[i].setPosition({initX, initY}); // Set both position and targetPosition
-    if (size <= 10) {
-        initX += (endX - startX) / size; // Distribute evenly for <= 10 cells
-    } else {
-        initX += (endX - startX) / 10;   // Distribute evenly for 10 cells per line
-    }
-    if ((i + 1) % 10 == 0) {
+        if (size <= 10) {
+            initX += (endX - startX) / size; // Distribute evenly for <= 10 cells
+        } else {
+            initX += (endX - startX) / 10;   // Distribute evenly for 10 cells per line
+        }
+        if ((i + 1) % 10 == 0) {
             initX = startX;  // Reset X position to the start
             initY += 100;    // Move down by 100 pixels
         }
@@ -41,7 +41,7 @@ bool HashTable::isEmpty() {
 }
 
 void HashTable::resize(int newSize) {
-    resetHighlights();
+    //resetHighlights();
     std::vector<HashTableCell> oldTable = table;
 
     table.resize(newSize, HashTableCell(EMPTY));
@@ -59,44 +59,44 @@ void HashTable::resize(int newSize) {
 }
 
 void HashTable::add(int value) {
-    resetHighlights();
+    //resetHighlights();
     if (isFull()) return;
     int hash = (value % hashPrime + hashPrime) % size;
     while (table[hash].val != EMPTY) {
-        table[hash].setHighlight(0.2f);
+        //table[hash].setHighlight(0.2f);
         if (table[hash].val == value) return;
         hash = (hash + 1) % size;
     }
-    table[hash] = HashTableCell(value);
+    table[hash].val = value;
     current++;
 }
 
 void HashTable::remove(int value) {
-    resetHighlights();
+    //resetHighlights();
     if (isEmpty()) return;
     int hash = (value % hashPrime + hashPrime) % size;
     int originalHash = hash;
     while (table[hash].val != value) {
-        table[hash].setHighlight(0.2f);
+        //table[hash].setHighlight(0.2f);
         hash = (hash + 1) % size;
         if (hash == originalHash) return;
     }
     table[hash].val = EMPTY;
-    table[hash].setPersistentHighlight();
+    //table[hash].setPersistentHighlight();
     current--;
 }
 
 bool HashTable::search(int value) {
-    resetHighlights();
+    //resetHighlights();
     if (isEmpty()) return NOT_FOUND;
     int hash = (value % hashPrime + hashPrime) % size;
     int originalHash = hash;
     while (table[hash].val != value) {
-        table[hash].setHighlight(0.2f);
+        //table[hash].setHighlight(0.2f);
         hash = (hash + 1) % size;
         if (hash == originalHash) return NOT_FOUND;
     }
-    table[hash].setPersistentHighlight();
+    //table[hash].setPersistentHighlight();
     return FOUND;
 }
 
@@ -115,13 +115,13 @@ int HashTable::findClosePrime() {
     }
     return hashPrime; 
 }
-
+/* 
 void HashTable::resetHighlights() {
     for (int i = 0; i < size; i++) {
         table[i].unHighlight();
     }
 }
-
+ */
 void HashTable::update() {
     if (resized) {
         resized = false;

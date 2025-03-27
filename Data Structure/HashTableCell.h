@@ -17,9 +17,9 @@ public:
     void setValue(int value);
     void setPosition(Vector2 pos);
     void setTargetPosition(Vector2 targetpos);
-    void setHighlight(float duration);
-    void setPersistentHighlight();
-    void unHighlight();
+    //void setHighlight(float duration);
+    //void setPersistentHighlight();
+    //void unHighlight();
 
     void update(float deltaTime);
     void render();
@@ -29,7 +29,7 @@ private:
     Vector2 targetPosition;
     Color backgroundColor;
     Color textColor;
-    float highlightTimer;
-    bool isHighlighted;
-    bool isPersistentHighlighted;
+    //float highlightTimer;
+    //bool isHighlighted;
+    //bool isPersistentHighlighted;
 };

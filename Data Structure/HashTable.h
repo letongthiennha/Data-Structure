@@ -33,7 +33,7 @@ public:
     bool isPrime(int n);
     int findClosePrime();
 
-    void resetHighlights();
+    //void resetHighlights();
     void update();
     void render();
 };
