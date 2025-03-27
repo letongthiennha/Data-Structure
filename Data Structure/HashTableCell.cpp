@@ -54,5 +54,5 @@ void HashTableCell::update(float deltaTime) {
 
 void HashTableCell::render() {
         DrawRectangle(position.x, position.y, 50, 50, backgroundColor);
-        DrawText(std::to_string(val).c_str(), position.x + 10, position.y + 10, 20, textColor);
+        if (val!=EMPTY) DrawText(std::to_string(val).c_str(), position.x + 10, position.y + 10, 20, textColor);
 }
