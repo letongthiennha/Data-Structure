@@ -1,20 +1,21 @@
 #pragma once
 
 #include <vector>
-#include <climits>
-#include <cmath>
+#include "HashTableCell.h"
 
-const int EMPTY = INT_MIN;
 const int NOT_FOUND = 0;
 const int FOUND = 1;
-
+const float startX = 200;
+const float endX = 1400;
 class HashTable {
 private:
-    std::vector<int> table;
+    std::vector<HashTableCell> table;
     int current;
     int size;
     int hashPrime;
-    
+
+    bool resized;
+
 public:
     HashTable(int initsize);
     ~HashTable();
@@ -31,4 +32,8 @@ public:
 
     bool isPrime(int n);
     int findClosePrime();
+
+    void resetHighlights();
+    void update();
+    void render();
 };
