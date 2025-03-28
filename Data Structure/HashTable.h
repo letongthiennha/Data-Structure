@@ -16,14 +16,17 @@ private:
     int current;
     int size;
     int hashPrime;
+
     std::queue<int> highlightQueue;
     std::queue<std::pair<int, int>> addQueue;
     std::queue<int> removeQueue;
     std::queue<int> findQueue;
-    float highlightDuration = 0.25f; // Standard duration for highlighting
 
+    float highlightDuration = 0.3f; // Standard duration for highlighting
     bool highlightTask;
-    bool resizeTask;
+
+    float sequentialDuration = 0.05f; // Duration for sequential rendering
+    bool sequentialRender;
 
 public:
     HashTable(int initsize);
@@ -42,7 +45,7 @@ public:
     bool search(int value);
 
     bool isPrime(int n);
-    int findClosePrime();
+    int findClosePrime(int x);
 
     void resetHighlights();
     void update();

@@ -1,4 +1,5 @@
 #include "HashTableCell.h"
+#include <random>
 
 HashTableCell::HashTableCell(int val) : val(val), backgroundColor(WHITE), textColor(BLACK), isHighlighted(false), isPersistentHighlighted(false) {}
 

@@ -1,20 +1,17 @@
 #include "HashTable.h"
-
 std::random_device rd;
 std::mt19937 gen(rd());
-std::uniform_int_distribution<> radElement(-1000, 1000);
-std::uniform_real_distribution<> dis(0.0, 1600.0);
+std::uniform_int_distribution<> radsize(5, 70);
+std::uniform_int_distribution<> radElement(-500, 500);
 
 HashTable::HashTable(int initsize)
     : table(initsize, HashTableCell(EMPTY)), current(0), size(initsize), hashPrime(7) {
     float initX = startX;
     float initY = 100;
+    sequentialRender = true;
     for (int i = 0; i < size; i++) {
-        float ranX = dis(gen);
-        float ranY = dis(gen);
         table[i].index = i;
-        table[i].setinitPosition({ranX,  ranY});
-        table[i].setTargetPosition({initX, initY}); // Set both position and targetPosition
+        table[i].setPosition({initX, initY}); // Set both position and targetPosition
         if (size <= 10) {
             initX += (endX - startX) / size; // Distribute evenly for <= 10 cells
         } else {
@@ -51,20 +48,38 @@ bool HashTable::isEmpty() {
     return false;
 }
 
+void HashTable::randomTable() {
+    int newSize = radsize(gen);
+    int numberOfElements = radsize(gen) % newSize;
+    HashTable newHashTable(newSize);
+    newHashTable.hashPrime = findClosePrime(newSize);
+    for (int i = 0; i < numberOfElements; i++) {
+        int randomValue = radElement(gen);
+        newHashTable.silentadd(randomValue);
+    }
+
+    table = std::move(newHashTable.table);
+    size = newSize;
+    current = newHashTable.getCurrent();
+    hashPrime = newHashTable.hashPrime;
+    sequentialRender = true;
+}
+
 void HashTable::resize(int newSize) {
     resetHighlights();
     std::vector<HashTableCell> oldTable = table;
     HashTable newHashTable(newSize);
-    table = newHashTable.table;
-    current = 0;
-    size = newSize;
-    hashPrime = findClosePrime();
+    newHashTable.hashPrime = findClosePrime(newSize);
     for (int i = 0; i < oldTable.size(); i++) {
         if (oldTable[i].val != EMPTY) {
-            silentadd(oldTable[i].val);
+            newHashTable.silentadd(table[i].val);
         }
     }
-    resizeTask = true;
+    table = std::move(newHashTable.table);
+    size = newSize;
+    current = newHashTable.getCurrent();
+    hashPrime = newHashTable.hashPrime;
+    sequentialRender = true;
 }
 
 void HashTable::add(int value) {
@@ -83,6 +98,7 @@ void HashTable::add(int value) {
 }
 
 int HashTable::silentadd(int value) {
+    if (isFull()) return -1;
     int hash = (value % hashPrime + hashPrime) % size;
     while (table[hash].val != EMPTY) {
         hash = (hash + 1) % size;
@@ -131,12 +147,12 @@ bool HashTable::isPrime(int n) {
     return true;
 }
 
-int HashTable::findClosePrime() {
-    if (size <= 23) return 7;
-    for (int i = size; i > 1; i--) {
+int HashTable::findClosePrime(int x) {
+    if (x <= 23) return 7;
+    for (int i = x; i > 1; i--) {
         if (isPrime(i)) return i;
     }
-    return hashPrime; 
+    return x; 
 }
 
  
@@ -198,20 +214,25 @@ void HashTable::update() {
 }
 
 void HashTable::render() {
-    static int resizeRenderCount;
-    if (resizeTask) {
-        resizeRenderCount = size;
-        resizeTask = false;
-    }
-    if (resizeRenderCount > 0) {
-        static int resizeIndex = 0;
-        resizeRenderCount--;
-        for (int i = 0; i <= resizeIndex; i++) {
+    static int toRender = 0;
+    static float renderTimer = sequentialDuration;
+    float deltaTime = GetFrameTime();
+
+    if (sequentialRender) {
+        for (int i = 0; i <= toRender; i++) {
             table[i].render();
         }
-        resizeIndex++;
-    }
-    else {  
+        renderTimer -= deltaTime;
+        if (renderTimer <= 0.0f) { 
+            if (toRender < size) {
+                toRender++; 
+                renderTimer = sequentialDuration; 
+            } else {
+                sequentialRender = false;
+                toRender = 0;
+            }
+        }
+    } else  {  
         for (int i = 0; i < size; i++) {
             table[i].render();
         }
