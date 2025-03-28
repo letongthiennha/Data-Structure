@@ -13,8 +13,8 @@ public:
 	void setPrev(ShPNode* prev);
 	int getDis();
 	int getId();
-	ShPNode* getPrev();
-	Vector2 getPos();
+	ShPNode* getPrev() const	;
+	Vector2 getPos() const;
 	void draw();
 	bool visited;
 	Vector2 m_pos;

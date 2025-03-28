@@ -12,14 +12,14 @@ public:
     void setColor(Color color);
     void setWeight(int weight);
 
-    int getWeight();
-    ShPNode* getStartNode();
-    ShPNode* getEndNode();
-    Vector2 getTailPos();
-    Vector2 getHeadPos();
-    Color getColor();
-    bool isVisited() const; // New method to check if the edge is visited
-    void setVisited(bool visited); // New method to set the visited status
+    int getWeight() const;
+    ShPNode* getStartNode() const;
+    ShPNode* getEndNode() const;
+    Vector2 getTailPos() const;
+    Vector2 getHeadPos() const;
+    Color getColor() const;
+    bool isVisited() const; 
+    void setVisited(bool visited); 
 
     void update();
     void render();
@@ -31,5 +31,5 @@ private:
     Vector2 m_headPos;
     int m_weight;
     Color m_color;
-    bool visited; // New member to track if the edge is visited
+    bool visited; 
 };

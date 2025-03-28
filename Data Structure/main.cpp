@@ -3,7 +3,7 @@
 #include "ShortestPathScreen.h"
 
 int main() {
-    InitWindow(1440, 1080, "Shortest Path Visualization");
+    InitWindow(1080, 960, "Shortest Path Visualization");
     SetTargetFPS(60);
     ShortestPathScreen sps;
     sps.update();

@@ -15,11 +15,11 @@ void ShortestPathScreen::render() {
         }
     }
 
-    sp.renderGraph(); // Render the graph each frame
+    sp.renderGraph(); // Render
 }
 
 void ShortestPathScreen::update() {
-    sp.createRandomGraph(0.25f);
+    sp.createRandomGraph();
     int startId = 0;
     sp.startDijkstra(startId);
     float timeSinceLastStep = 0;

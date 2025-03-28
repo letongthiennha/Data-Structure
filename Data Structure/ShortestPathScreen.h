@@ -9,6 +9,6 @@ public:
     ShortestPath sp;
 private:
     float timeSinceLastStep;
-    float delay = 0.5f;
-    bool animating = true;
+    float delay=0.5f;
+    bool animating=true;
 };
