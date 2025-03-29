@@ -1,8 +1,9 @@
 ﻿#include "ShortestPathScreen.h"
 #include "raylib.h"
 
-
-
+ShortestPathScreen::ShortestPathScreen() : animating(true), timeSinceLastStep(0), delay(0.5f) {
+    ctrl = ShPController();
+}
 
 void ShortestPathScreen::render() {
     if (animating) {
@@ -14,15 +15,24 @@ void ShortestPathScreen::render() {
             }
         }
     }
-
-    sp.renderGraph(); // Render
+    sp.renderGraph();
+    ctrl.render();
 }
 
 void ShortestPathScreen::update() {
-    sp.createRandomGraph();
-    int startId = 0;
-    sp.startDijkstra(startId);
-    float timeSinceLastStep = 0;
-    float delay = 0.5f;
-    bool animating = true;
+    ctrl.update();
+
+    // Check if the "Random" button was clicked
+    if (ctrl.isRandomClicked()) {
+        sp.clearGraph();
+        sp.createRandomGraph();
+    }
+
+    // Check if the "Dijkstra" button was clicked
+    if (ctrl.isDijkstraClicked()) {
+        int startId = ctrl.getStartVertex();
+        sp.startDijkstra(startId);
+        timeSinceLastStep = 0;
+        animating = true;
+    }
 }

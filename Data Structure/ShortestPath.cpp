@@ -226,7 +226,7 @@ void ShortestPath::startDijkstra(int startId) {
     edgeIndex = 0;
 }
 
-// Chạy từng bước Dijsktra 
+// Chạy từng bước Dijkstra 
 // Hàm trả về true nếu như còn bước
 bool ShortestPath::stepDijkstra() {
     if (!isRunning) return false;
@@ -253,6 +253,27 @@ bool ShortestPath::stepDijkstra() {
         auto& edge = edges[edgeIndex];
         if (edge.getStartNode() == current) {
             ShPNode* neighbor = edge.getEndNode();
+            int newDist = current->getDis() + edge.getWeight();
+
+            edge.setColor(YELLOW);
+
+            if (newDist < neighbor->getDis()) {
+                neighbor->setDis(newDist);
+                neighbor->setPrev(current);
+                neighbor->highlight(true);
+                pq.push(neighbor);
+                edge.setColor(RED);
+            }
+            else {
+                edge.setColor(GRAY);
+            }
+
+            lastCheckedEdge = &edge;
+            edgeIndex++;
+            return true;
+        }
+        else if (edge.getEndNode() == current) {
+            ShPNode* neighbor = edge.getStartNode();
             int newDist = current->getDis() + edge.getWeight();
 
             edge.setColor(YELLOW);

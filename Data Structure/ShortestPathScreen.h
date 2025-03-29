@@ -1,14 +1,20 @@
-#pragma once
+#ifndef SHORTESTPATHSCREEN_H
+#define SHORTESTPATHSCREEN_H
 
+#include "ShPController.h"
 #include "ShortestPath.h"
 
 class ShortestPathScreen {
 public:
+    ShortestPathScreen();
     void render();
     void update();
-    ShortestPath sp;
+
 private:
+    ShPController ctrl;
+    ShortestPath sp;
+    bool animating;
     float timeSinceLastStep;
-    float delay=0.5f;
-    bool animating=true;
+    float delay;
 };
+#endif
