@@ -2,6 +2,7 @@
 #include "raylib.h"
 
 ShortestPathScreen::ShortestPathScreen() : animating(true), timeSinceLastStep(0), delay(0.5f) {
+    sp.createRandomGraph();
     ctrl = ShPController();
 }
 
@@ -21,7 +22,6 @@ void ShortestPathScreen::render() {
 
 void ShortestPathScreen::update() {
     ctrl.update();
-
     // Check if the "Random" button was clicked
     if (ctrl.isRandomClicked()) {
         sp.clearGraph();
