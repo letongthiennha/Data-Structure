@@ -22,13 +22,10 @@ void ShortestPathScreen::render() {
 void ShortestPathScreen::update() {
     ctrl.update();
 
-    // Check if the "Random" button was clicked
     if (ctrl.isRandomClicked()) {
         sp.clearGraph();
         sp.createRandomGraph();
     }
-
-    // Check if the "Dijkstra" button was clicked
     if (ctrl.isDijkstraClicked()) {
         int startId = ctrl.getStartVertex();
         sp.startDijkstra(startId);
