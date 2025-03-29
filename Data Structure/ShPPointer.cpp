@@ -53,21 +53,16 @@ void ShPPointer::update() {
 void ShPPointer::render() {
     DrawLineEx(m_tailPos, m_headPos, 2.0f, m_color);
 
-    // Calculate the midpoint of the edge
     Vector2 midPoint = { (m_tailPos.x + m_headPos.x) / 2, (m_tailPos.y + m_headPos.y) / 2 };
 
-    // Calculate the angle of the edge
     float angle = atan2(m_headPos.y - m_tailPos.y, m_headPos.x - m_tailPos.x);
 
-    // Offset the text position based on the angle
     float offsetX = 10.0f * sin(angle);
     float offsetY = -10.0f * cos(angle);
-    Vector2 textPos = { midPoint.x + offsetX, midPoint.y + offsetY };
 
-    // Convert weight to string
+    Vector2 textPos = { midPoint.x + offsetX, midPoint.y + offsetY };
     char weightText[10];
     snprintf(weightText, sizeof(weightText), "%d", m_weight);
 
-    // Draw the weight text
     DrawText(weightText, textPos.x, textPos.y, 20, BLACK);
 }
