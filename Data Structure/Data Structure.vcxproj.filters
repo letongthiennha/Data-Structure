@@ -123,6 +123,9 @@
     <ClCompile Include="ShortestPath.cpp">
       <Filter>Source Files\ShortestPath</Filter>
     </ClCompile>
+    <ClCompile Include="ShPTextBox.cpp">
+      <Filter>Source Files\ShortestPath</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SLLScreen.h">
@@ -183,6 +186,9 @@
       <Filter>Header Files\ShortestPath</Filter>
     </ClInclude>
     <ClInclude Include="ShortestPath.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="ShPTextBox.h">
       <Filter>Header Files\ShortestPath</Filter>
     </ClInclude>
   </ItemGroup>

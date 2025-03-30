@@ -150,6 +150,7 @@
     <ClCompile Include="ShPController.cpp" />
     <ClCompile Include="ShPNode.cpp" />
     <ClCompile Include="ShPPointer.cpp" />
+    <ClCompile Include="ShPTextBox.cpp" />
     <ClCompile Include="SLL.cpp" />
     <ClCompile Include="TextBox.cpp" />
   </ItemGroup>
@@ -171,6 +172,7 @@
     <ClInclude Include="ShPController.h" />
     <ClInclude Include="ShPNode.h" />
     <ClInclude Include="ShPPointer.h" />
+    <ClInclude Include="ShPTextBox.h" />
     <ClInclude Include="SLL.h" />
     <ClInclude Include="SLLScreen.h" />
     <ClInclude Include="TextBox.h" />

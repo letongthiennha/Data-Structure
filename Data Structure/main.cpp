@@ -2,13 +2,16 @@
 #include "ShortestPathScreen.h"
 
 int main() {
-    InitWindow(1080, 960, "Shortest Path Visualization");
+    InitWindow(1280, 960, "Shortest Path Visualization");
     SetTargetFPS(60);
 
-    ShortestPathScreen sps;
+    ShortestPathScreen screen;
+
     while (!WindowShouldClose()) {
-        sps.update();
-        sps.render();
+        screen.update();
+        BeginDrawing();
+        screen.render();
+        EndDrawing();
     }
 
     CloseWindow();

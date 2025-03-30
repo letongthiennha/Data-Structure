@@ -1,3 +1,18 @@
+//#pragma once
+//#include "raylib.h"
+//#include "ShPNode.h"
+//#include "ShPPointer.h"
+//#include <string>
+//#include <math.h>
+//#include <queue>
+//#include <vector>
+//#include <unordered_set>
+//
+//// Struct compare cho  priority queue
+//struct CompareNode {
+//    bool operator()(ShPNode* a, ShPNode* b) {
+//        return a->getDis() > b->getDis(); // Min-heap based on distance
+
 #pragma once
 #include "raylib.h"
 #include "ShPNode.h"
@@ -8,14 +23,12 @@
 #include <vector>
 #include <unordered_set>
 
-// Struct compare cho  priority queue
 struct CompareNode {
     bool operator()(ShPNode* a, ShPNode* b) {
-        return a->getDis() > b->getDis(); // Min-heap based on distance
+        return a->getDis() > b->getDis();
     }
 };
 
-// ShortestPath class with new functions
 class ShortestPath {
 public:
     ShortestPath();
@@ -25,18 +38,17 @@ public:
     void addEdge(int startId, int endId, int weight);
     void renderGraph();
     void clearGraph();
-
+    void markShortestPathEdges();
     void adjustNodePositions();
     void createRandomGraph();
     void startDijkstra(int startId);
-    bool stepDijkstra();             
-    
+    bool stepDijkstra();
 
 private:
     std::vector<ShPNode> nodes;
     std::vector<ShPPointer> edges;
-    std::priority_queue<ShPNode*, std::vector<ShPNode*>, CompareNode> pq; 
-    bool isRunning = false; 
+    std::priority_queue<ShPNode*, std::vector<ShPNode*>, CompareNode> pq;
+    bool isRunning = false;
 
     ShPNode* getNodeById(int id);
 

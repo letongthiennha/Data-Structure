@@ -53,14 +53,14 @@ void ShPPointer::update() {
 void ShPPointer::render() {
     DrawLineEx(m_tailPos, m_headPos, 2.0f, m_color);
 
-    Vector2 midPoint = { (m_tailPos.x + m_headPos.x) / 2, (m_tailPos.y + m_headPos.y) / 2 };
+    Vector2 textPoint = { m_headPos.x + (m_tailPos.x - m_headPos.x) / 4, m_headPos.y + (m_tailPos.y - m_headPos.y) / 4 };
 
-    float angle = atan2(m_headPos.y - m_tailPos.y, m_headPos.x - m_tailPos.x);
+    //float angle = atan2(m_headPos.y - m_tailPos.y, m_headPos.x - m_tailPos.x);
 
-    float offsetX = 10.0f * sin(angle);
-    float offsetY = -10.0f * cos(angle);
+    float offsetX = 10.0f;
+    float offsetY = -10.0f;
 
-    Vector2 textPos = { midPoint.x + offsetX, midPoint.y + offsetY };
+    Vector2 textPos = { textPoint.x + offsetX, textPoint.y + offsetY };
     char weightText[10];
     snprintf(weightText, sizeof(weightText), "%d", m_weight);
 

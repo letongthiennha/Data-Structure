@@ -20,7 +20,6 @@ public:
     Color getColor() const;
     bool isVisited() const; 
     void setVisited(bool visited); 
-
     void update();
     void render();
 
@@ -31,5 +30,5 @@ private:
     Vector2 m_headPos;
     int m_weight;
     Color m_color;
-    bool visited; 
+    bool visited;
 };
