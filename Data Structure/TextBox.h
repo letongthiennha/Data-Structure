@@ -41,6 +41,7 @@ public:
     //Position and size
     void setPosition(Vector2 position);
     void setBoxSize(Vector2 size);
+    bool isHover();
 
     //Clear text
     void clearContent();
