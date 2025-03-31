@@ -7,8 +7,9 @@
 
 const int NOT_FOUND = 0;
 const int FOUND = 1;
-const float startX = 200;
-const float endX = 1400;
+const float startX = 350;
+const float startY = 80;
+const float endX = 1500;
 
 class HashTable {
 private:

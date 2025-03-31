@@ -52,7 +52,7 @@ void HashTableCell::update(float deltaTime) {
     }
     if (isHighlighted || isPersistentHighlighted) {
         backgroundColor = ORANGE;
-        textColor = YELLOW;
+        textColor = GOLD;
     }
     else {
         backgroundColor = WHITE;
@@ -65,6 +65,7 @@ void HashTableCell::update(float deltaTime) {
 
 void HashTableCell::render() {
         DrawRectangle(position.x, position.y, 50, 50, backgroundColor);
+        DrawRectangleLines(position.x, position.y, 50, 50, BLACK);
         if (val != EMPTY) {
             int textWidth = MeasureText(std::to_string(val).c_str(), 20);
             int textX = position.x + (50 - textWidth) / 2; // Center the text horizontally

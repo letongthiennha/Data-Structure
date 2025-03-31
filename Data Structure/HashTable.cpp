@@ -1,4 +1,5 @@
 #include "HashTable.h"
+#include <iostream>
 std::random_device rd;
 std::mt19937 gen(rd());
 std::uniform_int_distribution<> radsize(5, 70);
@@ -7,16 +8,12 @@ std::uniform_int_distribution<> radElement(-500, 500);
 HashTable::HashTable(int initsize)
     : table(initsize, HashTableCell(EMPTY)), current(0), size(initsize), hashPrime(7) {
     float initX = startX;
-    float initY = 100;
+    float initY = startY;
     sequentialRender = true;
     for (int i = 0; i < size; i++) {
         table[i].index = i;
         table[i].setPosition({initX, initY}); // Set both position and targetPosition
-        if (size <= 10) {
-            initX += (endX - startX) / size; // Distribute evenly for <= 10 cells
-        } else {
-            initX += (endX - startX) / 10;   // Distribute evenly for 10 cells per line
-        }
+        initX += (endX - startX) / 9;   // Distribute evenly for 10 cells per line
         if ((i + 1) % 10 == 0) {
             initX = startX;  // Reset X position to the start
             initY += 100;    // Move down by 100 pixels
@@ -67,6 +64,12 @@ void HashTable::randomTable() {
 
 void HashTable::resize(int newSize) {
     resetHighlights();
+    if (newSize == 0) {
+        table.clear();
+        current = 0;
+        size = 0;
+        return;
+    }
     std::vector<HashTableCell> oldTable = table;
     HashTable newHashTable(newSize);
     newHashTable.hashPrime = findClosePrime(newSize);
@@ -199,16 +202,7 @@ void HashTable::update() {
     }
 
     // Update all cells
-    float initX = startX;
-    float initY = 100;
     for (int i = 0; i < size; i++) {
-        table[i].setTargetPosition({initX, initY});
-        if (size <= 10) initX += (endX - startX) / size;
-        else initX += (endX - startX) / 10;
-        if ((i + 1) % 10 == 0) {
-            initX = startX;
-            initY += 100;
-        }
         table[i].update(deltaTime);
     }
 }
