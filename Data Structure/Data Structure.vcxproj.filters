@@ -126,6 +126,9 @@
     <ClCompile Include="ShPTextBox.cpp">
       <Filter>Source Files\ShortestPath</Filter>
     </ClCompile>
+    <ClCompile Include="tinyfiledialogs.c">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SLLScreen.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="ShPTextBox.h">
       <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyfiledialogs.h">
+      <Filter>Header Files\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

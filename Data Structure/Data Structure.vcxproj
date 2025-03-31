@@ -153,6 +153,7 @@
     <ClCompile Include="ShPTextBox.cpp" />
     <ClCompile Include="SLL.cpp" />
     <ClCompile Include="TextBox.cpp" />
+    <ClCompile Include="tinyfiledialogs.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="SLL.h" />
     <ClInclude Include="SLLScreen.h" />
     <ClInclude Include="TextBox.h" />
+    <ClInclude Include="tinyfiledialogs.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="..\include\arial.ttf" />

@@ -43,14 +43,12 @@ public:
     void createRandomGraph();
     void startDijkstra(int startId);
     bool stepDijkstra();
-
+    ShPNode* getNodeById(int id);
 private:
     std::vector<ShPNode> nodes;
     std::vector<ShPPointer> edges;
     std::priority_queue<ShPNode*, std::vector<ShPNode*>, CompareNode> pq;
     bool isRunning = false;
-
-    ShPNode* getNodeById(int id);
 
     ShPNode* current = nullptr;
     size_t edgeIndex = 0;

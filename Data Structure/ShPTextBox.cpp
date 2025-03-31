@@ -50,7 +50,7 @@ void ShPTextBox::update() {
         int input = GetCharPressed();
         while (input > 0) {
             if (m_content.length() < m_maxLength) {
-                if (isalpha(input) || isdigit(input) || input == ' ') {
+                if (isalpha(input) || isdigit(input) || input == ' ' || input == '-') {
                     m_content += (char)input;
                 }
             }
