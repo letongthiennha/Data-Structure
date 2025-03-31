@@ -11,6 +11,7 @@ public:
 	bool isInputClicked() const;
 	bool isDijkstraClicked() const;
 	bool isLoadFileClicked() const;
+	bool isEditClicked() const;
 	int getStartVertex();
 	virtual void update();
 	virtual void render();
@@ -20,6 +21,7 @@ protected:
 	Button Input;
 	Button Dijkstra;
 	Button LoadFile;
+	Button Edit;
 	TextBox startVertexTextBox;
 	Rectangle OperationBoard;
 }; 

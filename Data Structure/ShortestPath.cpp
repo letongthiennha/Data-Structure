@@ -4,6 +4,7 @@
 #include <raylib.h>
 #include <chrono>
 #include <thread>
+#include <sstream>
 
 ShortestPath::ShortestPath() {}
 ShortestPath::~ShortestPath() {}
@@ -273,6 +274,13 @@ bool ShortestPath::stepDijkstra() {
     return true;
 }
 
-void ShortestPath::markShortestPathEdges() {
-    // Optional: Implement if you need to mark the final shortest path
+std::string ShortestPath::getEdgeListAsString() const {
+    std::string edgeList;
+    for (const auto& edge : edges) {
+        int startId = edge.getStartNode()->getId();
+        int endId = edge.getEndNode()->getId();
+        int weight = edge.getWeight();
+        edgeList += std::to_string(startId) + " " + std::to_string(endId) + " " + std::to_string(weight) + "\n";
+    }
+    return edgeList;
 }

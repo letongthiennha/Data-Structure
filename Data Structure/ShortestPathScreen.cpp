@@ -1,137 +1,15 @@
-﻿//#include "ShortestPathScreen.h"
-//#include "raylib.h"
-//#include <sstream>
-//#include <random>
-//
-//ShortestPathScreen::ShortestPathScreen()
-//    : animating(false), timeSinceLastStep(0), delay(0.5f), inputMode(false),
-//    inputTextBox({ 300, 150 }, { 600, 400 }, WHITE, BLACK, 1000),  // Same parameters
-//    submitButton() {
-//    sp.createRandomGraph();
-//    ctrl = ShPController();
-//
-//    // Submit button initialization remains the same
-//    submitButton.setText("Submit", 18);
-//    submitButton.setSize({ 120, 40 });
-//    submitButton.setPosition({ 660, 570 });
-//    submitButton.SetColor(GRAY, LIGHTGRAY, DARKGRAY);
-//}
-//
-//void ShortestPathScreen::render() {
-//    if (inputMode) {
-//        // Render input overlay
-//        DrawRectangle(250, 100, 700, 500, Fade(GRAY, 0.8f)); // Background overlay
-//        inputTextBox.render();
-//        submitButton.drawRectangle();
-//        submitButton.drawText(BLACK);
-//        DrawText("Enter edge list (e.g., '0 1 5' per line)", 300, 120, 20, BLACK);
-//    }
-//    else {
-//        // Render main screen
-//        if (animating) {
-//            timeSinceLastStep += GetFrameTime();
-//            if (timeSinceLastStep >= delay) {
-//                timeSinceLastStep = 0;
-//                if (!sp.stepDijkstra()) {
-//                    animating = false;
-//                }
-//            }
-//        }
-//        sp.renderGraph();
-//        ctrl.render();
-//    }
-//}
-//
-//void ShortestPathScreen::update() {
-//    if (inputMode) {
-//        // Debug output to check if we enter this block
-//        // Remove this line after confirming it works
-//        // TraceLog(LOG_INFO, "In inputMode");
-//
-//        inputTextBox.update();
-//        submitButton.update();
-//
-//        // Handle submit button click
-//        if (submitButton.isClicked()) {
-//            std::string input = inputTextBox.getText();
-//            sp.clearGraph();
-//
-//            // Random number generation for node positions
-//            std::random_device rd;
-//            std::mt19937 gen(rd());
-//            std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
-//            std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 50));
-//
-//            // Parse edge list
-//            std::istringstream iss(input);
-//            std::string line;
-//            std::vector<int> nodeIds;
-//
-//            while (std::getline(iss, line)) {
-//                std::istringstream lineStream(line);
-//                int startId, endId, weight;
-//                if (lineStream >> startId >> endId >> weight) {
-//                    // Add nodes with random positions if not already present
-//                    if (std::find(nodeIds.begin(), nodeIds.end(), startId) == nodeIds.end()) {
-//                        Vector2 pos = { posDistX(gen), posDistY(gen) };
-//                        sp.addNode(pos, startId);
-//                        nodeIds.push_back(startId);
-//                    }
-//                    if (std::find(nodeIds.begin(), nodeIds.end(), endId) == nodeIds.end()) {
-//                        Vector2 pos = { posDistX(gen), posDistY(gen) };
-//                        sp.addNode(pos, endId);
-//                        nodeIds.push_back(endId);
-//                    }
-//                    sp.addEdge(startId, endId, weight);
-//                }
-//            }
-//
-//            // Adjust node positions after adding all edges
-//            if (!nodeIds.empty()) {
-//                sp.adjustNodePositions();
-//            }
-//
-//            inputMode = false; // Exit input mode
-//            inputTextBox.clearContent(); // Clear textbox for next use
-//        }
-//    }
-//    else {
-//        ctrl.update();
-//
-//        // Check if the "Random" button was clicked
-//        if (ctrl.isRandomClicked()) {
-//            sp.clearGraph();
-//            sp.createRandomGraph();
-//            animating = false;
-//        }
-//
-//        // Check if the "Input" button was clicked
-//        if (ctrl.isInputClicked()) {
-//            inputMode = true;
-//            animating = false; // Stop any ongoing animation
-//            // Debug output to confirm button click
-//            // Remove this line after confirming it works
-//            // TraceLog(LOG_INFO, "Input button clicked, entering inputMode");
-//        }
-//
-//        // Check if the "Dijkstra" button was clicked
-//        if (ctrl.isDijkstraClicked()) {
-//            int startId = ctrl.getStartVertex();
-//            sp.startDijkstra(startId);
-//            timeSinceLastStep = 0;
-//            animating = true;
-//        }
-//    }
-//}
+﻿
 #include "ShortestPathScreen.h"
 #include "raylib.h"
-#include "tinyfiledialogs.h"  // Include tinyfiledialogs
+#include "tinyfiledialogs.h"
 #include <sstream>
 #include <random>
-#include <fstream>  // For std::ifstream
+#include <fstream>
+#include <set>  // For edit mode
 
 ShortestPathScreen::ShortestPathScreen()
-    : animating(false), timeSinceLastStep(0), delay(0.5f), inputMode(false),
+    : animating(false), timeSinceLastStep(0), delay(0.5f),
+    inputMode(false), editMode(false),  // Initialize editMode
     inputTextBox({ 300, 150 }, { 600, 400 }, WHITE, BLACK, 1000),
     submitButton() {
     sp.createRandomGraph();
@@ -144,12 +22,17 @@ ShortestPathScreen::ShortestPathScreen()
 }
 
 void ShortestPathScreen::render() {
-    if (inputMode) {
+    if (inputMode || editMode) {
         DrawRectangle(250, 100, 700, 500, Fade(GRAY, 0.8f));
         inputTextBox.render();
         submitButton.drawRectangle();
         submitButton.drawText(BLACK);
-        DrawText("Enter edge list (e.g., '0 1 5' per line)", 300, 120, 20, BLACK);
+        if (inputMode) {
+            DrawText("Enter edge list (e.g., '0 1 5' per line)", 300, 120, 20, BLACK);
+        }
+        else if (editMode) {
+            DrawText("Edit edge list (e.g., '0 1 5' per line)", 300, 120, 20, BLACK);
+        }
     }
     else {
         if (animating) {
@@ -167,47 +50,108 @@ void ShortestPathScreen::render() {
 }
 
 void ShortestPathScreen::update() {
-    if (inputMode) {
+    if (inputMode || editMode) {
         inputTextBox.update();
         submitButton.update();
 
         if (submitButton.isClicked()) {
-            std::string input = inputTextBox.getText();
-            sp.clearGraph();
+            if (inputMode) {
+                std::string input = inputTextBox.getText();
+                sp.clearGraph();
 
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
-            std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 50));
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
+                std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 50));
 
-            std::istringstream iss(input);
-            std::string line;
-            std::vector<int> nodeIds;
+                std::istringstream iss(input);
+                std::string line;
+                std::vector<int> nodeIds;
 
-            while (std::getline(iss, line)) {
-                std::istringstream lineStream(line);
-                int startId, endId, weight;
-                if (lineStream >> startId >> endId >> weight) {
-                    if (std::find(nodeIds.begin(), nodeIds.end(), startId) == nodeIds.end()) {
-                        Vector2 pos = { posDistX(gen), posDistY(gen) };
-                        sp.addNode(pos, startId);
-                        nodeIds.push_back(startId);
+                while (std::getline(iss, line)) {
+                    std::istringstream lineStream(line);
+                    int startId, endId, weight;
+                    if (lineStream >> startId >> endId >> weight) {
+                        if (std::find(nodeIds.begin(), nodeIds.end(), startId) == nodeIds.end()) {
+                            Vector2 pos = { posDistX(gen), posDistY(gen) };
+                            sp.addNode(pos, startId);
+                            nodeIds.push_back(startId);
+                        }
+                        if (std::find(nodeIds.begin(), nodeIds.end(), endId) == nodeIds.end()) {
+                            Vector2 pos = { posDistX(gen), posDistY(gen) };
+                            sp.addNode(pos, endId);
+                            nodeIds.push_back(endId);
+                        }
+                        sp.addEdge(startId, endId, weight);
                     }
-                    if (std::find(nodeIds.begin(), nodeIds.end(), endId) == nodeIds.end()) {
-                        Vector2 pos = { posDistX(gen), posDistY(gen) };
-                        sp.addNode(pos, endId);
-                        nodeIds.push_back(endId);
+                }
+
+                if (!nodeIds.empty()) {
+                    sp.adjustNodePositions();
+                }
+
+                inputMode = false;
+                animating = false;  // Stop any ongoing animation
+                inputTextBox.clearContent();
+            }
+            else if (editMode) {
+                std::string input = inputTextBox.getText();
+
+                // Parse the input
+                std::vector<std::tuple<int, int, int>> newEdges;
+                std::set<int> newNodeIds;
+                std::istringstream iss(input);
+                std::string line;
+                while (std::getline(iss, line)) {
+                    std::istringstream lineStream(line);
+                    int startId, endId, weight;
+                    if (lineStream >> startId >> endId >> weight) {
+                        newEdges.emplace_back(startId, endId, weight);
+                        newNodeIds.insert(startId);
+                        newNodeIds.insert(endId);
                     }
+                }
+
+                // Remove nodes not in newNodeIds
+                auto it = sp.nodes.begin();
+                while (it != sp.nodes.end()) {
+                    if (newNodeIds.find(it->getId()) == newNodeIds.end()) {
+                        it = sp.nodes.erase(it);
+                    }
+                    else {
+                        ++it;
+                    }
+                }
+
+                // Add new nodes
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
+                std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 50));
+                for (int id : newNodeIds) {
+                    if (sp.getNodeById(id) == nullptr) {
+                        Vector2 pos = { posDistX(gen), posDistY(gen) };
+                        sp.addNode(pos, id);
+                    }
+                }
+
+                // Clear edges
+                sp.edges.clear();
+
+                // Add new edges
+                for (const auto& edge : newEdges) {
+                    int startId, endId, weight;
+                    std::tie(startId, endId, weight) = edge;
                     sp.addEdge(startId, endId, weight);
                 }
-            }
 
-            if (!nodeIds.empty()) {
+                // Adjust node positions
                 sp.adjustNodePositions();
-            }
 
-            inputMode = false;
-            inputTextBox.clearContent();
+                editMode = false;
+                animating = false;  // Stop any ongoing animation
+                inputTextBox.clearContent();
+            }
         }
     }
     else {
@@ -221,7 +165,16 @@ void ShortestPathScreen::update() {
 
         if (ctrl.isInputClicked()) {
             inputMode = true;
+            editMode = false;
             animating = false;
+            inputTextBox.clearContent();
+        }
+
+        if (ctrl.isEditClicked()) {
+            editMode = true;
+            inputMode = false;
+            animating = false;
+            inputTextBox.setText(sp.getEdgeListAsString());
         }
 
         // Load File button functionality

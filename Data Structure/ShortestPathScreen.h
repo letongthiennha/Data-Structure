@@ -1,6 +1,7 @@
 #ifndef SHORTESTPATHSCREEN_H
 #define SHORTESTPATHSCREEN_H
 
+
 #include "ShPController.h"
 #include "ShortestPath.h"
 #include "Button.h"
@@ -19,9 +20,11 @@ private:
     float timeSinceLastStep;
     float delay;
 
-    // New members for input mode
-    bool inputMode;          // True when in input tab
+    // New members for input and edit modes
+    bool inputMode;
+    bool editMode;  // New flag
     ShPTextBox inputTextBox;
-    Button submitButton;     // Button to submit the graph
+    Button submitButton;
 };
+
 #endif
