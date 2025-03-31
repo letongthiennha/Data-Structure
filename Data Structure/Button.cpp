@@ -107,5 +107,5 @@ void Button::drawTexture(Vector2 texturePosition) {
 }
 
 void Button::drawText(Color color) {
-    DrawText(m_text.c_str(), m_position.x + m_size.x / 2 -MeasureText(m_text.c_str(),m_textSize), m_position.y + m_size.y / 2, m_textSize, color);
+    DrawText(m_text.c_str(), m_position.x +(m_size.x- MeasureText(m_text.c_str(), m_textSize)) / 2, m_position.y + (m_size.y - m_textSize) / 2, m_textSize, color);
 }
