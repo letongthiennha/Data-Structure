@@ -213,7 +213,7 @@ void HashTable::render() {
     float deltaTime = GetFrameTime();
 
     if (sequentialRender) {
-        for (int i = 0; i <= toRender; i++) {
+        for (int i = 0; i < toRender; i++) {
             table[i].render();
         }
         renderTimer -= deltaTime;
