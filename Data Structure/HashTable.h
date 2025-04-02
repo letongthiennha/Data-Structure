@@ -2,14 +2,16 @@
 
 #include <vector>
 #include <random>
-#include "HashTableCell.h"
 #include <queue>
+#include "HashTableCell.h"
 
 const int NOT_FOUND = 0;
 const int FOUND = 1;
 const float startX = 350;
 const float startY = 80;
 const float endX = 1500;
+const float defaultHighlightDuration = 0.3f;
+const float defaultSequentialDuration = 0.05f;
 
 class HashTable {
 private:
@@ -23,10 +25,10 @@ private:
     std::queue<int> removeQueue;
     std::queue<int> findQueue;
 
-    float highlightDuration = 0.3f; // Standard duration for highlighting
+    float highlightDuration;
     bool highlightTask;
 
-    float sequentialDuration = 0.05f; // Duration for sequential rendering
+    float sequentialDuration;
     bool sequentialRender;
 
 public:
@@ -44,6 +46,11 @@ public:
     int silentadd(int value);
     void remove(int value);
     bool search(int value);
+
+    float coefficients[4] = {0.5, 1.0, 1.5, 2.0};
+    int currentCoefficient;
+    void setHighlightCoefficient(float coefficient);
+    void setRenderCoefficient(float coefficient);
 
     bool isPrime(int n);
     int findClosePrime(int x);

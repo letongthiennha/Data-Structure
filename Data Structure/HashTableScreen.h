@@ -3,6 +3,8 @@
 #include "Setting.h"
 #include "TextBox.h"
 #include "HashTable.h"
+#include "HashTableFonts.h"
+#include "HashTableCode.h"
 
 class HashTableScreen {
 public:
@@ -14,6 +16,9 @@ public:
     void disableModes();
 private:
     HashTable hashTable;
+    
+    Font bold;
+    Font normal;
 
     Button add;
     Button remove;
@@ -22,9 +27,11 @@ private:
     Button randomConfirm;
     Button resize;
     Button clear;
+    Button speedToggle;
 
     TextBox input;
     bool inputTask;
+    bool isValidInput(std::string& s);
     Button confirm;
 
     bool addMode;
@@ -33,3 +40,4 @@ private:
     bool randomMode;
     bool resizeMode;
 };
+

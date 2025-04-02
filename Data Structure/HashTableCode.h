@@ -1,7 +1,8 @@
 #pragma once
 
 #include <string>
-
+#include <sstream>
+#include <iomanip>
 const std::string addKey = {
     "if (table.isFull) return;\n"
     "int hash = [(key % p) + p] % size;\n"

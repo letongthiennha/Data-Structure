@@ -6,17 +6,19 @@ std::uniform_int_distribution<> radsize(5, 70);
 std::uniform_int_distribution<> radElement(-500, 500);
 
 HashTable::HashTable(int initsize)
-    : table(initsize, HashTableCell(EMPTY)), current(0), size(initsize), hashPrime(7) {
+    : table(initsize, HashTableCell(EMPTY)), current(0), size(initsize), hashPrime(7), currentCoefficient(1) {
+    highlightDuration = defaultHighlightDuration;
+    sequentialDuration = defaultSequentialDuration;
     float initX = startX;
     float initY = startY;
     sequentialRender = true;
     for (int i = 0; i < size; i++) {
         table[i].index = i;
-        table[i].setPosition({initX, initY}); // Set both position and targetPosition
-        initX += (endX - startX) / 9;   // Distribute evenly for 10 cells per line
+        table[i].setPosition({initX, initY}); 
+        initX += (endX - startX) / 9;   
         if ((i + 1) % 10 == 0) {
-            initX = startX;  // Reset X position to the start
-            initY += 100;    // Move down by 100 pixels
+            initX = startX;  
+            initY += 100;    
         }
     }
 }
@@ -44,7 +46,6 @@ bool HashTable::isEmpty() {
     if (size == 0) return true;
     return false;
 }
-
 void HashTable::randomTable() {
     int newSize = radsize(gen);
     int numberOfElements = radsize(gen) % newSize;
@@ -84,14 +85,13 @@ void HashTable::resize(int newSize) {
     hashPrime = newHashTable.hashPrime;
     sequentialRender = true;
 }
-
 void HashTable::add(int value) {
     resetHighlights();
     if (isFull()) return;
 
     int hash = (value % hashPrime + hashPrime) % size;
     while (table[hash].val != EMPTY) {
-        highlightQueue.push(hash); // Enqueue the index for highlighting
+        highlightQueue.push(hash); 
         if (table[hash].val == value) return;
         hash = (hash + 1) % size;
     }
@@ -165,19 +165,25 @@ void HashTable::resetHighlights() {
     }
 }
 
+void HashTable::setHighlightCoefficient(float coefficient) {
+    highlightDuration = defaultHighlightDuration/coefficient;
+}
+
+void HashTable::setRenderCoefficient(float coefficient) {
+    sequentialDuration = defaultSequentialDuration/coefficient;
+}
 
 void HashTable::update() {
     float deltaTime = GetFrameTime();
 
-    // Process the highlight queue
-    static float highlightTimer = 0.0f; // Timer to control the highlight duration
+    static float highlightTimer = 0.0f; 
     highlightTimer -= deltaTime;
 
     if (!highlightQueue.empty() && highlightTimer <= 0.0f) {
         int index = highlightQueue.front();
         highlightQueue.pop();
-        table[index].setHighlight(highlightDuration); // Highlight the cell
-        highlightTimer = highlightDuration; // Reset the timer
+        table[index].setHighlight(highlightDuration);
+        highlightTimer = highlightDuration;
         highlightTask = true;
     }
 
@@ -201,7 +207,6 @@ void HashTable::update() {
         }
     }
 
-    // Update all cells
     for (int i = 0; i < size; i++) {
         table[i].update(deltaTime);
     }

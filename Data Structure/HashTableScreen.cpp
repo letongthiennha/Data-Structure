@@ -1,6 +1,11 @@
 #include "HashTableScreen.h"
 
-HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 50}, LIGHTGRAY, BLACK, 30), inputTask(false), addMode(false), removeMode(false), searchMode(false), randomMode(false), resizeMode(false) {
+HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 50}, LIGHTGRAY, BLACK, 30), inputTask(false), addMode(false), removeMode(false), searchMode(false), randomMode(false), resizeMode(false) {    
+    Fonts::loadFonts();
+    
+    bold = Fonts::FuturaBold;
+    normal = Fonts::FuturaMedium;
+    Fonts::fontsLoaded = Fonts::areFontsLoaded();
 
     add.setPosition({ 60, 400 });
     add.setText("Add", 25);
@@ -25,20 +30,49 @@ HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 5
     randomConfirm.setPosition({ 235, 610 });
     randomConfirm.setText("GO", 22);
     randomConfirm.setSize({ 52, 50 });
-    randomConfirm.SetColor(LIGHTGRAY, GRAY, DARKBROWN);
+    randomConfirm.SetColor(BLANK, BLANK, BLANK);
 
     resize.setPosition({ 60, 680 });
     resize.setText("Resize", 25);
     resize.setSize({ 175, 50 });
     resize.SetColor(BEIGE, BROWN, DARKBROWN);
 
+    speedToggle.setPosition({ 60, 750});
+    speedToggle.setText("Speed", 25);
+    speedToggle.setSize({ 100, 50 });
+    speedToggle.SetColor(BEIGE, BROWN, DARKBROWN);
+
     confirm.setPosition({ startX + 1000, 820 });
     confirm.setText("Confirm", 25);
     confirm.setSize({ 150, 50 });
     confirm.SetColor(LIGHTGRAY, GRAY, DARKBROWN);
+
+
 }
 HashTableScreen::~HashTableScreen() {
     hashTable.~HashTable();
+    Fonts::unloadFonts();
+}
+
+bool HashTableScreen::isValidInput(std::string& s) {
+    size_t spacePos = s.find(' ');
+
+    // If a space is found, truncate the string at the first space
+    if (spacePos != std::string::npos) {
+        s = s.substr(0, spacePos);
+    }
+
+    // Check if the remaining string contains only digits (optional: allow negative numbers)
+    if (s.empty()) return false; // Empty string is invalid
+
+    // Allow negative numbers
+    int start = (s[0] == '-') ? 1 : 0;
+
+    for (int i = start; i < s.size(); i++) {
+        if (!isdigit(s[i])) return false; // Return false if a non-digit character is found
+    }
+
+    return true; // String is valid if it contains only digits (and an optional leading '-')
 }
 
 void HashTableScreen::disableModes() {
@@ -53,6 +87,8 @@ void HashTableScreen::disableModes() {
 void HashTableScreen::update() {
     hashTable.update();
     add.update();
+    speedToggle.update();
+    randomConfirm.update();
     remove.update();
     search.update();
     random.update();
@@ -68,12 +104,12 @@ void HashTableScreen::update() {
         inputTask = true;
         input.setText("");
         input.setBoxTitle("Enter value");
-        //input.setPosition({ 200, 100 });
     }
 
     if (addMode) {
-        if (confirm.isClicked() && !input.getText().empty()) {
-            int value = std::stoi(input.getText());
+        std::string toInput = input.getText();
+        if ( (confirm.isClicked() || IsKeyPressed(KEY_ENTER)) && isValidInput(toInput) ) {
+            int value = std::stoi(toInput);
             hashTable.add(value);
             inputTask = false;
             addMode = false;
@@ -90,12 +126,12 @@ void HashTableScreen::update() {
         inputTask = true;
         input.setText("");
         input.setBoxTitle("Enter value");
-        //input.setPosition({ 200, 200 });
     }
 
     if (removeMode) {
-        if (confirm.isClicked() && !input.getText().empty()) {
-            int value = std::stoi(input.getText());
+        std::string toInput = input.getText();
+        if ((confirm.isClicked() || IsKeyPressed(KEY_ENTER)) && isValidInput(toInput)) {
+            int value = std::stoi(toInput);
             hashTable.remove(value);
             inputTask = false;
             removeMode = false;
@@ -112,12 +148,12 @@ void HashTableScreen::update() {
         inputTask = true;
         input.setText("");
         input.setBoxTitle("Enter value");
-        //input.setPosition({ 200, 300 });
     }
 
     if (searchMode) {
-        if (confirm.isClicked() && !input.getText().empty()) {
-            int value = std::stoi(input.getText());
+        std::string toInput = input.getText();;
+        if ((confirm.isClicked() || IsKeyPressed(KEY_ENTER)) && isValidInput(toInput)) {
+            int value = std::stoi(toInput);
             hashTable.search(value);
             inputTask = false;
             searchMode = false;
@@ -134,12 +170,12 @@ void HashTableScreen::update() {
         inputTask = true;
         input.setText("");
         input.setBoxTitle("Enter value");
-        //input.setPosition({ 200, 400 });
     }
 
     if (resizeMode) {
-        if (confirm.isClicked() && !input.getText().empty()) {
-            int value = std::stoi(input.getText());
+        std::string toInput = input.getText();
+        if ((confirm.isClicked() || IsKeyPressed(KEY_ENTER)) && isValidInput(toInput)) {
+            int value = std::stoi(toInput);
             hashTable.resize(value);
             inputTask = false;
             resizeMode = false;
@@ -156,7 +192,7 @@ void HashTableScreen::update() {
     }
 
     if (randomMode) {
-        if (randomConfirm.isClicked()) {
+        if ((randomConfirm.isClicked() || IsKeyPressed(KEY_ENTER))) {
             hashTable.randomTable();
             randomMode = false;
         }
@@ -164,40 +200,72 @@ void HashTableScreen::update() {
             randomMode = false;
         }
     }
+
+    if (speedToggle.isClicked()) {
+        hashTable.currentCoefficient++;
+        hashTable.setHighlightCoefficient(hashTable.coefficients[hashTable.currentCoefficient%4]);
+        hashTable.setRenderCoefficient(hashTable.coefficients[hashTable.currentCoefficient%4]);
+    }
 }
 
 void HashTableScreen::render() {
     DrawRectangle(0, 0, 300, 900, { 211, 176, 131, 100 });
     DrawRectangle(15, 15, 270, 870, { 211, 176, 131, 120 });
 
-    DrawText("HASH TABLE", 50, 180, 30, BLACK);
-    DrawText("----------", 75, 220, 30, BLACK);
-    DrawText("Linear Probing", 40, 260, 30, BLACK);
+    if (!Fonts::fontsLoaded) {
+        DrawText("HASH TABLE", 50, 180, 30, BLACK);
+        DrawText("----------", 75, 220, 30, BLACK);
+        DrawText("Linear Probing", 40, 260, 30, BLACK);
+    }
+    else {
+        float firstX = (300-MeasureTextEx(bold, "HASH TABLE", 50, 2).x)/2;
+        DrawTextEx(bold, "HASH TABLE", {firstX,180}, 50, 2, BLACK);
+        DrawLineEx({firstX + (MeasureTextEx(bold, "HASH TABLE", 50, 2).x - 145)/2, 242}, {50 + (MeasureTextEx(bold, "HASH TABLE", 50, 2).x - 145)/2 + 145,242}, 2, BLACK);
+        DrawTextEx(normal, "Linear Probing", {(300 - MeasureTextEx(normal, "Linear Probing", 40, 2).x)/2, 260}, 40, 2, BLACK);
+    }
+    
+    speedToggle.drawRectangle();
+    speedToggle.drawOutline(0, 0, 2, BLACK);
+    std::ostringstream currentSpeed;
+    currentSpeed << std::fixed << std::setprecision(1) << hashTable.coefficients[hashTable.currentCoefficient%4] << "x";
 
     add.drawRectangle();
     add.drawOutline(0, 0, 2, BLACK);
-    add.drawText(BLACK);
-    //add.drawTexture();
+    
 
     remove.drawRectangle();
     remove.drawOutline(0, 0, 2, BLACK);
-    remove.drawText(BLACK);
-    //remove.drawTexture();
+    
 
     search.drawRectangle();
     search.drawOutline(0, 0, 2, BLACK);
-    search.drawText(BLACK);
-    //search.drawTexture();
+    
 
     random.drawRectangle();
     random.drawOutline(0, 0, 2, BLACK);
-    random.drawText(BLACK);
-    //random.drawTexture();
+    
 
     resize.drawRectangle();
     resize.drawOutline(0, 0, 2, BLACK);
-    resize.drawText(BLACK);
-    //resize.drawTexture();
+    
+    if (!Fonts::fontsLoaded) {
+        speedToggle.drawText(BLACK);
+        DrawText(currentSpeed.str().c_str(), 170, 750 + 12.5, 25, BLACK);
+        add.drawText(BLACK);
+        remove.drawText(BLACK);
+        search.drawText(BLACK);
+        random.drawText(BLACK);
+        resize.drawText(BLACK);
+    }
+    else {
+        DrawTextEx(normal, "Speed", { 60 + (100 - MeasureTextEx(normal, "Speed", 30, 1).x)/2 , 750 + (50 - MeasureTextEx(normal, "Speed", 30, 1).y)/2}, 30, 1, BLACK);
+        DrawTextEx(bold, currentSpeed.str().c_str(), { 180, 750 + 15}, 30, 1, BLACK);
+        DrawTextEx(normal, "Add", { 60 + (175 - MeasureTextEx(normal, "Add", 30, 1).x)/2 , 400 + (50 - MeasureTextEx(normal, "Add", 30, 1).y)/2}, 30, 1, BLACK);
+        DrawTextEx(normal, "Remove", { 60 + (175 - MeasureTextEx(normal, "Remove", 30, 1).x)/2 , 470 + (50 - MeasureTextEx(normal, "Remove", 30, 1).y)/2}, 30, 1, BLACK);
+        DrawTextEx(normal, "Search", { 60 + (175 - MeasureTextEx(normal, "Search", 30, 1).x)/2 , 540 + (50 - MeasureTextEx(normal, "Search", 30, 1).y)/2}, 30, 1, BLACK);
+        DrawTextEx(normal, "Randomize", { 60 + (175 - MeasureTextEx(normal, "Randomize", 30, 1).x)/2 , 610 + (50 - MeasureTextEx(normal, "Randomize", 30, 1).y)/2}, 30, 1, BLACK);
+        DrawTextEx(normal, "Resize", { 60 + (175 - MeasureTextEx(normal, "Resize", 30, 1).x)/2 , 680 + (50 - MeasureTextEx(normal, "Resize", 30, 1).y)/2}, 30, 1, BLACK);
+    }
 
     hashTable.render();
 
@@ -209,6 +277,7 @@ void HashTableScreen::render() {
     }
     if (randomMode) {
         randomConfirm.drawRectangle();
-        randomConfirm.drawText(BLACK);
+        if (!Fonts::fontsLoaded) randomConfirm.drawText(BLACK);
+        else DrawTextEx(bold, "GO", { 245, 610+15}, 30, 1, BLACK);
     }
 }

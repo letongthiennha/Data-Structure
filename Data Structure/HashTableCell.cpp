@@ -1,5 +1,4 @@
 #include "HashTableCell.h"
-#include <random>
 
 HashTableCell::HashTableCell(int val) : val(val), backgroundColor(WHITE), textColor(BLACK), isHighlighted(false), isPersistentHighlighted(false) {}
 
@@ -50,9 +49,12 @@ void HashTableCell::update(float deltaTime) {
             unHighlight();
         }
     }
-    if (isHighlighted || isPersistentHighlighted) {
+    if (isHighlighted) {
         backgroundColor = ORANGE;
         textColor = GOLD;
+    } else if (isPersistentHighlighted) {
+        backgroundColor = GREEN;
+        textColor = BLACK;
     }
     else {
         backgroundColor = WHITE;
@@ -67,10 +69,24 @@ void HashTableCell::render() {
         DrawRectangle(position.x, position.y, 50, 50, backgroundColor);
         DrawRectangleLines(position.x, position.y, 50, 50, BLACK);
         if (val != EMPTY) {
-            int textWidth = MeasureText(std::to_string(val).c_str(), 20);
-            int textX = position.x + (50 - textWidth) / 2; // Center the text horizontally
-            int textY = position.y ; 
-            DrawText(std::to_string(val).c_str(), textX, textY + 15, 20, textColor);
+            if (!Fonts::fontsLoaded) {
+                float textWidth = MeasureText(std::to_string(val).c_str(), 20);
+                float textX = position.x + (50 - textWidth) / 2; 
+                float textY = position.y + (50 - 20) / 2; 
+                DrawText(std::to_string(val).c_str(), textX, textY, 20, textColor);
+            }
+            else {
+                float textWidth = MeasureTextEx(Fonts::FuturaMedium, std::to_string(val).c_str(), 22, 1).x;
+                float textHeight = MeasureTextEx(Fonts::FuturaMedium, std::to_string(val).c_str(), 22, 1).y;
+                float textX = position.x + (50 - textWidth) / 2; 
+                float textY = position.y + (50 - textHeight) / 2; 
+                DrawTextEx(Fonts::FuturaMedium, std::to_string(val).c_str(), {textX, textY}, 22, 1, BLACK);
+            }
         }
-        DrawText(std::to_string(index).c_str(), position.x + 20, position.y + 60, 15, textColor);
+        if (!Fonts::fontsLoaded) DrawText(std::to_string(index).c_str(), position.x + 20, position.y + 60, 15, textColor);
+        else {
+            float indexWidth = MeasureTextEx(Fonts::FuturaMedium, std::to_string(index).c_str(), 17, 1).x;
+            float indexHeight = MeasureTextEx(Fonts::FuturaMedium, std::to_string(index).c_str(), 17, 1).y;
+            DrawTextEx(Fonts::FuturaMedium, std::to_string(index).c_str(), {position.x + (50-indexWidth)/2, position.y+50+indexHeight/2}, 17, 1, BLACK);
+        }
 }
