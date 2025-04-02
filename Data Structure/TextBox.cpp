@@ -68,7 +68,7 @@ void TextBox::update() {
             int input = GetCharPressed();
             while (input > 0) {//Check if there is input
                 //Only allow alphabet and digit
-                if (isalpha(input) || isdigit(input))
+                if (isalpha(input) || isdigit(input) || input == '-')
                     m_content += (char)(input);
                 //Multiple input in 1 second
                 input = GetCharPressed();
