@@ -214,8 +214,9 @@ void HashTableScreen::render() {
 
     if (!Fonts::fontsLoaded) {
         DrawText("HASH TABLE", 50, 180, 30, BLACK);
-        DrawText("----------", 75, 220, 30, BLACK);
-        DrawText("Linear Probing", 40, 260, 30, BLACK);
+        //DrawText("----------", 75, 220, 30, BLACK);
+        DrawLineEx({50 + (float)(MeasureText("HASH TABLE", 30) - 145)/2, 230}, {50 + (float)(MeasureText("HASH TABLE", 30) - 145)/2 + 145, 230}, 3, BLACK);
+        DrawText("Linear Probing", (300 - (float)MeasureText("Linear Probing", 30))/2, 260, 30, BLACK);
     }
     else {
         float firstX = (300-MeasureTextEx(bold, "HASH TABLE", 50, 2).x)/2;
