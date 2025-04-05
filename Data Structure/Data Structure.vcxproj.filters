@@ -129,6 +129,9 @@
     <ClCompile Include="tinyfiledialogs.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SLLScreen.h">

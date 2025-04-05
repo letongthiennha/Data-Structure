@@ -20,9 +20,8 @@ private:
     float timeSinceLastStep;
     float delay;
 
-    // New members for input and edit modes
     bool inputMode;
-    bool editMode;  // New flag
+    bool editMode;  
     ShPTextBox inputTextBox;
     Button submitButton;
 };

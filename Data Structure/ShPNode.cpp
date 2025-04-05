@@ -1,22 +1,27 @@
 ﻿
-
 #include "ShPNode.h"
 #include "ShPPointer.h"
+#include "Font.h"
 
 ShPNode::ShPNode(Vector2 pos, int id)
-    : m_pos(pos), m_id(id), m_dis(INFINITY), m_prev(nullptr), m_highlight(false), visited(false) {
+    : m_pos(pos), m_id(id), m_dis(std::numeric_limits<int>::max()), m_prev(nullptr), m_highlight(false), visited(false) {
 }
 
 ShPNode::~ShPNode() {
 }
-
 void ShPNode::draw() {
-    Color nodeColor = m_highlight ? highlightColor : defaultColor;
+    Color nodeColor = WHITE;
     DrawCircleV(m_pos, radius, nodeColor);
-    DrawCircleLines(m_pos.x, m_pos.y, radius, BLACK);
+    Color outlineColor = m_highlight ? RED : BLACK;
+    DrawCircleLines(m_pos.x, m_pos.y, radius - 1, outlineColor);
+    DrawCircleLines(m_pos.x, m_pos.y, radius - 0.5f, outlineColor);
+    DrawCircleLines(m_pos.x, m_pos.y, radius, outlineColor);
+    DrawCircleLines(m_pos.x, m_pos.y, radius + 0.5f, outlineColor);
+    DrawCircleLines(m_pos.x, m_pos.y, radius + 1, outlineColor);
 
     std::string idStr = std::to_string(m_id);
-    DrawText(idStr.c_str(), m_pos.x - 4, m_pos.y - 8, 25, BLACK);
+    Color textColor = m_highlight ? RED : BLACK;
+    DrawTextEx(arial, idStr.c_str(), { m_pos.x - 5, m_pos.y - 8 }, 20, 1, textColor);
 
     char distText[20];
     if (m_dis == std::numeric_limits<int>::max()) {
@@ -25,7 +30,7 @@ void ShPNode::draw() {
     else {
         sprintf_s(distText, "%d", m_dis);
     }
-    DrawText(distText, m_pos.x - 20, m_pos.y - 55, 30, RED);
+    DrawTextEx(arial, distText, { m_pos.x - 5, m_pos.y + 20 }, 25, 1, RED);
 }
 
 void ShPNode::highlight(bool isActive) {
@@ -41,7 +46,7 @@ void ShPNode::setPrev(ShPNode* prev) {
 }
 
 int ShPNode::getDis() {
-    return m_dis;
+        return m_dis;
 }
 
 ShPNode* ShPNode::getPrev() const {

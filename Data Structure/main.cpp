@@ -15,7 +15,7 @@ int main() {
         screen.render();
         EndDrawing();
     }
-
+    UnloadFont(arial);
     CloseWindow();
     return 0;
 }

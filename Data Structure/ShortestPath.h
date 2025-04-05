@@ -29,17 +29,21 @@ public:
     void startDijkstra(int startId);
     bool stepDijkstra();
     ShPNode* getNodeById(int id);
-    std::string getEdgeListAsString() const;  // New method
+    std::string getEdgeListAsString() const;
     std::vector<ShPNode> nodes;
     std::vector<ShPPointer> edges;
+
 private:
     std::priority_queue<ShPNode*, std::vector<ShPNode*>, CompareNode> pq;
+    std::unordered_set<ShPPointer*> processedEdges; // Global edge tracker
     bool isRunning = false;
 
     ShPNode* current = nullptr;
     size_t edgeIndex = 0;
     ShPPointer* lastCheckedEdge = nullptr;
     std::unordered_set<int> visitedNodes;
+    bool isHighlightingEdge = false;        
+    ShPPointer* currentHighlightedEdge = nullptr;
 };
 
 #endif

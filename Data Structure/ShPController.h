@@ -15,6 +15,7 @@ public:
 	int getStartVertex();
 	virtual void update();
 	virtual void render();
+	TextBox startVertexTextBox;
 
 protected:
 	Button Random;
@@ -22,6 +23,5 @@ protected:
 	Button Dijkstra;
 	Button LoadFile;
 	Button Edit;
-	TextBox startVertexTextBox;
 	Rectangle OperationBoard;
 }; 

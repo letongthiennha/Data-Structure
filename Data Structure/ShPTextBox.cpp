@@ -2,6 +2,7 @@
 #include <cctype>
 #include <sstream>
 #include <algorithm>
+#include "Font.h"
 
 // Static constant definitions
 const Color ShPTextBox::textBoxColor = WHITE;
@@ -171,34 +172,27 @@ void ShPTextBox::update() {
 
 }
 
+
 void ShPTextBox::render() {
-    // Draw the textbox
     DrawRectangleRec(m_box, m_boxColor);
     DrawRectangleLinesEx(m_box, 2, BLACK);
 
-    // Split m_content into lines
     auto lines = splitIntoLines(m_content);
-
-    // Calculate maxLines
     int maxLines = static_cast<int>((m_box.height - 10) / textBoxTextSize);
     if (maxLines < 1) maxLines = 1;
 
-    // Draw visible lines
     float y = m_box.y + 5;
     for (size_t i = m_firstVisibleLine; i < m_firstVisibleLine + maxLines && i < lines.size(); ++i) {
-        DrawText(lines[i].c_str(), m_box.x + 7, y + (i - m_firstVisibleLine) * textBoxTextSize, textBoxTextSize, m_textColor);
+        DrawTextEx(arial, lines[i].c_str(), { m_box.x + 7, y + (i - m_firstVisibleLine) * textBoxTextSize }, textBoxTextSize, 1, m_textColor);
     }
 
-    // Draw blinker if typing and cursor is visible
-    if(m_isTyping && m_showBlinker) {
+    if (m_isTyping && m_showBlinker) {
         if (lines.empty()) {
-            // Draw blinker at the beginning
             float x_blinker = m_box.x + 7;
             float y_blinker = m_box.y + 5;
-            DrawText("|", x_blinker, y_blinker, textBoxTextSize, m_textColor);
+            DrawTextEx(arial, "|", { x_blinker, y_blinker }, textBoxTextSize, 1, m_textColor);
         }
         else {
-            // Existing code to calculate cursorLine and cursorPosInLine
             size_t charIndex = 0;
             size_t cursorLine = 0;
             size_t cursorPosInLine = 0;
@@ -216,9 +210,9 @@ void ShPTextBox::render() {
             }
 
             if (cursorLine >= m_firstVisibleLine && cursorLine < m_firstVisibleLine + maxLines) {
-                float x_blinker = m_box.x + 7 + MeasureText(lines[cursorLine].substr(0, cursorPosInLine).c_str(), textBoxTextSize);
+                float x_blinker = m_box.x + 7 + MeasureTextEx(arial, lines[cursorLine].substr(0, cursorPosInLine).c_str(), textBoxTextSize, 1).x;
                 float y_blinker = y + (cursorLine - m_firstVisibleLine) * textBoxTextSize;
-                DrawText("|", x_blinker, y_blinker, textBoxTextSize, m_textColor);
+                DrawTextEx(arial, "|", { x_blinker, y_blinker }, textBoxTextSize, 1, m_textColor);
             }
         }
     }
@@ -252,13 +246,17 @@ void ShPTextBox::setBoxSize(Vector2 size) {
 
 std::vector<std::string> ShPTextBox::splitIntoLines(const std::string& content) {
     std::vector<std::string> lines;
+    if (content.empty()) {
+        return { "" };  // Empty content is one empty line
+    }
     std::stringstream ss(content);
     std::string line;
     while (std::getline(ss, line, '\n')) {
         lines.push_back(line);
     }
-    if (lines.empty()) {
-        lines.push_back(""); // Ensure there's at least one line
+    // If content ends with '\n', add an extra empty line
+    if (!content.empty() && content.back() == '\n') {
+        lines.push_back("");
     }
     return lines;
 }

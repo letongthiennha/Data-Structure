@@ -12,7 +12,6 @@ ShortestPathScreen::ShortestPathScreen()
     inputMode(false), editMode(false),  // Initialize editMode
     inputTextBox({ 300, 150 }, { 600, 400 }, WHITE, BLACK, 1000),
     submitButton() {
-    sp.createRandomGraph();
     ctrl = ShPController();
 
     submitButton.setText("Submit", 18);
@@ -23,7 +22,7 @@ ShortestPathScreen::ShortestPathScreen()
 
 void ShortestPathScreen::render() {
     if (inputMode || editMode) {
-        DrawRectangle(250, 100, 700, 500, Fade(GRAY, 0.8f));
+        DrawRectangle(250, 100, 700, 500, Fade(WHITE, 0.8f));
         inputTextBox.render();
         submitButton.drawRectangle();
         submitButton.drawText(BLACK);
@@ -62,7 +61,7 @@ void ShortestPathScreen::update() {
                 std::random_device rd;
                 std::mt19937 gen(rd());
                 std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
-                std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 50));
+                std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 150));
 
                 std::istringstream iss(input);
                 std::string line;
@@ -158,8 +157,14 @@ void ShortestPathScreen::update() {
         ctrl.update();
 
         if (ctrl.isRandomClicked()) {
-            sp.clearGraph();
-            sp.createRandomGraph();
+            for (int i = 0; i < 3; i++) {
+                sp.clearGraph();
+                sp.createRandomGraph();
+                sp.clearGraph();
+                sp.createRandomGraph();
+                sp.clearGraph();
+                sp.createRandomGraph();
+            }
             animating = false;
         }
 
@@ -227,10 +232,24 @@ void ShortestPathScreen::update() {
         }
 
         if (ctrl.isDijkstraClicked()) {
-            int startId = ctrl.getStartVertex();
-            sp.startDijkstra(startId);
-            timeSinceLastStep = 0;
-            animating = true;
+            std::string startVertexStr = ctrl.startVertexTextBox.getText();
+            try {
+                int startId = std::stoi(startVertexStr);
+                if (sp.getNodeById(startId) != nullptr) {
+                    sp.startDijkstra(startId);
+                    timeSinceLastStep = 0;
+                    animating = true;
+                }
+                else {
+                    tinyfd_messageBox("Error", "Start vertex not found in graph", "ok", "error", 1);
+                }
+            }
+            catch (const std::invalid_argument& e) {
+                tinyfd_messageBox("Error", "Invalid start vertex: enter a number", "ok", "error", 1);
+            }
+            catch (const std::out_of_range& e) {
+                tinyfd_messageBox("Error", "Start vertex out of range", "ok", "error", 1);
+            }
         }
     }
 }
