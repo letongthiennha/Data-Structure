@@ -23,6 +23,15 @@ void ShortestPath::addEdge(int startId, int endId, int weight) {
         endNode->addIncomingEdge(newEdge);
     }
 }
+ShPNode* ShortestPath::getNodeAtPosition(Vector2 mousePos) {
+    for (auto& node : nodes) {
+        float distance = Vector2Distance(mousePos, node.getPos());
+        if (distance < ShPNode::getRadius()) {
+            return &node;
+        }
+    }
+    return nullptr;
+}
 
 void ShortestPath::adjustNodePositions() {
     const float k_rep = 10000.0f;
@@ -253,6 +262,7 @@ bool ShortestPath::stepDijkstra() {
             edgeIndex++;
         }
         // Done with this node’s edges, move to the next node
+		current->highlight(false); 
         current = nullptr;
         return true;
     }

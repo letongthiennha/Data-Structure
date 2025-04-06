@@ -187,7 +187,7 @@ void ShPTextBox::render() {
     }
 
     if (m_isTyping && m_showBlinker) {
-        if (lines.empty()) {
+        if (m_content.empty()) {
             float x_blinker = m_box.x + 7;
             float y_blinker = m_box.y + 5;
             DrawTextEx(arial, "|", { x_blinker, y_blinker }, textBoxTextSize, 1, m_textColor);
@@ -210,8 +210,8 @@ void ShPTextBox::render() {
             }
 
             if (cursorLine >= m_firstVisibleLine && cursorLine < m_firstVisibleLine + maxLines) {
-                float x_blinker = m_box.x + 7 + MeasureTextEx(arial, lines[cursorLine].substr(0, cursorPosInLine).c_str(), textBoxTextSize, 1).x;
-                float y_blinker = y + (cursorLine - m_firstVisibleLine) * textBoxTextSize;
+                float x_blinker = m_box.x + MeasureTextEx(arial, lines[cursorLine].substr(0, cursorPosInLine).c_str(), textBoxTextSize, 1).x;
+                float y_blinker = m_box.y + (cursorLine - m_firstVisibleLine) * textBoxTextSize;
                 DrawTextEx(arial, "|", { x_blinker, y_blinker }, textBoxTextSize, 1, m_textColor);
             }
         }

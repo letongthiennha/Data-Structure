@@ -49,6 +49,7 @@ void ShortestPathScreen::render() {
 }
 
 void ShortestPathScreen::update() {
+    delay = baseDelay / ctrl.getSpeed();
     if (inputMode || editMode) {
         inputTextBox.update();
         submitButton.update();
@@ -126,7 +127,7 @@ void ShortestPathScreen::update() {
                 std::random_device rd;
                 std::mt19937 gen(rd());
                 std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
-                std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 50));
+                std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 150));
                 for (int id : newNodeIds) {
                     if (sp.getNodeById(id) == nullptr) {
                         Vector2 pos = { posDistX(gen), posDistY(gen) };
@@ -195,40 +196,41 @@ void ShortestPathScreen::update() {
             );
 
             if (selectedFile) {  // If a file was selected
-                std::ifstream infile(selectedFile);
-                if (infile.is_open()) {
-                    sp.clearGraph();
+                for (int i = 0; i < 2; i++) {
+                    std::ifstream infile(selectedFile);
+                    if (infile.is_open()) {
+                        sp.clearGraph();
 
-                    std::random_device rd;
-                    std::mt19937 gen(rd());
-                    std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
-                    std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 50));
+                        std::random_device rd;
+                        std::mt19937 gen(rd());
+                        std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
+                        std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 50));
 
-                    std::string line;
-                    while (std::getline(infile, line)) {
-                        std::istringstream iss(line);
-                        int startId, endId, weight;
-                        if (iss >> startId >> endId >> weight) {
-                            if (sp.getNodeById(startId) == nullptr) {
-                                Vector2 pos = { posDistX(gen), posDistY(gen) };
-                                sp.addNode(pos, startId);
+                        std::string line;
+                        while (std::getline(infile, line)) {
+                            std::istringstream iss(line);
+                            int startId, endId, weight;
+                            if (iss >> startId >> endId >> weight) {
+                                if (sp.getNodeById(startId) == nullptr) {
+                                    Vector2 pos = { posDistX(gen), posDistY(gen) };
+                                    sp.addNode(pos, startId);
+                                }
+                                if (sp.getNodeById(endId) == nullptr) {
+                                    Vector2 pos = { posDistX(gen), posDistY(gen) };
+                                    sp.addNode(pos, endId);
+                                }
+                                sp.addEdge(startId, endId, weight);
                             }
-                            if (sp.getNodeById(endId) == nullptr) {
-                                Vector2 pos = { posDistX(gen), posDistY(gen) };
-                                sp.addNode(pos, endId);
-                            }
-                            sp.addEdge(startId, endId, weight);
                         }
+                        infile.close();
+                        sp.adjustNodePositions();
+                        animating = false;  // Stop any ongoing animation
                     }
-                    infile.close();
-                    sp.adjustNodePositions();
-                    animating = false;  // Stop any ongoing animation
+                    else {
+                        tinyfd_messageBox("Error", "Cannot open file", "ok", "error", 1);
+                    }
                 }
-                else {
-                    tinyfd_messageBox("Error", "Cannot open file", "ok", "error", 1);
-                }
-            }
-            // If selectedFile is NULL (user canceled), do nothing
+            }// If selectedFile is NULL (user canceled), do nothing
         }
 
         if (ctrl.isDijkstraClicked()) {
@@ -250,6 +252,22 @@ void ShortestPathScreen::update() {
             catch (const std::out_of_range& e) {
                 tinyfd_messageBox("Error", "Start vertex out of range", "ok", "error", 1);
             }
+        }
+        Vector2 mousePos = GetMousePosition();
+
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            draggingNode = sp.getNodeAtPosition(mousePos);
+        }
+
+        if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) && draggingNode != nullptr) {
+            Vector2 newPos = mousePos;
+            newPos.x = std::clamp(newPos.x, 50.0f, static_cast<float>(GetScreenWidth() - 50));
+            newPos.y = std::clamp(newPos.y, 50.0f, static_cast<float>(GetScreenHeight() - 50));
+            draggingNode->setPos(newPos);
+        }
+
+        if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+            draggingNode = nullptr;
         }
     }
 }

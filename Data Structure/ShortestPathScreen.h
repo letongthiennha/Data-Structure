@@ -19,6 +19,8 @@ private:
     bool animating;
     float timeSinceLastStep;
     float delay;
+	float baseDelay = 0.5f;
+    ShPNode* draggingNode = nullptr;
 
     bool inputMode;
     bool editMode;  

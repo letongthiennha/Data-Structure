@@ -12,7 +12,17 @@ ShPNode::~ShPNode() {
 void ShPNode::draw() {
     Color nodeColor = WHITE;
     DrawCircleV(m_pos, radius, nodeColor);
-    Color outlineColor = m_highlight ? RED : BLACK;
+    Color outlineColor;
+	if (m_highlight) {
+		outlineColor = ORANGE;
+	}
+	else if (visited) {
+		outlineColor = RED;
+	}
+	else {
+		outlineColor = BLACK;
+	}
+    if (m_curr)
     DrawCircleLines(m_pos.x, m_pos.y, radius - 1, outlineColor);
     DrawCircleLines(m_pos.x, m_pos.y, radius - 0.5f, outlineColor);
     DrawCircleLines(m_pos.x, m_pos.y, radius, outlineColor);
@@ -20,7 +30,16 @@ void ShPNode::draw() {
     DrawCircleLines(m_pos.x, m_pos.y, radius + 1, outlineColor);
 
     std::string idStr = std::to_string(m_id);
-    Color textColor = m_highlight ? RED : BLACK;
+    Color textColor;
+	if (m_highlight) {
+		textColor = ORANGE;
+	}
+	else if (visited) {
+		textColor = RED;
+	}
+	else {
+		textColor = BLACK;
+	}
     DrawTextEx(arial, idStr.c_str(), { m_pos.x - 5, m_pos.y - 8 }, 20, 1, textColor);
 
     char distText[20];
@@ -37,6 +56,7 @@ void ShPNode::highlight(bool isActive) {
     m_highlight = isActive;
 }
 
+
 void ShPNode::setDis(int dis) {
     m_dis = dis;
 }
@@ -52,13 +72,18 @@ int ShPNode::getDis() {
 ShPNode* ShPNode::getPrev() const {
     return m_prev;
 }
-
+void ShPNode::setPos(Vector2 pos){
+    m_pos = pos; 
+}
 Vector2 ShPNode::getPos() const {
     return m_pos;
 }
 
 int ShPNode::getId() {
     return m_id;
+}
+float ShPNode::getRadius() {
+    return radius;
 }
 
 void ShPNode::addOutgoingEdge(ShPPointer* edge) {

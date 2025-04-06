@@ -2,6 +2,7 @@
 #define SHORTESTPATH_H
 
 #include "raylib.h"
+#include "raymath.h"
 #include "ShPNode.h"
 #include "ShPPointer.h"
 #include <string>
@@ -29,6 +30,7 @@ public:
     void startDijkstra(int startId);
     bool stepDijkstra();
     ShPNode* getNodeById(int id);
+    ShPNode* getNodeAtPosition(Vector2 mousePos);
     std::string getEdgeListAsString() const;
     std::vector<ShPNode> nodes;
     std::vector<ShPPointer> edges;
@@ -45,5 +47,4 @@ private:
     bool isHighlightingEdge = false;        
     ShPPointer* currentHighlightedEdge = nullptr;
 };
-
 #endif
