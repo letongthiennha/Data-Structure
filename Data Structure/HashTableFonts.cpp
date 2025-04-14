@@ -7,7 +7,11 @@ bool Fonts::fontsLoaded;
 
 void Fonts::loadFonts() {
     FuturaMedium = LoadFont("../../fonts/FuturaMedium.ttf");
+<<<<<<< HEAD
     FuturaBold = LoadFont("../fonts/FuturaBold.ttf");
+=======
+    FuturaBold = LoadFont("../../fonts/FuturaBold.ttf");
+>>>>>>> ee74fe4d71cbf82df4a7d53a9df748f3f48a0493
     SetTextureFilter(FuturaMedium.texture, TEXTURE_FILTER_BILINEAR);
     SetTextureFilter(FuturaBold.texture, TEXTURE_FILTER_BILINEAR);
     SetTextureFilter(GetFontDefault().texture, TEXTURE_FILTER_BILINEAR);
