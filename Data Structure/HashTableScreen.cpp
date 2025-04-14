@@ -1,11 +1,21 @@
 #include "HashTableScreen.h"
 
-HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 50}, LIGHTGRAY, BLACK, 30), inputTask(false), addMode(false), removeMode(false), searchMode(false), randomMode(false), resizeMode(false) {    
+HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 50}, LIGHTGRAY, BLACK, 30), goBack(false), inputTask(false), addMode(false), removeMode(false), searchMode(false), randomMode(false), resizeMode(false) {    
     Fonts::loadFonts();
     
     bold = Fonts::FuturaBold;
     normal = Fonts::FuturaMedium;
     Fonts::fontsLoaded = Fonts::areFontsLoaded();
+
+    back.setPosition({ 30, 25 });
+    back.setText("<<<", 35);
+    back.setSize({50, 50 });
+    back.SetColor(BLANK, BEIGE, BLANK);
+
+    clear.setPosition({ 60, 330 });
+    clear.setText("Clear", 25);
+    clear.setSize({175, 50 });
+    clear.SetColor(BEIGE, BROWN, DARKBROWN);
 
     add.setPosition({ 60, 400 });
     add.setText("Add", 25);
@@ -46,8 +56,6 @@ HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 5
     confirm.setText("Confirm", 25);
     confirm.setSize({ 150, 50 });
     confirm.SetColor(LIGHTGRAY, GRAY, DARKBROWN);
-
-
 }
 HashTableScreen::~HashTableScreen() {
     hashTable.~HashTable();
@@ -57,22 +65,21 @@ HashTableScreen::~HashTableScreen() {
 bool HashTableScreen::isValidInput(std::string& s) {
     size_t spacePos = s.find(' ');
 
-    // If a space is found, truncate the string at the first space
     if (spacePos != std::string::npos) {
         s = s.substr(0, spacePos);
     }
 
-    // Check if the remaining string contains only digits (optional: allow negative numbers)
-    if (s.empty()) return false; // Empty string is invalid
+    if (s.empty()) return false;
 
-    // Allow negative numbers
+    if (s.size() > 4) return false; 
+    if (s[0] == '-' && s.size() == 1) return false;
     int start = (s[0] == '-') ? 1 : 0;
 
     for (int i = start; i < s.size(); i++) {
-        if (!isdigit(s[i])) return false; // Return false if a non-digit character is found
+        if (!isdigit(s[i])) return false; 
     }
 
-    return true; // String is valid if it contains only digits (and an optional leading '-')
+    return true; 
 }
 
 void HashTableScreen::disableModes() {
@@ -86,6 +93,7 @@ void HashTableScreen::disableModes() {
 
 void HashTableScreen::update() {
     hashTable.update();
+    back.update();
     add.update();
     speedToggle.update();
     randomConfirm.update();
@@ -98,12 +106,22 @@ void HashTableScreen::update() {
     input.update();
     confirm.update();
 
+    if (clear.isClicked()) {
+        hashTable.resize(0);
+        disableModes();
+    }
+
+    if (back.isClicked()) {
+        goBack = true;
+        disableModes();
+    }
+
     if (add.isClicked()) {
         disableModes();
         addMode = true;
         inputTask = true;
         input.setText("");
-        input.setBoxTitle("Enter value");
+        input.setBoxTitle("Enter a value from -999 to 999");
     }
 
     if (addMode) {
@@ -125,7 +143,7 @@ void HashTableScreen::update() {
         removeMode = true;
         inputTask = true;
         input.setText("");
-        input.setBoxTitle("Enter value");
+        input.setBoxTitle("Enter a value from -999 to 999");
     }
 
     if (removeMode) {
@@ -147,7 +165,7 @@ void HashTableScreen::update() {
         searchMode = true;
         inputTask = true;
         input.setText("");
-        input.setBoxTitle("Enter value");
+        input.setBoxTitle("Enter a value from -999 to 999");
     }
 
     if (searchMode) {
@@ -169,13 +187,14 @@ void HashTableScreen::update() {
         resizeMode = true;
         inputTask = true;
         input.setText("");
-        input.setBoxTitle("Enter value");
+        input.setBoxTitle("Enter a value from 0 to 70");
     }
 
     if (resizeMode) {
         std::string toInput = input.getText();
         if ((confirm.isClicked() || IsKeyPressed(KEY_ENTER)) && isValidInput(toInput)) {
             int value = std::stoi(toInput);
+            if (value < 0) return;
             hashTable.resize(value);
             inputTask = false;
             resizeMode = false;
@@ -213,21 +232,27 @@ void HashTableScreen::render() {
     DrawRectangle(15, 15, 270, 870, { 211, 176, 131, 120 });
 
     if (!Fonts::fontsLoaded) {
-        DrawText("HASH TABLE", 50, 180, 30, BLACK);
-        DrawText("----------", 75, 220, 30, BLACK);
-        DrawText("Linear Probing", 40, 260, 30, BLACK);
-    }
-    else {
+        DrawText("HASH TABLE", 50, 150, 30, BLACK);
+        //DrawText("----------", 75, 190, 30, BLACK);
+        DrawLineEx({50 + (float)(MeasureText("HASH TABLE", 30) - 145)/2, 200}, {50 + (float)(MeasureText("HASH TABLE", 30) - 145)/2 + 145, 200}, 3, BLACK);
+        DrawText("Linear Probing", (300 - (float)MeasureText("Linear Probing", 30))/2, 230, 30, BLACK);
+    } else {
         float firstX = (300-MeasureTextEx(bold, "HASH TABLE", 50, 2).x)/2;
-        DrawTextEx(bold, "HASH TABLE", {firstX,180}, 50, 2, BLACK);
-        DrawLineEx({firstX + (MeasureTextEx(bold, "HASH TABLE", 50, 2).x - 145)/2, 242}, {50 + (MeasureTextEx(bold, "HASH TABLE", 50, 2).x - 145)/2 + 145,242}, 2, BLACK);
-        DrawTextEx(normal, "Linear Probing", {(300 - MeasureTextEx(normal, "Linear Probing", 40, 2).x)/2, 260}, 40, 2, BLACK);
+        DrawTextEx(bold, "HASH TABLE", {firstX,150}, 50, 2, BLACK);
+        DrawLineEx({firstX + (MeasureTextEx(bold, "HASH TABLE", 50, 2).x - 145)/2, 212}, {50 + (MeasureTextEx(bold, "HASH TABLE", 50, 2).x - 145)/2 + 145,212}, 2, BLACK);
+        DrawTextEx(normal, "Linear Probing", {(300 - MeasureTextEx(normal, "Linear Probing", 40, 2).x)/2, 230}, 40, 2, BLACK);
     }
     
     speedToggle.drawRectangle();
     speedToggle.drawOutline(0, 0, 2, BLACK);
     std::ostringstream currentSpeed;
     currentSpeed << std::fixed << std::setprecision(1) << hashTable.coefficients[hashTable.currentCoefficient%4] << "x";
+
+    back.drawRectangle();
+    //back.drawOutline(0, 0, 1, BLACK);
+
+    clear.drawRectangle();
+    clear.drawOutline(0, 0, 2, BLACK);
 
     add.drawRectangle();
     add.drawOutline(0, 0, 2, BLACK);
@@ -251,6 +276,8 @@ void HashTableScreen::render() {
     if (!Fonts::fontsLoaded) {
         speedToggle.drawText(BLACK);
         DrawText(currentSpeed.str().c_str(), 170, 750 + 12.5, 25, BLACK);
+        clear.drawText(BLACK);
+        back.drawText(BLACK);
         add.drawText(BLACK);
         remove.drawText(BLACK);
         search.drawText(BLACK);
@@ -258,8 +285,10 @@ void HashTableScreen::render() {
         resize.drawText(BLACK);
     }
     else {
+        DrawTextEx(normal, "<<<", { 30 + (50 - MeasureTextEx(bold, "<<<", 25, 0.5).x)/2 , 25 + (50 - MeasureTextEx(bold, "<<<", 25, 0.5).y)/2}, 25, 0.5, BLACK);
         DrawTextEx(normal, "Speed", { 60 + (100 - MeasureTextEx(normal, "Speed", 30, 1).x)/2 , 750 + (50 - MeasureTextEx(normal, "Speed", 30, 1).y)/2}, 30, 1, BLACK);
         DrawTextEx(bold, currentSpeed.str().c_str(), { 180, 750 + 15}, 30, 1, BLACK);
+        DrawTextEx(normal, "Clear", { 60 + (175 - MeasureTextEx(normal, "Clear", 30, 1).x)/2 , 330 + (50 - MeasureTextEx(normal, "Clear", 30, 1).y)/2}, 30, 1, BLACK);
         DrawTextEx(normal, "Add", { 60 + (175 - MeasureTextEx(normal, "Add", 30, 1).x)/2 , 400 + (50 - MeasureTextEx(normal, "Add", 30, 1).y)/2}, 30, 1, BLACK);
         DrawTextEx(normal, "Remove", { 60 + (175 - MeasureTextEx(normal, "Remove", 30, 1).x)/2 , 470 + (50 - MeasureTextEx(normal, "Remove", 30, 1).y)/2}, 30, 1, BLACK);
         DrawTextEx(normal, "Search", { 60 + (175 - MeasureTextEx(normal, "Search", 30, 1).x)/2 , 540 + (50 - MeasureTextEx(normal, "Search", 30, 1).y)/2}, 30, 1, BLACK);

@@ -6,10 +6,11 @@ Font Fonts::FuturaMedium;
 bool Fonts::fontsLoaded;
 
 void Fonts::loadFonts() {
-    FuturaMedium = LoadFont("fonts/FuturaMedium.ttf");
-    FuturaBold = LoadFont("fonts/FuturaBold.ttf");
+    FuturaMedium = LoadFont("../../fonts/FuturaMedium.ttf");
+    FuturaBold = LoadFont("../fonts/FuturaBold.ttf");
     SetTextureFilter(FuturaMedium.texture, TEXTURE_FILTER_BILINEAR);
     SetTextureFilter(FuturaBold.texture, TEXTURE_FILTER_BILINEAR);
+    SetTextureFilter(GetFontDefault().texture, TEXTURE_FILTER_BILINEAR);
 }
 void Fonts::unloadFonts() {
     UnloadFont(FuturaMedium);

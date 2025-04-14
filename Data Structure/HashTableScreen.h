@@ -11,6 +11,8 @@ public:
     HashTableScreen();
     ~HashTableScreen();
     
+    bool goBack;
+
     void update();    
     void render();
     void disableModes();
@@ -20,6 +22,7 @@ private:
     Font bold;
     Font normal;
 
+    Button back;
     Button add;
     Button remove;
     Button search;
