@@ -1,44 +1,82 @@
-//#pragma once	
-//#include "vector"
-//#include "ListNode.h"
-//class SLL{
-//private:
-//	//=======================Property=================
-//	std::vector<ListNode*> m_list;
-//	float distanceBetweenNode;
-//	Color m_mainBackgroundColor;
-//	Color m_textColor;
-//	Color m_highlightBackgroundColor;
-//	Color m_highLightTextColor;
-//	float m_animationDuration;
-//	//===================Calculate Position====================
-//	Vector2 startPostion;
-//
-//	Vector2 positionAtIndex(int index);
-//	//===================Animation Helper=============
-//	void moveRightAllAfter(int index);
-//	void highlighToIndex(int index);
-//	void deHighlight(int index);
-//	bool isStepDone(std::vector<ListNode*>step);
-//
-//	std::deque<std::vector<ListNode*>> animationQueue;
-//
-//public:
-//	SLL();
-//
-//	~SLL();
-//	//========================Operation==================
-//	// Insert After an Index, insert at Head is index -1
-//	void	insert(int val,int index) ;
-//
-//	void	remove(int val)  ;
-//
-//	void	search(int val)  ;
-//	//======================Animation Control=======================
-//	void	addStep(std::vector<ListNode*>step);
-//
-//	void	update() ;
-//
-//	void	render();
-//
-//};
+﻿#pragma once
+#include"SLLOperation.h"
+#include "SLLNode.h"
+#include "Setting.h"
+#include <vector>
+#include <queue>
+#include <string>
+#include <fstream>
+#include <sstream>
+
+
+
+class SLL {
+private:
+	//====================Logic====================
+    SLLNode* m_pHead;
+    listFunctionWithParameter::operation_type m_current_function; 
+
+    //====================Control State========================
+    bool isPausing;
+    bool m_skipCurrentStep;
+    float LinkedListSpeed=LinkedListDefaultSpeed;
+    std::queue<listFunctionWithParameter> functionQueue;
+	operateInfo currOperationInfo;
+
+    //====================Outside Element================
+    //Code block
+    int highlighted_line;
+    //Message Log
+    std::string messageLog;
+
+public:
+    SLL();
+    //LoadFile
+    void LoadFromFile(std::string path);
+	//====================State Control================
+    void storeOperation(listFunctionWithParameter::operation_type type, int firstParameter, int secondParameter = 0);
+    void handleOperations();
+    //==============State Control================
+    void setStop(bool paused);
+    bool isStop() const;
+    void setSpeed(float speed);
+    float getSpeed() const;
+
+	//=========Skip===========
+    void SkipCurrentStep();
+    void Forward();
+
+    //Update
+    void updateOperations();
+    void updateAnimation();
+    //====================Render================
+    void renderCode();
+    void render();
+    void create(std::vector<int> vals);
+
+private:
+
+    void randomCreate(int amount);
+	//====================Operation================
+
+    //==============Function===========
+    void updateForInsert();
+    void updateForRemove();
+    void updateForSearch();
+    void updateForChangingValue();
+	//====================Skip================
+	void skipUpdate();
+    void skipInsert();
+	void skipRemove();
+	void skipFind();
+
+
+
+	//====================State Control================
+    void resetOperation();
+    //======================Reset==================
+    void repositionNodeSlowly();
+    void repositionNode();
+    void resetList();
+
+};

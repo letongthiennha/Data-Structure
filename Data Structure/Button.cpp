@@ -52,6 +52,9 @@ void Button::setSize(Vector2 size) {
     hitBox.width = size.x;
     hitBox.height = size.y;
 }
+void Button::setTexture(std::string path) {
+    m_texture = LoadTexture(path.c_str());
+}
 //===============================State=============================
 
 bool Button::isHover()  const{
@@ -87,7 +90,7 @@ void Button::update() {
 }
 //=================================Draw===============================
 
-void Button::drawRectangle() {
+void Button::renderRectangle() {
     DrawRectangle(m_position.x, m_position.y, m_size.x, m_size.y,m_color);
 }
 
@@ -100,12 +103,12 @@ void Button::drawOutline(int roundness, int segments, int thickness, Color color
     DrawRectangleLinesEx(hitBox, thickness, color);
 }
 
-void Button::drawTexture(Vector2 texturePosition) {
+void Button::drawTexture() {
     if (m_texture.id > 0) {
-        DrawTexture(m_texture, texturePosition.x, texturePosition.y, WHITE);
+        DrawTexture(m_texture, m_position.x, m_position.y, WHITE);
     }
 }
 
 void Button::drawText(Color color) {
-    DrawText(m_text.c_str(), m_position.x + m_size.x / 2 -MeasureText(m_text.c_str(),m_textSize), m_position.y + m_size.y / 2, m_textSize, color);
+    DrawText(m_text.c_str(), m_position.x  +5, m_position.y , m_textSize, color);
 }
