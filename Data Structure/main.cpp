@@ -1,20 +1,33 @@
+﻿#include "raylib.h"
+#include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <queue>
+#include <cmath>
+#include "SLL.h"
+#include "Motion.h"
+#include "SLLScreen.h"
+#include "Slider.h"
 
-#include "raylib.h"
-#include "Pointer.h"
-#include "TextBox.h"
-int main(void){
-    Pointer a({ 100,100 });
-    a.setTargetHeadPos({ 200,400 });
-    a.setTargetTailPos({ 50,600 });
+int main() {    
+    InitWindow(1600, 900, "CS163 DATA STRUCTURE VISUALIZATION");
     SetTargetFPS(60);
-    InitWindow(1600, 900, "test");
+		SLLScreen screen;
+		Slider slider;
+		slider.setPosition({ 1600 - 500, 900 - 500 });
+		slider.setSize({ 20, 200 });
     while (!WindowShouldClose()) {
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        a.update();
-        a.render();
-        EndDrawing();
+        screen.update();
+		BeginDrawing();
+		ClearBackground(RAYWHITE);
+
+		screen.render();
+		EndDrawing();
+
+  
     }
-    
+
+    CloseWindow();
     return 0;
 }
