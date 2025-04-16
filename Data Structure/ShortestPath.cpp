@@ -317,6 +317,48 @@ bool ShortestPath::stepDijkstra() {
     }
     return false;
 }
+void ShortestPath::saveState() {
+    GraphState state;
+    for (auto& node : nodes) {
+        int prevId = node.getPrev() ? node.getPrev()->getId() : -1;
+        state.nodeDistPrev.push_back({ node.getDis(), prevId });
+        state.nodeVisited.push_back(node.visited);
+    }
+    for (auto& edge : edges) {
+        state.edgeColors.push_back(edge.getColor());
+    }
+    state.currentStep = currentStep;
+    states.push_back(state);
+    currentStateIndex = states.size() - 1;
+}
+
+void ShortestPath::applyState(int index) {
+    if (index < 0 || index >= states.size()) return;
+    const GraphState& state = states[index];
+    for (size_t i = 0; i < nodes.size(); ++i) {
+        nodes[i].setDis(state.nodeDistPrev[i].first);
+        int prevId = state.nodeDistPrev[i].second;
+        nodes[i].setPrev(prevId == -1 ? nullptr : getNodeById(prevId));
+        nodes[i].visited = state.nodeVisited[i];
+        nodes[i].highlight(false); // Reset highlight
+    }
+    for (size_t i = 0; i < edges.size(); ++i) {
+        edges[i].setColor(state.edgeColors[i]);
+    }
+    currentStep = state.currentStep;
+}
+
+void ShortestPath::nextState() {
+    if (currentStateIndex < static_cast<int>(states.size()) - 1) {
+        applyState(++currentStateIndex);
+    }
+}
+
+void ShortestPath::prevState() {
+    if (currentStateIndex > 0) {
+        applyState(--currentStateIndex);
+    }
+}
 
 std::string ShortestPath::getEdgeListAsString() const {
     std::string edgeList;

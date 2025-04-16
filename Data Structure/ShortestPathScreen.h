@@ -30,6 +30,7 @@ private:
     Button submitButton;
     std::vector<std::string> pseudoCodeLines;
     int currentStep;
+    bool isPaused = false;
 };
 
 #endif

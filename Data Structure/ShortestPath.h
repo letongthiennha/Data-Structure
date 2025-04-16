@@ -27,6 +27,10 @@ public:
     void clearGraph();
     void adjustNodePositions();
     void createRandomGraph();
+    void saveState();
+    void prevState();
+    void nextState();
+    void applyState(int index);
     void startDijkstra(int startId);
     bool stepDijkstra();
     ShPNode* getNodeById(int id);
@@ -47,6 +51,13 @@ private:
     std::unordered_set<int> visitedNodes;
     bool isHighlightingEdge = false;        
     ShPPointer* currentHighlightedEdge = nullptr;
-
+    struct GraphState {
+        std::vector<std::pair<int, int>> nodeDistPrev; // {dis, prevId}
+        std::vector<bool> nodeVisited;
+        std::vector<Color> edgeColors;
+        int currentStep;
+    };
+    std::vector<GraphState> states;
+    int currentStateIndex = -1;
 };
 #endif

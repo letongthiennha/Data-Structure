@@ -10,6 +10,10 @@ public:
     ShPController();
     ~ShPController();
     bool isRandomClicked() const;
+    bool isPauseClicked() const;
+    bool isNextClicked() const;
+    bool isPrevClicked() const;
+    void setPauseText(const std::string& text);
     bool isInputClicked() const;
     bool isDijkstraClicked() const;
     bool isLoadFileClicked() const;
@@ -23,6 +27,9 @@ public:
 
 protected:
     Button Random;
+    Button Pause;
+    Button Next;
+    Button Prev;
     Button Input;
     Button Dijkstra;
     Button LoadFile;

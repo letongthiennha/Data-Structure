@@ -3,7 +3,7 @@
 #include "ShortestPathScreen.h"
 
 int main() {
-    InitWindow(1920, 960, "Shortest Path Visualization");
+    InitWindow(1600, 900, "Shortest Path Visualization");
     SetTargetFPS(60);
 
     ShortestPathScreen screen;

@@ -51,11 +51,14 @@ void ShortestPathScreen::render() {
         }
     }
     else {
-        if (animating) {
+        if (animating && !isPaused) {
             timeSinceLastStep += GetFrameTime();
             if (timeSinceLastStep >= delay) {
                 timeSinceLastStep = 0;
-                if (!sp.stepDijkstra()) {
+                if (sp.stepDijkstra()) {
+                    sp.saveState(); 
+                }
+                else {
                     animating = false;
                 }
             }
@@ -192,6 +195,32 @@ void ShortestPathScreen::update() {
                 sp.createRandomGraph();
             }
             animating = false;
+        }
+
+        if (ctrl.isPauseClicked()) {
+            isPaused = !isPaused;
+            if (isPaused) {
+                ctrl.setPauseText("Resume");
+            }
+            else {
+                ctrl.setPauseText("Pause");
+            }
+        }
+
+        if (ctrl.isNextClicked() && animating) {
+            if (!isPaused) {
+                isPaused = true;
+                ctrl.setPauseText("Resume");
+            }
+            sp.stepDijkstra();
+        }
+
+        if (ctrl.isPrevClicked() && animating) {
+            if (!isPaused) {
+                isPaused = true;
+                ctrl.setPauseText("Resume");
+            }
+            sp.prevState();
         }
 
         if (ctrl.isInputClicked()) {
