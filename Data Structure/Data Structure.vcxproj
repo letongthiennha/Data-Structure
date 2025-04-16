@@ -128,10 +128,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application.cpp" />
     <ClCompile Include="AVLScreen.cpp" />
     <ClCompile Include="AVLScreen.h" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="ControllerBoard.cpp" />
     <ClCompile Include="HashTableScreen.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SLLNode.cpp" />

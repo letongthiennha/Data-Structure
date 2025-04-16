@@ -43,7 +43,7 @@ public:
     float getSpeed() const;
 
 	//=========Skip===========
-    void SkipCurrentStep();
+    void setSkip();
     void Forward();
 
     //Update
@@ -53,11 +53,10 @@ public:
     void renderCode();
     void render();
     void create(std::vector<int> vals);
+    void randomCreate(int amount);
 
 private:
 
-    void randomCreate(int amount);
-	//====================Operation================
 
     //==============Function===========
     void updateForInsert();

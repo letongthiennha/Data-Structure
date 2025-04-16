@@ -3,6 +3,9 @@
 #include <string>
 #include "raylib.h"
 const int speed = 200;
+const Font Arial= LoadFont("assets/Font/arial.ttf");
+const Font StardewValley = LoadFont("assets/Font/StardewValley.ttf");
+const Font Roboto = LoadFont("assets/Font/Roboto.ttf");
 //===========TextBox================
 const Color textBoxColor = DARKGRAY;
 const Color textBoxColorInputing = LIGHTGRAY;

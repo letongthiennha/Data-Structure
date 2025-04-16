@@ -125,6 +125,7 @@ void SLLScreen::updateList() {
 		choose = listFunctionWithParameter::operation_type::NONE;
 
 	}
+	
 }
 
 void SLLScreen::update() {
@@ -178,7 +179,7 @@ void SLLScreen::update() {
 			Pause.setTexture("assets/Icon/pause.png");
 		}
 	}
-	if (Skip.isClicked()) myList.SkipCurrentStep();
+	if (Skip.isClicked()) myList.setSkip();
 	if (IsFileDropped()) {
 		FilePathList droppedFiles = LoadDroppedFiles();
 		std::string path = droppedFiles.paths[0];
@@ -241,4 +242,6 @@ void SLLScreen::render() {
 	myList.render();
 	myList.renderCode();
 }
-
+bool SLLScreen::goBack() {
+	return Home.isClicked();
+}

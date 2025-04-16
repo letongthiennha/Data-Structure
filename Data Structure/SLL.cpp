@@ -6,6 +6,7 @@
 
 SLL::SLL() {
 	m_current_function = listFunctionWithParameter::operation_type::NONE;
+    m_pHead = nullptr;
 	highlighted_line = 0;
 	messageLog = "";
 	isPausing = false;
@@ -48,7 +49,7 @@ void SLL::updateOperations() {
 }
 
 //====================Skip========================
-void SLL::SkipCurrentStep() { m_skipCurrentStep = true; }
+void SLL::setSkip() { m_skipCurrentStep = true; }
 
 void SLL::Forward() {
     switch (m_current_function) {
@@ -585,9 +586,9 @@ void SLL::repositionNode() {
 void SLL::resetList() {
 	SLLNode* pCurr = m_pHead;
     while (pCurr) {
-        SLLNode* temp = m_pHead;
+        SLLNode* del = pCurr;
         pCurr = pCurr->m_pNext;
-        delete temp;
+        delete del;
     }
 	m_pHead = nullptr;
 	pCurr = nullptr;

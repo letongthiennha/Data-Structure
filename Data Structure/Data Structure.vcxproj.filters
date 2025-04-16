@@ -78,9 +78,6 @@
     <ClCompile Include="Menu Screen.cpp">
       <Filter>Source Files\Menu Screen</Filter>
     </ClCompile>
-    <ClCompile Include="ControllerBoard.cpp">
-      <Filter>Source Files\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Pointer.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
@@ -98,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="Slider.cpp">
       <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

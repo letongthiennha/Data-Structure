@@ -11,8 +11,7 @@ enum class Screen {
 
 class MenuScreen {
 public:  
-    Screen screenChoose = Screen::MainMenu;
-
+	Screen screenChoose=Screen::MainMenu;
     MenuScreen();
     void render();
     void update();

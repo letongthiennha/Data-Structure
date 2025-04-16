@@ -5,29 +5,12 @@
 #include <sstream>
 #include <queue>
 #include <cmath>
-#include "SLL.h"
-#include "Motion.h"
-#include "SLLScreen.h"
-#include "Slider.h"
-
+#include "Application.h"
 int main() {    
-    InitWindow(1600, 900, "CS163 DATA STRUCTURE VISUALIZATION");
-    SetTargetFPS(60);
-		SLLScreen screen;
-		Slider slider;
-		slider.setPosition({ 1600 - 500, 900 - 500 });
-		slider.setSize({ 20, 200 });
-    while (!WindowShouldClose()) {
-        screen.update();
-		BeginDrawing();
-		ClearBackground(RAYWHITE);
-
-		screen.render();
-		EndDrawing();
-
-  
-    }
-
-    CloseWindow();
+	InitWindow(1600, 900, "CS163 DSA Visulization");
+	SetTargetFPS(60);
+	Application app;
+	app.run();
+	CloseWindow();
     return 0;
 }
