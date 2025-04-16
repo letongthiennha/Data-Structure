@@ -2,6 +2,9 @@
 #include "raylib.h"
 #include "tinyfiledialogs.h"
 #include "Font.h"
+#include "Motion.h"
+#include "Button.h"
+#include "Setting.h"
 #include <sstream>
 #include <random>
 #include <fstream>
@@ -11,9 +14,15 @@ ShortestPathScreen::ShortestPathScreen()
     : animating(false), timeSinceLastStep(0), delay(0.8f),
     inputMode(false), editMode(false),
     inputTextBox({ 300, 150 }, { 600, 400 }, WHITE, BLACK, 1000),
-    submitButton(),
+    submitButton(), Home(),
     currentStep(-1) {  // Khởi tạo currentStep là -1
     ctrl = ShPController();
+
+    Home = Button(homeButtonPosition, homeButtonSize, "Home");
+    Home.SetIdleColor(controllerIdleColor);
+    Home.SetHoverColor(controllerHoveringColor);
+    Home.SetActiveColor(controllerActiveColor);
+    Home.setTexture("assets/Icon/home.png");
 
     submitButton.setText("Submit", 18);
     submitButton.setSize({ 120, 40 });
@@ -41,7 +50,7 @@ void ShortestPathScreen::render() {
     if (inputMode || editMode) {
         DrawRectangle(250, 100, 700, 500, Fade(WHITE, 0.8f));
         inputTextBox.render();
-        submitButton.drawRectangle();
+        submitButton.drawRoundedRectangle(10);
         submitButton.drawText(BLACK);
         if (inputMode) {
             DrawText("Enter edge list (e.g., '0 1 5' per line)", 300, 120, 20, BLACK);
@@ -84,9 +93,11 @@ void ShortestPathScreen::render() {
             DrawTextEx(arial, sp.currentStatus.c_str(), { pseudoCodePos.x + 10, statusY }, 20, 1, BLUE);
         }
     }
+    Home.drawTexture();
 }
 
 void ShortestPathScreen::update() {
+    Home.update();
     delay = baseDelay / ctrl.getSpeed();
     if (inputMode || editMode) {
         inputTextBox.update();
@@ -328,4 +339,7 @@ void ShortestPathScreen::update() {
             draggingNode = nullptr;
         }
     }
+}
+bool ShortestPathScreen::goBack() {
+    return Home.isClicked();
 }

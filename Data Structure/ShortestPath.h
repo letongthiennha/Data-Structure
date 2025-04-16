@@ -5,6 +5,7 @@
 #include "raymath.h"
 #include "ShPNode.h"
 #include "ShPPointer.h"
+#include "Motion.h"
 #include <string>
 #include <vector>
 #include <queue>

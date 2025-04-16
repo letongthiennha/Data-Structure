@@ -14,6 +14,7 @@ public:
     ShortestPathScreen();
     void render();
     void update();
+    bool goBack();
 
 private:
     ShPController ctrl;
@@ -30,6 +31,7 @@ private:
     Button submitButton;
     std::vector<std::string> pseudoCodeLines;
     int currentStep;
+    Button Home;
     bool isPaused = false;
 };
 

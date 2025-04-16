@@ -1,4 +1,5 @@
 ﻿#include "ShortestPath.h"
+#include "Motion.h" 
 #include <limits>
 #include <random>
 #include <raylib.h>
@@ -26,7 +27,7 @@ void ShortestPath::addEdge(int startId, int endId, int weight) {
 }
 ShPNode* ShortestPath::getNodeAtPosition(Vector2 mousePos) {
     for (auto& node : nodes) {
-        float distance = Vector2Distance(mousePos, node.getPos());
+        float distance = sqrt(pow(mousePos.x - node.getPos().x, 2) + pow(mousePos.y - node.getPos().y, 2));
         if (distance < ShPNode::getRadius()) {
             return &node;
         }
