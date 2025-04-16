@@ -77,9 +77,7 @@ SLLScreen::SLLScreen() {
 
 }
 void SLLScreen::updateList() {
-	myList.updateAnimation();
-	myList.handleOperations();
-	myList.updateOperations();
+	myList.update();
 
 	
 	myList.setSpeed(speedChooser.getProgress());
@@ -188,10 +186,10 @@ void SLLScreen::update() {
 		}
 		UnloadDroppedFiles(droppedFiles);
 	}
-
 	updateList();
+	inputBox.update();
 }
-void SLLScreen::render() {
+void SLLScreen::renderList() {
 	Create.renderRectangle();
 	Create.drawTexture();
 	Create.drawOutline(10, 10, 2, BLACK);
@@ -232,15 +230,14 @@ void SLLScreen::render() {
 	Pause.drawTexture();
 
 	if (inputting) {
-		inputBox.render();
+		inputBox.renderList();
 		Accept.drawTexture();
 	}
 
 
-	speedChooser.render();
+	speedChooser.renderList();
 
 	myList.render();
-	myList.renderCode();
 }
 bool SLLScreen::goBack() {
 	return Home.isClicked();

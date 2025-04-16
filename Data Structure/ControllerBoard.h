@@ -15,7 +15,7 @@ public:
 	bool isEndClicked() const;
 
 	virtual void update();
-	virtual void render();
+	virtual void renderList();
 protected:
 	Button Home;
 	//State  Controller

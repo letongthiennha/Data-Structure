@@ -50,11 +50,11 @@ const Color ListNodeTextColor = BLACK;
 const Color ListNodeHighlightColor = BLUE;
 const int pointerLength = 100;
 const Vector2 LinkedListInitPosition{ 100,390 };
-const Vector2 LinkedListCodeBlockPos{ 1200,400 };
+const Vector2 LinkedListCodeBlockPos{ 1000,450 };
 //CodeBlock
 const std::vector<std::vector<std::string>> SLLSourceCode = {
     {
-        "Create:",
+        "Random:",
         " for (int i = 0; i < count; i++) {",
         "     int val = getRandomValue()",
         "     Node* newNode = new Node(val)",
@@ -71,15 +71,15 @@ const std::vector<std::vector<std::string>> SLLSourceCode = {
     },
     {
         "Insert:",
-        " newNode = new Node(val)",
+        " newNode = new Node(val);",
         " if (!pHead) {",
-        "     pHead = newNode",
+        "     pHead = newNode;",
         " } else {",
-        "     pCurr = pHead",
+        "     pCurr = pHead;",
         "     while (pCurr->next) {",
-        "         pCurr = pCurr->next",
+        "         pCurr = pCurr->next;",
         "     }",
-        "     pCurr->next = newNode",
+        "     pCurr->next = newNode;",
         " }"
     },
     {
@@ -88,24 +88,29 @@ const std::vector<std::vector<std::string>> SLLSourceCode = {
         " if (pHead->val == val){",
         "     Node* temp = pHead",
         "     pHead = pHead->next",
-        "     delete temp}",
-        " else {",
-        "     while (pCurr->next)",
-        "         if (pCurr->next->val == val)",
-        "             {Node* temp = pCurr->next",
-        "             pCurr->next = pCurr->next->next"
-        "             delete temp}}",
+        "     delete tmp",
+        "     return;}  ",
+        "pCurr = pHead;",
+        "while (pCurr->next){",
+        "   if (pCurr->next->val == val)",
+        "        {Node* tmp = pCurr->next;",
+        "         pCurr->next = pCurr->next->next;",
+        "         delete tmp;}",
+        "   pCurr=pCurr->next;  ",
+        "}"
     },
     {
         "Search:",
-        " Node*pCurr = pHead",
-        " while (pCurr)",
-        "     if (pCurr->val == val) return",
+        " Node*pCurr = pHead;",
+        " while (pCurr);",
+        "     if (pCurr->val == val) return;",
+        "     else pCurr=pCurr->next; "
     },
     {   "Update:",
         " Node*pCurr = pHead",
         " while (pCurr)",
         "     {if (pCurr->val == old)",
-        "         pCurr->val = new}",
+        "         pCurr->val = new;",
+        "         pCurr=pCurr->next;  "
     }
 };

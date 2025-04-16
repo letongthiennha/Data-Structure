@@ -35,7 +35,6 @@ public:
     void LoadFromFile(std::string path);
 	//====================State Control================
     void storeOperation(listFunctionWithParameter::operation_type type, int firstParameter, int secondParameter = 0);
-    void handleOperations();
     //==============State Control================
     void setStop(bool paused);
     bool isStop() const;
@@ -47,17 +46,21 @@ public:
     void Forward();
 
     //Update
-    void updateOperations();
-    void updateAnimation();
+    void update();
+
     //====================Render================
-    void renderCode();
     void render();
+
     void create(std::vector<int> vals);
     void randomCreate(int amount);
 
 private:
+    void renderCode();
+    void renderList();
 
-
+    void handleOperations();
+    void updateOperations();
+    void updateAnimation();
     //==============Function===========
     void updateForInsert();
     void updateForRemove();

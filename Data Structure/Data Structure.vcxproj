@@ -130,7 +130,6 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AVLScreen.cpp" />
-    <ClCompile Include="AVLScreen.h" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="HashTableScreen.cpp" />
     <ClCompile Include="Slider.cpp" />
@@ -147,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AVLScreen.h" />
     <ClInclude Include="ControllerBoard.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="HashTableScreen.h" />

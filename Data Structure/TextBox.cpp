@@ -97,7 +97,7 @@ void TextBox::update() {
 }
 
 //Render
-void TextBox::render() {
+void TextBox::renderList() {
     //Draw the box
     DrawRectangleRec(m_box,m_boxColor);
     //Draw OutLine

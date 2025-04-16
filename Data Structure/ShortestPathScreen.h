@@ -8,7 +8,7 @@ public:
 	ShortestPathScreen();
 	bool goBack();
 
-	void render();
+	void renderList();
 	void update();
 };
 

@@ -7,6 +7,6 @@ private:
 public:
 	AVLScreen();
 	bool goBack();
-	void render();
+	void renderList();
 	void update();
 };

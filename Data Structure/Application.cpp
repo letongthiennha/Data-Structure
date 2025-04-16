@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "AVLScreen.h"
 Application::Application() {
 
 	mainMenu = MenuScreen();
@@ -16,32 +17,32 @@ void Application::run() {
         switch (mainMenu.screenChoose) {
         case (Screen::MainMenu):
             mainMenu.update();
-            mainMenu.render();
+            mainMenu.renderList();
             break;
         case (Screen::SLL):
             SLL.update();
-            SLL.render();
+            SLL.renderList();
             if (SLL.goBack()) {
                 mainMenu.screenChoose = Screen::MainMenu;
             }
             break;
         case Screen::AVL:
             AVL.update();
-            AVL.render();
+            AVL.renderList();
             if (AVL.goBack()) {
                 mainMenu.screenChoose = Screen::MainMenu;
             }
             break;
         case Screen::HashTable:
             HashTable.update();
-            HashTable.render();
+            HashTable.renderList();
             if (AVL.goBack()) {
                 mainMenu.screenChoose = Screen::MainMenu;
             }
             break;
         case Screen::ShortestPath:
             ShortestPath.update();
-            ShortestPath.render();
+            ShortestPath.renderList();
             if (ShortestPath.goBack()) {
                 mainMenu.screenChoose = Screen::MainMenu;
             }

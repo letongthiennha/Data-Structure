@@ -18,6 +18,7 @@ struct operateInfo {
     //Update function
     int oldVal = 0;
     int newVal = 0;
+    bool isComplete=false;
 };
 class listFunctionWithParameter {
 
@@ -26,15 +27,16 @@ public:
     int secondParameter;
     enum operation_type {
         NONE ,
-		CREATE,
         RANDOM ,
         INSERT ,
         REMOVE ,
         FIND ,
-        UPDATE 
+        UPDATE,
+        CREATE
+
     };
     operation_type functionType;
 
 
-    listFunctionWithParameter(operation_type t, int first, int second = 0) : functionType(t), firstParameter(first), secondParameter(second) {}
+    listFunctionWithParameter(operation_type function, int first, int second = 0) : functionType(function), firstParameter(first), secondParameter(second) {}
 };

@@ -47,5 +47,5 @@ public:
     void clearContent();
 
     void update();
-    void render();
+    void renderList();
 };

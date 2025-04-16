@@ -51,6 +51,7 @@ void SLL::updateOperations() {
 //====================Skip========================
 void SLL::setSkip() { m_skipCurrentStep = true; }
 
+
 void SLL::Forward() {
     switch (m_current_function) {
     case listFunctionWithParameter::INSERT: skipInsert(); break;
@@ -197,10 +198,13 @@ void SLL::skipUpdate() {
 }
 
 
-
 //=================Function=======================
 void SLL::updateForInsert() {
     if (!currOperationInfo.isStarted) return;
+    if (currOperationInfo.isComplete) {
+        resetOperation();
+        return;
+    }
 
     // Handle inserting the first node
     if (!m_pHead) {
@@ -217,43 +221,38 @@ void SLL::updateForInsert() {
         m_pHead = currOperationInfo.newNode;
         currOperationInfo.newNode = nullptr;
 
-        resetOperation();
+        currOperationInfo.isComplete = true;
         return;
     }
 
-    highlighted_line = 4;
-    highlighted_line = 5;
 
     if (!currOperationInfo.currNode)
         currOperationInfo.currNode = m_pHead;
 
-    SLLNode*& currNode = currOperationInfo.currNode;
+    SLLNode*& pCurr = currOperationInfo.currNode;
 
 
-    if (currNode->m_pNext) {
-        highlighted_line = 6;
-        currNode->m_currentAnimation = nodeAnimation::HIGHLIGHT;
-        currNode->m_animationPhase = 0.0f;
+    if (pCurr->m_pNext) {
+        pCurr->m_currentAnimation = nodeAnimation::HIGHLIGHT;
+        pCurr->m_animationPhase = 0.0f;
 
-        highlighted_line = 7;
-        currNode = currNode->m_pNext;
+        highlighted_line = 8;
+        pCurr = pCurr->m_pNext;
     }
     else {//Found the end
-        highlighted_line = 8;
-        currNode->m_currentAnimation = nodeAnimation::HIGHLIGHT;
-        currNode->m_animationPhase = 0.0f;
-
-        highlighted_line = 9;
-        currOperationInfo.newNode->m_currentPosition = {
-            currNode->m_currentPosition.x + pointerLength, 100
-        };
-        currOperationInfo.newNode->m_destination = {
-            currNode->m_currentPosition.x + pointerLength, LinkedListInitPosition.y
-        };
-
-        currNode->m_pNext = currOperationInfo.newNode;
+        pCurr->m_currentAnimation = nodeAnimation::HIGHLIGHT;
+        pCurr->m_animationPhase = 0.0f;
 
         highlighted_line = 10;
+        currOperationInfo.newNode->m_currentPosition = {
+            pCurr->m_currentPosition.x + pointerLength, 100
+        };
+        currOperationInfo.newNode->m_destination = {
+            pCurr->m_currentPosition.x + pointerLength, LinkedListInitPosition.y
+        };
+
+        pCurr->m_pNext = currOperationInfo.newNode;
+
         currOperationInfo.newNode->m_currentAnimation = nodeAnimation::MOVING;
         currOperationInfo.newNode->m_animationPhase = 0.0f;
 
@@ -264,23 +263,29 @@ void SLL::updateForInsert() {
         messageLog = std::to_string(val) + "was added to the list";
 
         currOperationInfo.newNode = nullptr;
-        resetOperation();
+        currOperationInfo.currNode = nullptr;
+        currOperationInfo.isComplete = true;
     }
 }
 void SLL::updateForRemove() {
+    
     if (!currOperationInfo.isStarted ) return;
-        highlighted_line = 1;
+    if (currOperationInfo.isComplete) {
+        resetOperation();
+        return;
+    }
+
         //Empty List
         if (!m_pHead) {
             messageLog = "Empty List";
-            resetOperation();
+            highlighted_line = 1;
+            currOperationInfo.isComplete = true;
             return;
         }
 
         //Exception of the first node
         if (m_pHead->m_val == currOperationInfo.removeVal) {//Fount the node
             SLLNode* temp = m_pHead;
-            highlighted_line = 3;
             temp->m_currentAnimation = nodeAnimation::CHANGINGOPACITY ;
             temp->m_animationPhase = 0.0f;  
             m_pHead = m_pHead->m_pNext;
@@ -290,23 +295,22 @@ void SLL::updateForRemove() {
             
             
             messageLog = "Removed " + std::to_string(currOperationInfo.removeVal) ;
-            resetOperation();
+            currOperationInfo.isComplete = true;
             return;
         }
 
 		//If it is not the first node
-        highlighted_line = 5;
-        highlighted_line = 6;
         if (!currOperationInfo.currNode) currOperationInfo.currNode = m_pHead;
         //Search until there is no node
         if (currOperationInfo.currNode) {
             currOperationInfo.currNode->m_currentAnimation = nodeAnimation::HIGHLIGHT;
             currOperationInfo.currNode->m_animationPhase = 0.0f;
         }
+
         if (currOperationInfo.currNode->m_pNext) {
 			//If we meet the node we want to delete
             if (currOperationInfo.currNode->m_pNext->m_val == currOperationInfo.removeVal) {
-                highlighted_line = 7;
+                highlighted_line = 12;
                 //Delete the node
                 SLLNode* del = currOperationInfo.currNode->m_pNext;
                 del->m_currentAnimation = nodeAnimation::CHANGINGOPACITY;
@@ -314,17 +318,16 @@ void SLL::updateForRemove() {
                 currOperationInfo.currNode->m_pNext = del->m_pNext;
                 delete del;
 
-                highlighted_line = 8;
 				//Reposition the node
                 repositionNodeSlowly();
                 
                 
                 messageLog = "Removed " + std::to_string(currOperationInfo.removeVal) ;
-                resetOperation();
+                currOperationInfo.isComplete = true;
             }
             else {
                 currOperationInfo.currNode = currOperationInfo.currNode->m_pNext;
-                
+                highlighted_line = 14;
             }
         }
         else {
@@ -334,25 +337,31 @@ void SLL::updateForRemove() {
 }
 void SLL::updateForSearch() {
     if (!currOperationInfo.isStarted ) return;
+    if (currOperationInfo.isComplete) {
+        resetOperation();
+        return;
+    }
     if (!m_pHead) {
             currOperationInfo.isFound = false;
 			messageLog = "Empty List.";
 			resetOperation();
 			return;
 	}
+
 	SLLNode*& pCurr = currOperationInfo.currNode;
     if (pCurr) {
        pCurr->m_currentAnimation = nodeAnimation::HIGHLIGHT;
        pCurr->m_animationPhase = 0.0f;
-       highlighted_line = 3;
        if (pCurr->m_val == currOperationInfo.findVal) {
          currOperationInfo.isFound = true;
          messageLog = "Found " + std::to_string(currOperationInfo.findVal);
-         resetOperation();
+         highlighted_line = 5;
+         currOperationInfo.isComplete = true;
          return;
        }
        else {
            pCurr = pCurr->m_pNext;
+           highlighted_line = 5;
        }
     if (!pCurr) {
           currOperationInfo.isFound = false;
@@ -364,17 +373,22 @@ void SLL::updateForSearch() {
 void SLL::updateForChangingValue() {
     //Check if there is any function calling
     if (!currOperationInfo.isStarted) return;
+    if (currOperationInfo.isComplete) {
+        resetOperation();
+        return;
+    }
+
 	//Check if the list is empty
 	if (!m_pHead) {
 		messageLog = "Empty List.";
 		resetOperation();
 		return;
 	}
+    if (!currOperationInfo.currNode) currOperationInfo.currNode = m_pHead;
 	SLLNode*& pCurr = currOperationInfo.currNode;
      if (pCurr) {
          pCurr->m_currentAnimation = nodeAnimation::HIGHLIGHT;
          pCurr->m_animationPhase = 0.0f;
-         highlighted_line = 3;
          //Found the value
          if (pCurr->m_val == currOperationInfo.oldVal) {
 			 //Change the value
@@ -392,13 +406,14 @@ void SLL::updateForChangingValue() {
                 //Begin the animation
                 pCurr->m_animationPhase = 0.0f;
                 
-                
+                highlighted_line = 5;
                 messageLog = "Changing " + std::to_string(currOperationInfo.oldVal) + " to " + std::to_string(currOperationInfo.newVal);
-                resetOperation();
+                currOperationInfo.isComplete = true;
 				return;
             }
          else {
              pCurr = pCurr->m_pNext;
+             highlighted_line = 6;
          }
 	}
      else {
@@ -535,16 +550,17 @@ void SLL::LoadFromFile(std::string path) {
     resetList();
     std::string input;
     std::ifstream fin(path);
+    std::vector<int> vals;
     while (!fin.eof()) {
 		std::getline(fin, input);
         std::stringstream stream(input);
-        int value;
-        while (stream >> value) {
-            storeOperation(static_cast<listFunctionWithParameter::operation_type>(2), value);
+        int num;
+        while (stream >> num) {
+            vals.push_back(num);
         }
     }
     fin.close();
-    
+    create(vals);
 }
 
 //====================RESET================
@@ -596,17 +612,16 @@ void SLL::resetList() {
 void SLL::resetOperation() {
     m_current_function = listFunctionWithParameter::operation_type::NONE;
     currOperationInfo = operateInfo();
-    //Reset the highlighted line
-    highlighted_line = -1;
 	//Reset to Idle
 	currOperationInfo.isStarted = false;
+    currOperationInfo.isComplete = false;
 
 }
 
 
 //==============Render============================
 
-void SLL::render() {
+void SLL::renderList() {
     SLLNode* curr = m_pHead;
     while (curr) {
 		float newX = curr->m_currentPosition.x + 0;
@@ -620,7 +635,7 @@ void SLL::render() {
             Vector2 pointerPos = { newPosPointerHeadX, newPosPointerHeadY };
 			pNext.setTailPos(curr->m_currentPosition);
 			pNext.setHeadPos(pointerPos);
-            pNext.render();
+            pNext.renderList();
         }
         curr = curr->m_pNext;
     }
@@ -636,10 +651,10 @@ void SLL::renderCode() {
 
 
     Vector2 linePos = LinkedListCodeBlockPos;
-    for (int i = 0; i < SLLSourceCode[m_current_function - 1].size(); i++) {
+    for (int i = 0; i < SLLSourceCode[m_current_function -1].size(); i++) {
         if (m_current_function >= 1 && m_current_function <= 5 && SLLSourceCode[m_current_function - 1][i][0] != '\0') {
             Color currentLineColor;
-            if (i == highlighted_line) {
+            if (i == highlighted_line-1) {
                 currentLineColor = messageLogColorHighligth; 
             }
             else {
@@ -651,6 +666,15 @@ void SLL::renderCode() {
     }
 }
 
+void SLL::render() {
+    renderList();
+    renderCode();
+}
+void SLL::update() {
+    updateAnimation();
+    handleOperations();
+    updateOperations();
+}
 void SLL::handleOperations() {
     if (m_current_function != 0 || functionQueue.empty()) return;
 

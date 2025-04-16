@@ -7,7 +7,7 @@ AVLScreen::AVLScreen() {
 	Home.SetActiveColor(controllerActiveColor);
 	Home.setTexture("assets/Icon/home.png");
 }
-void AVLScreen::render() {
+void AVLScreen::renderList() {
 	Home.drawTexture();
 	DrawText("AVL Tree Screen", 800, 400, 20, BLACK);
 }

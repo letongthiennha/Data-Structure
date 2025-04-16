@@ -63,9 +63,6 @@
     <ClCompile Include="SLLNode.cpp">
       <Filter>Source Files\SLL</Filter>
     </ClCompile>
-    <ClCompile Include="AVLScreen.h">
-      <Filter>Header Files\AVLTree</Filter>
-    </ClCompile>
     <ClCompile Include="AVLScreen.cpp">
       <Filter>Source Files\AVL</Filter>
     </ClCompile>
@@ -142,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="Slider.h">
       <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="AVLScreen.h">
+      <Filter>Header Files\AVLTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

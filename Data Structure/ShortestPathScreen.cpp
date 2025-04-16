@@ -7,7 +7,7 @@ ShortestPathScreen::ShortestPathScreen() {
 	Home.SetActiveColor(controllerActiveColor);
 	Home.setTexture("assets/Icon/home.png");
 }
-void ShortestPathScreen::render() {
+void ShortestPathScreen::renderList() {
 	Home.drawTexture();
 	DrawText("Shortest Path Screen", 800, 400, 20, BLACK);
 }

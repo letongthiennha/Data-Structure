@@ -39,7 +39,7 @@ void Slider::update() {
 	m_slider.y = m_sliderBound.y + m_sliderBound.height * m_progress - m_slider.height / 2+10;
 
 }
-void Slider::render() {
+void Slider::renderList() {
 	Rectangle renderSlider = m_slider;
 	renderSlider.height = 20;
 	renderSlider.width = 30;
