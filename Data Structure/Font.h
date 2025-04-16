@@ -1,3 +1,10 @@
 #pragma once
 #include "raylib.h"
-Font arial = LoadFont("../include/arial.ttf");
+
+extern Font arial;
+extern Font FuturaMedium;
+extern Font FuturaBold;
+
+void loadFonts();
+bool areFontsLoaded();
+void unloadFonts();

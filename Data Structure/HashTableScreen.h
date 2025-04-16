@@ -3,7 +3,7 @@
 #include "Setting.h"
 #include "TextBox.h"
 #include "HashTable.h"
-#include "HashTableFonts.h"
+#include "Font.h"
 #include "HashTableCode.h"
 
 class HashTableScreen {
@@ -17,6 +17,8 @@ public:
     void render();
     void disableModes();
 private:
+    bool FontsLoaded;
+
     HashTable hashTable;
     
     Font bold;

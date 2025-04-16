@@ -1,11 +1,9 @@
 #include "HashTableScreen.h"
 
 HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 50}, LIGHTGRAY, BLACK, 30), goBack(false), inputTask(false), addMode(false), removeMode(false), searchMode(false), randomMode(false), resizeMode(false) {    
-    Fonts::loadFonts();
-    
-    bold = Fonts::FuturaBold;
-    normal = Fonts::FuturaMedium;
-    Fonts::fontsLoaded = Fonts::areFontsLoaded();
+    bold = FuturaBold;
+    normal = FuturaMedium;
+    FontsLoaded = areFontsLoaded();
 
     back.setPosition({ 30, 25 });
     back.setText("<<<", 35);
@@ -59,7 +57,6 @@ HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 5
 }
 HashTableScreen::~HashTableScreen() {
     hashTable.~HashTable();
-    Fonts::unloadFonts();
 }
 
 bool HashTableScreen::isValidInput(std::string& s) {
@@ -231,7 +228,7 @@ void HashTableScreen::render() {
     DrawRectangle(0, 0, 300, 900, { 211, 176, 131, 100 });
     DrawRectangle(15, 15, 270, 870, { 211, 176, 131, 120 });
 
-    if (!Fonts::fontsLoaded) {
+    if (!FontsLoaded) {
         DrawText("HASH TABLE", 50, 150, 30, BLACK);
         //DrawText("----------", 75, 190, 30, BLACK);
         DrawLineEx({50 + (float)(MeasureText("HASH TABLE", 30) - 145)/2, 200}, {50 + (float)(MeasureText("HASH TABLE", 30) - 145)/2 + 145, 200}, 3, BLACK);
@@ -273,7 +270,7 @@ void HashTableScreen::render() {
     resize.drawRectangle();
     resize.drawOutline(0, 0, 2, BLACK);
     
-    if (!Fonts::fontsLoaded) {
+    if (!FontsLoaded) {
         speedToggle.drawText(BLACK);
         DrawText(currentSpeed.str().c_str(), 170, 750 + 12.5, 25, BLACK);
         clear.drawText(BLACK);
@@ -306,7 +303,7 @@ void HashTableScreen::render() {
     }
     if (randomMode) {
         randomConfirm.drawRectangle();
-        if (!Fonts::fontsLoaded) randomConfirm.drawText(BLACK);
+        if (!FontsLoaded) randomConfirm.drawText(BLACK);
         else DrawTextEx(bold, "GO", { 245, 610+15}, 30, 1, BLACK);
     }
 }
