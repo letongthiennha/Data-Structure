@@ -69,24 +69,24 @@ void HashTableCell::render() {
         DrawRectangle(position.x, position.y, 50, 50, backgroundColor);
         DrawRectangleLines(position.x, position.y, 50, 50, BLACK);
         if (val != EMPTY) {
-            if (!Fonts::fontsLoaded) {
+            if (!areFontsLoaded()) {
                 float textWidth = MeasureText(std::to_string(val).c_str(), 20);
                 float textX = position.x + (50 - textWidth) / 2; 
                 float textY = position.y + (50 - 20) / 2; 
                 DrawText(std::to_string(val).c_str(), textX, textY, 20, textColor);
             }
             else {
-                float textWidth = MeasureTextEx(Fonts::FuturaMedium, std::to_string(val).c_str(), 22, 1).x;
-                float textHeight = MeasureTextEx(Fonts::FuturaMedium, std::to_string(val).c_str(), 22, 1).y;
+                float textWidth = MeasureTextEx(FuturaMedium, std::to_string(val).c_str(), 22, 1).x;
+                float textHeight = MeasureTextEx(FuturaMedium, std::to_string(val).c_str(), 22, 1).y;
                 float textX = position.x + (50 - textWidth) / 2; 
                 float textY = position.y + (50 - textHeight) / 2; 
-                DrawTextEx(Fonts::FuturaMedium, std::to_string(val).c_str(), {textX, textY}, 22, 1, BLACK);
+                DrawTextEx(FuturaMedium, std::to_string(val).c_str(), {textX, textY}, 22, 1, BLACK);
             }
         }
-        if (!Fonts::fontsLoaded) DrawText(std::to_string(index).c_str(), position.x + 20, position.y + 60, 15, textColor);
+        if (!areFontsLoaded) DrawText(std::to_string(index).c_str(), position.x + 20, position.y + 60, 15, textColor);
         else {
-            float indexWidth = MeasureTextEx(Fonts::FuturaMedium, std::to_string(index).c_str(), 17, 1).x;
-            float indexHeight = MeasureTextEx(Fonts::FuturaMedium, std::to_string(index).c_str(), 17, 1).y;
-            DrawTextEx(Fonts::FuturaMedium, std::to_string(index).c_str(), {position.x + (50-indexWidth)/2, position.y+50+indexHeight/2}, 17, 1, BLACK);
+            float indexWidth = MeasureTextEx(FuturaMedium, std::to_string(index).c_str(), 17, 1).x;
+            float indexHeight = MeasureTextEx(FuturaMedium, std::to_string(index).c_str(), 17, 1).y;
+            DrawTextEx(FuturaMedium, std::to_string(index).c_str(), {position.x + (50-indexWidth)/2, position.y+50+indexHeight/2}, 17, 1, BLACK);
         }
 }

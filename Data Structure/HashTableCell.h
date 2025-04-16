@@ -2,9 +2,8 @@
 
 #include <climits>
 #include <string>
-#include "HashTableFonts.h"
 #include "Motion.h"
-
+#include "Font.h"
 
 const int EMPTY = INT_MIN;
 
