@@ -1,23 +1,40 @@
-﻿
-#include "ShortestPathScreen.h"
+﻿#include "ShortestPathScreen.h"
 #include "raylib.h"
 #include "tinyfiledialogs.h"
+#include "Font.h"
 #include <sstream>
 #include <random>
 #include <fstream>
-#include <set>  // For edit mode
+#include <set>
 
 ShortestPathScreen::ShortestPathScreen()
-    : animating(false), timeSinceLastStep(0), delay(0.5f),
-    inputMode(false), editMode(false),  // Initialize editMode
+    : animating(false), timeSinceLastStep(0), delay(0.8f),
+    inputMode(false), editMode(false),
     inputTextBox({ 300, 150 }, { 600, 400 }, WHITE, BLACK, 1000),
-    submitButton() {
+    submitButton(),
+    currentStep(-1) {  // Khởi tạo currentStep là -1
     ctrl = ShPController();
 
     submitButton.setText("Submit", 18);
     submitButton.setSize({ 120, 40 });
     submitButton.setPosition({ 660, 570 });
     submitButton.SetColor(GRAY, LIGHTGRAY, DARKGRAY);
+
+    // Khởi tạo mã giả của thuật toán Dijkstra
+    pseudoCodeLines = {
+        "    while Q is not empty:",
+        "        u = vertex in Q with smallest dist[]",
+        "        remove u from Q",
+        "        u.visited = true",
+        "",
+        "        for each neighbor v of u:",
+        "            if v not visited:",
+        "                alt = dist[u] + length(u, v)",
+        "                if alt < dist[v]:",
+        "                    dist[v] = alt",
+        "                    prev[v] = u",
+        "                    update Q with new dist[v]"
+    };
 }
 
 void ShortestPathScreen::render() {
@@ -45,6 +62,20 @@ void ShortestPathScreen::render() {
         }
         sp.renderGraph();
         ctrl.render();
+        currentStep = sp.currentStep;
+        // Vẽ hộp chứa mã giả ở góc dưới bên trái
+        Vector2 pseudoCodePos = { 10, static_cast<float>(GetScreenHeight() - 300) };
+        float width = 400;
+        float height = 290;
+        DrawRectangle(pseudoCodePos.x, pseudoCodePos.y, width, height, Fade(WHITE, 0.8f));
+
+        // Vẽ từng dòng mã giả, làm nổi bật dòng tương ứng với currentStep
+        float y = pseudoCodePos.y + 10;
+        for (size_t i = 0; i < pseudoCodeLines.size(); ++i) {
+            Color textColor = (currentStep == 8 && i >= 8 && i <= 11) || (static_cast<int>(i) == currentStep && currentStep != 8) ? RED : BLACK;
+            DrawTextEx(arial, pseudoCodeLines[i].c_str(), { pseudoCodePos.x + 10, y}, 20, 1, textColor);
+            y += 20;  // Mỗi dòng cách nhau 20 pixel
+        }
     }
 }
 
@@ -91,13 +122,12 @@ void ShortestPathScreen::update() {
                 }
 
                 inputMode = false;
-                animating = false;  // Stop any ongoing animation
+                animating = false;
                 inputTextBox.clearContent();
             }
             else if (editMode) {
                 std::string input = inputTextBox.getText();
 
-                // Parse the input
                 std::vector<std::tuple<int, int, int>> newEdges;
                 std::set<int> newNodeIds;
                 std::istringstream iss(input);
@@ -112,7 +142,6 @@ void ShortestPathScreen::update() {
                     }
                 }
 
-                // Remove nodes not in newNodeIds
                 auto it = sp.nodes.begin();
                 while (it != sp.nodes.end()) {
                     if (newNodeIds.find(it->getId()) == newNodeIds.end()) {
@@ -123,7 +152,6 @@ void ShortestPathScreen::update() {
                     }
                 }
 
-                // Add new nodes
                 std::random_device rd;
                 std::mt19937 gen(rd());
                 std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
@@ -135,21 +163,18 @@ void ShortestPathScreen::update() {
                     }
                 }
 
-                // Clear edges
                 sp.edges.clear();
 
-                // Add new edges
                 for (const auto& edge : newEdges) {
                     int startId, endId, weight;
                     std::tie(startId, endId, weight) = edge;
                     sp.addEdge(startId, endId, weight);
                 }
 
-                // Adjust node positions
                 sp.adjustNodePositions();
 
                 editMode = false;
-                animating = false;  // Stop any ongoing animation
+                animating = false;
                 inputTextBox.clearContent();
             }
         }
@@ -183,19 +208,18 @@ void ShortestPathScreen::update() {
             inputTextBox.setText(sp.getEdgeListAsString());
         }
 
-        // Load File button functionality
         if (ctrl.isLoadFileClicked()) {
             char const* lFilterPatterns[1] = { "*.txt" };
             char const* selectedFile = tinyfd_openFileDialog(
-                "Select a TXT file",    
-                "",                     // Default directory (empty for current dir)
-                1,                      // Number of filter patterns
-                lFilterPatterns,        // Filter for .txt files
-                "TXT files",            // Filter description
-                0                       
+                "Select a TXT file",
+                "",
+                1,
+                lFilterPatterns,
+                "TXT files",
+                0
             );
 
-            if (selectedFile) {  // If a file was selected
+            if (selectedFile) {
                 for (int i = 0; i < 2; i++) {
                     std::ifstream infile(selectedFile);
                     if (infile.is_open()) {
@@ -224,13 +248,13 @@ void ShortestPathScreen::update() {
                         }
                         infile.close();
                         sp.adjustNodePositions();
-                        animating = false;  // Stop any ongoing animation
+                        animating = false;
                     }
                     else {
                         tinyfd_messageBox("Error", "Cannot open file", "ok", "error", 1);
                     }
                 }
-            }// If selectedFile is NULL (user canceled), do nothing
+            }
         }
 
         if (ctrl.isDijkstraClicked()) {
@@ -241,6 +265,7 @@ void ShortestPathScreen::update() {
                     sp.startDijkstra(startId);
                     timeSinceLastStep = 0;
                     animating = true;
+                    currentStep = -1;  // Reset currentStep khi bắt đầu thuật toán
                 }
                 else {
                     tinyfd_messageBox("Error", "Start vertex not found in graph", "ok", "error", 1);

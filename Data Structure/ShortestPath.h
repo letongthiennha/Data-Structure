@@ -34,6 +34,7 @@ public:
     std::string getEdgeListAsString() const;
     std::vector<ShPNode> nodes;
     std::vector<ShPPointer> edges;
+    int currentStep = -1;
 
 private:
     std::priority_queue<ShPNode*, std::vector<ShPNode*>, CompareNode> pq;
@@ -46,5 +47,6 @@ private:
     std::unordered_set<int> visitedNodes;
     bool isHighlightingEdge = false;        
     ShPPointer* currentHighlightedEdge = nullptr;
+
 };
 #endif

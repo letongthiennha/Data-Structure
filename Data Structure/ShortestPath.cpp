@@ -147,7 +147,7 @@ void ShortestPath::createRandomGraph() {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> nodeDist(6, 11);
-    std::uniform_real_distribution<float> offsetDist(-200.0f, 200.0f);
+    std::uniform_real_distribution<float> offsetDist(-100.0f, 200.0f);
     std::uniform_int_distribution<int> weightDist(1, 11);
 
     clearGraph();
@@ -217,99 +217,105 @@ inline bool operator!=(const Color& lhs, const Color& rhs) {
 }
 
 bool ShortestPath::stepDijkstra() {
+    // If the algorithm is not running, terminate
     if (!isRunning) return false;
 
-    // If no current node, pick the next unvisited node from the priority queue
+    // Case 1: No current node, select the next node from the priority queue
     if (current == nullptr) {
-        if (pq.empty()) {
-            isRunning = false;
-            return false;
-        }
-        do {
-            current = pq.top();
+        while (!pq.empty()) {
+            ShPNode* u = pq.top();
             pq.pop();
-        } while (!pq.empty() && current->visited);
-        if (current->visited) {
-            isRunning = false;
-            return false;
+            if (!u->visited) {
+                current = u;
+                current->visited = true;
+                current->highlight(true);
+                edgeIndex = 0;
+                isHighlightingEdge = true;
+                currentHighlightedEdge = nullptr;
+                currentStep = 1; // Highlights "u = vertex in Q with smallest dist[]"
+                return true;
+            }
         }
-        current->visited = true;
-        current->highlight(true); // Highlight current node (e.g., green)
-        edgeIndex = 0;
-        isHighlightingEdge = true;
-        currentHighlightedEdge = nullptr;
-        return true; // Render the highlighted node
+        // Priority queue is empty, algorithm is complete
+        isRunning = false;
+        currentStep = -1;
+        return false;
     }
 
-    // Gather all edges (outgoing and incoming) for an undirected graph
-    const auto& outgoingEdges = current->getOutgoingEdges();
-    const auto& incomingEdges = current->getIncomingEdges();
-    std::vector<ShPPointer*> allEdges;
-    allEdges.reserve(outgoingEdges.size() + incomingEdges.size());
-    allEdges.insert(allEdges.end(), outgoingEdges.begin(), outgoingEdges.end());
-    allEdges.insert(allEdges.end(), incomingEdges.begin(), incomingEdges.end());
-
+    // Case 2: Current node exists, process its edges step-by-step
     if (isHighlightingEdge) {
-        // Highlight phase: Set the next unprocessed edge to yellow
-        while (edgeIndex < allEdges.size()) {
-            ShPPointer* edge = allEdges[edgeIndex];
+        // Combine outgoing and incoming edges for undirected graph
+        const auto& outgoingEdges = current->getOutgoingEdges();
+        const auto& incomingEdges = current->getIncomingEdges();
+        std::vector<ShPPointer*> allEdges;
+        allEdges.reserve(outgoingEdges.size() + incomingEdges.size());
+        allEdges.insert(allEdges.end(), outgoingEdges.begin(), outgoingEdges.end());
+        allEdges.insert(allEdges.end(), incomingEdges.begin(), incomingEdges.end());
+
+        // Use a set to avoid processing the same edge multiple times
+        std::unordered_set<ShPPointer*> uniqueEdges;
+        for (auto& edge : allEdges) {
+            if (uniqueEdges.find(edge) == uniqueEdges.end()) {
+                uniqueEdges.insert(edge);
+            }
+        }
+
+        // Process each unique edge
+        while (edgeIndex < uniqueEdges.size()) {
+            auto it = uniqueEdges.begin();
+            std::advance(it, edgeIndex);
+            ShPPointer* edge = *it;
             if (processedEdges.find(edge) == processedEdges.end()) {
                 currentHighlightedEdge = edge;
                 currentHighlightedEdge->setColor(ORANGE);
                 isHighlightingEdge = false;
-                return true; // Render the yellow edge
+                currentStep = 5; // Highlights "for each neighbor v of u:"
+                return true;
             }
             edgeIndex++;
         }
-        // Done with this node’s edges, move to the next node
-		current->highlight(false); 
+        // All edges processed, move to the next node
+        current->highlight(false);
         current = nullptr;
+        currentStep = 0; // Highlights "while Q is not empty:"
         return true;
     }
     else {
-        // Process phase: Update distances and colors
         if (currentHighlightedEdge != nullptr) {
-            // Determine the neighbor node
+            // Determine neighbor node (could be start or end node due to undirected graph)
             ShPNode* neighbor = (currentHighlightedEdge->getStartNode() == current) ?
                 currentHighlightedEdge->getEndNode() : currentHighlightedEdge->getStartNode();
-            int newDist = current->getDis() + currentHighlightedEdge->getWeight();
-
-            if (newDist < neighbor->getDis()) {
-                // Revert the old predecessor edge to gray, if it exists
+            int alt = current->getDis() + currentHighlightedEdge->getWeight();
+            if (alt < neighbor->getDis()) {
+                // Reset the color of the previous edge in the shortest path
                 if (neighbor->getPrev() != nullptr) {
-                    const auto& neighborInEdges = neighbor->getIncomingEdges();
-                    const auto& neighborOutEdges = neighbor->getOutgoingEdges();
-                    for (auto& edge : neighborInEdges) {
-                        if (edge->getStartNode() == neighbor->getPrev()) {
-                            edge->setColor(GRAY);
-                            break;
-                        }
-                    }
-                    for (auto& edge : neighborOutEdges) {
-                        if (edge->getEndNode() == neighbor->getPrev()) {
-                            edge->setColor(GRAY);
+                    for (auto& edge : edges) {
+                        if ((edge.getStartNode() == neighbor->getPrev() && edge.getEndNode() == neighbor) ||
+                            (edge.getStartNode() == neighbor && edge.getEndNode() == neighbor->getPrev())) {
+                            edge.setColor(BLACK);
                             break;
                         }
                     }
                 }
-                // Update the neighbor’s distance and predecessor
-                neighbor->setDis(newDist);
+                // Update neighbor's distance and predecessor
+                neighbor->setDis(alt);
                 neighbor->setPrev(current);
-                currentHighlightedEdge->setColor(RED); // New shortest path edge
-                pq.push(neighbor); // Update priority queue with new distance
+                currentHighlightedEdge->setColor(RED);
+                pq.push(neighbor);
+                currentStep = 8; // Highlights "if alt < dist[v]:"
             }
-            else if (currentHighlightedEdge->getColor() != RED) {
-                currentHighlightedEdge->setColor(GRAY); // Edge not used in shortest path
+            else {
+                currentHighlightedEdge->setColor(GRAY);
+                currentStep = 7; // Highlights "alt = dist[u] + length(u, v)"
             }
             processedEdges.insert(currentHighlightedEdge);
             currentHighlightedEdge = nullptr;
             edgeIndex++;
-            isHighlightingEdge = true; // Next edge highlighting
+            isHighlightingEdge = true;
             return true;
         }
     }
-
-    return false; // Fallback 
+    return false;
 }
 
 std::string ShortestPath::getEdgeListAsString() const {
