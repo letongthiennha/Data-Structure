@@ -79,6 +79,10 @@ void ShortestPathScreen::render() {
             DrawTextEx(arial, pseudoCodeLines[i].c_str(), { pseudoCodePos.x + 10, y}, 20, 1, textColor);
             y += 20;  // Mỗi dòng cách nhau 20 pixel
         }
+        float statusY = pseudoCodePos.y - 30;
+        if (!sp.currentStatus.empty()) {
+            DrawTextEx(arial, sp.currentStatus.c_str(), { pseudoCodePos.x + 10, statusY }, 20, 1, BLUE);
+        }
     }
 }
 
@@ -96,7 +100,7 @@ void ShortestPathScreen::update() {
                 std::random_device rd;
                 std::mt19937 gen(rd());
                 std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
-                std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 150));
+                std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 350));
 
                 std::istringstream iss(input);
                 std::string line;
@@ -158,7 +162,7 @@ void ShortestPathScreen::update() {
                 std::random_device rd;
                 std::mt19937 gen(rd());
                 std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
-                std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 150));
+                std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 350));
                 for (int id : newNodeIds) {
                     if (sp.getNodeById(id) == nullptr) {
                         Vector2 pos = { posDistX(gen), posDistY(gen) };
@@ -257,7 +261,7 @@ void ShortestPathScreen::update() {
                         std::random_device rd;
                         std::mt19937 gen(rd());
                         std::uniform_real_distribution<float> posDistX(50.0f, static_cast<float>(GetScreenWidth() - 50));
-                        std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 50));
+                        std::uniform_real_distribution<float> posDistY(50.0f, static_cast<float>(GetScreenHeight() - 350));
 
                         std::string line;
                         while (std::getline(infile, line)) {

@@ -20,7 +20,6 @@ class ShortestPath {
 public:
     ShortestPath();
     ~ShortestPath();
-
     void addNode(Vector2 pos, int id);
     void addEdge(int startId, int endId, int weight);
     void renderGraph();
@@ -39,6 +38,7 @@ public:
     std::vector<ShPNode> nodes;
     std::vector<ShPPointer> edges;
     int currentStep = -1;
+    std::string currentStatus;
 
 private:
     std::priority_queue<ShPNode*, std::vector<ShPNode*>, CompareNode> pq;

@@ -40,6 +40,7 @@ protected:
     Button Option1x;
     Button Option2x;
     Button Option4x;
+    Button Skip;
     float currentSpeed = 1.0f;
     Rectangle OperationBoard;
 };

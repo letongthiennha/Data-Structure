@@ -3,6 +3,7 @@
 #include <random>
 #include <raylib.h>
 #include <chrono>
+#include <stack>
 #include <thread>
 #include <sstream>
 
@@ -153,7 +154,7 @@ void ShortestPath::createRandomGraph() {
     clearGraph();
     int numNodes = nodeDist(gen);
     float screenWidth = static_cast<float>(GetScreenWidth());
-    float screenHeight = static_cast<float>(GetScreenHeight());
+    float screenHeight = static_cast<float>(GetScreenHeight() - 350.0f);
     float xStep = (screenWidth - 100.0f) / (numNodes - 1);
     float yMid = screenHeight / 2.0f;
 
@@ -233,6 +234,7 @@ bool ShortestPath::stepDijkstra() {
                 isHighlightingEdge = true;
                 currentHighlightedEdge = nullptr;
                 currentStep = 1; // Highlights "u = vertex in Q with smallest dist[]"
+                currentStatus = "Pop node " + std::to_string(u->getId()) + " out of priority queue";
                 return true;
             }
         }
@@ -270,6 +272,9 @@ bool ShortestPath::stepDijkstra() {
                 currentHighlightedEdge->setColor(ORANGE);
                 isHighlightingEdge = false;
                 currentStep = 5; // Highlights "for each neighbor v of u:"
+                int startId = edge->getStartNode()->getId();
+                int endId = edge->getEndNode()->getId();
+                currentStatus = "Checking edge " + std::to_string(startId) + "-" + std::to_string(endId);
                 return true;
             }
             edgeIndex++;
@@ -278,6 +283,7 @@ bool ShortestPath::stepDijkstra() {
         current->highlight(false);
         current = nullptr;
         currentStep = 0; // Highlights "while Q is not empty:"
+        currentStatus = "All edges processed, moving to next node";
         return true;
     }
     else {
@@ -303,10 +309,14 @@ bool ShortestPath::stepDijkstra() {
                 currentHighlightedEdge->setColor(RED);
                 pq.push(neighbor);
                 currentStep = 8; // Highlights "if alt < dist[v]:"
+                currentStatus = "Update new path to node " + std::to_string(neighbor->getId()) +
+                    " with new distance is " + std::to_string(alt);
             }
             else {
                 currentHighlightedEdge->setColor(GRAY);
                 currentStep = 7; // Highlights "alt = dist[u] + length(u, v)"
+                currentStatus = "Calculate alternative path to node " + std::to_string(neighbor->getId()) +
+                    ", alternative distance is " + std::to_string(alt);
             }
             processedEdges.insert(currentHighlightedEdge);
             currentHighlightedEdge = nullptr;

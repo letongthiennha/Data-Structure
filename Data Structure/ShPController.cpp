@@ -52,6 +52,11 @@ ShPController::ShPController()
     Option4x.setPosition({ speedOptionsX + stateControlButtonSize.x * 4.5f + 15, speedOptionsY });
     Option4x.SetColor(controllerIdleColor, controllerHoveringColor, controllerActiveColor);
 
+	Skip.setText("Skip", 18);
+	Skip.setSize({ stateControlButtonSize.x * 3, stateControlButtonSize.y });
+	Skip.setPosition({ speedOptionsX + stateControlButtonSize.x * 6 + 15, speedOptionsY });
+	Skip.SetColor(controllerIdleColor, controllerHoveringColor, controllerActiveColor);
+
     // Hàng giữa: Dijkstra, Prev, Pause, Next
     float middleRowY = bottomRowY - rowSpacing;
 
@@ -144,6 +149,11 @@ void ShPController::update() {
             isSpeedDropdownOpen = false;
             SpeedButton.setText((formatSpeed(currentSpeed)).c_str(), 18);
         }
+		Skip.update();
+        if (Skip.isClicked()) {
+            currentSpeed = 10000000.0f;
+            isSpeedDropdownOpen = false;
+        }
     }
 }
 
@@ -180,6 +190,8 @@ void ShPController::render() {
         Option2x.drawText(BLACK);
         Option4x.drawRectangle();
         Option4x.drawText(BLACK);
+		Skip.drawRectangle();
+		Skip.drawText(BLACK);
     }
 }
 
