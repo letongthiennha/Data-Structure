@@ -4,7 +4,6 @@
 #include "TextBox.h"
 #include "HashTable.h"
 #include "Font.h"
-#include "Icons.h"
 #include "HashTableCode.h"
 
 class HashTableScreen {
