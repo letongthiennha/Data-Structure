@@ -7,21 +7,21 @@ int main(void){
  SetTargetFPS(60);
  LinkedList test;
  Button add(700, 500, 300, 200, "ADD NODE");
- int i = 0;
+ int i = 0; 
  enum class state{
         MainMenu,
         choosemenu,
         linkedlist
 };
  Button remove(200, 500, 300, 200,"Remove");
-state curr=state::MainMenu;
+state curr=state::MainMenu; 
 Button Start(800, 450, 300, 200, "Start");
 Button array(800, 600, 300, 200, "Array");
-Button linkedlist(800, 200, 300, 200, "Linked List");
+Button linkedlist(800, 200, 300, 200, "Linked List");  
 while (!WindowShouldClose()) {
     switch (curr) {
     case state::MainMenu: {
-        BeginDrawing();
+        BeginDrawing();  
         ClearBackground(RAYWHITE);
         Start.update();
         Start.render();
