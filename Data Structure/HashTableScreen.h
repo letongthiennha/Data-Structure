@@ -12,8 +12,7 @@ public:
     HashTableScreen();
     ~HashTableScreen();
     
-    bool goBack;
-
+    	bool goBack();
     void update();    
     void render();
     void disableModes();
@@ -25,7 +24,7 @@ private:
     Font bold;
     Font normal;
 
-    Button back;
+    Button Home;
     Button add;
     Button remove;
     Button search;
@@ -44,6 +43,7 @@ private:
     bool inputTask;
     bool isValidInput(std::string& s);
     Button confirm;
+
 
     bool addMode;
     bool removeMode;

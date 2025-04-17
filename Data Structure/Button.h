@@ -1,6 +1,5 @@
 #pragma once
 #include "raylib.h"
-#include "GUIObject.h"
 #include<string>
 class Button  {
 private:
@@ -38,13 +37,12 @@ public:
     void SetHoverColor(Color color);
     void SetActiveColor(Color color);
     void SetColor(Color idle, Color hovering, Color clicked);
-
+    void setTexture(std::string path);
 
     //====================================Text=====================
     //Set Text
     void setText(std::string, int textSize);
     void SetTextSize(int textSize);
-
     //Get Text
     int getTextSize();
 
@@ -64,10 +62,10 @@ public:
     //============================= Update======================
     void update();
     //=============================DrawShape=========================
-    void drawRectangle();
+    void renderRectangle();
     void drawRoundedRectangle(int roundness);
     void drawOutline(int roundness, int segments, int thickness, Color color);
 
-    void drawTexture(Vector2 texturePosition);
+    void drawTexture();
     void drawText(Color color);
 };

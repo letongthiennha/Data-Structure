@@ -8,3 +8,4 @@ extern Font FuturaBold;
 void loadFonts();
 bool areFontsLoaded();
 void unloadFonts();
+

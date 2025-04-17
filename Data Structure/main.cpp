@@ -1,22 +1,17 @@
 
-#include "raylib.h"
-#include "Pointer.h"
-#include "TextBox.h"
-#include "Font.h"
-int main(void){
-    Pointer a({ 100,100 });
-    a.setTargetHeadPos({ 200,400 });
-    a.setTargetTailPos({ 50,600 });
-    SetTargetFPS(60);
-    InitWindow(1600, 900, "test");
-    loadFonts();
-    while (!WindowShouldClose()) {
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        a.update();
-        a.render();
-        EndDrawing();
-    }
-    unloadFonts();
+﻿#include "raylib.h"
+#include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <queue>
+#include <cmath>
+#include "Application.h"
+int main() {    
+	InitWindow(1600, 900, "CS163 DSA Visulization");
+	SetTargetFPS(60);
+	Application app;
+	app.run();
+	CloseWindow();
     return 0;
 }

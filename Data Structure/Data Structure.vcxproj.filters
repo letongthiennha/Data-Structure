@@ -54,38 +54,14 @@
     <ClCompile Include="SLL.cpp">
       <Filter>Source Files\SLL</Filter>
     </ClCompile>
-    <ClCompile Include="GUIState.cpp">
-      <Filter>Source Files\Base</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIObject.cpp">
-      <Filter>Source Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIAnimatingObject.cpp">
-      <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="TextBox.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
-    <ClCompile Include="GUIText.cpp">
-      <Filter>Source Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIAnimatingObject.h">
-      <Filter>Header Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="ListNode.h">
-      <Filter>Header Files\SLL</Filter>
-    </ClCompile>
-    <ClCompile Include="ListNode.cpp">
+    <ClCompile Include="SLLNode.cpp">
       <Filter>Source Files\SLL</Filter>
-    </ClCompile>
-    <ClCompile Include="AVLScreen.h">
-      <Filter>Header Files\AVLTree</Filter>
-    </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AVLScreen.cpp">
       <Filter>Source Files\AVL</Filter>
@@ -99,9 +75,6 @@
     <ClCompile Include="Menu Screen.cpp">
       <Filter>Source Files\Menu Screen</Filter>
     </ClCompile>
-    <ClCompile Include="ControllerBoard.cpp">
-      <Filter>Source Files\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Pointer.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
@@ -111,28 +84,28 @@
     <ClCompile Include="Motion.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
+    <ClCompile Include="SLLOperation.h">
+      <Filter>Header Files\SLL</Filter>
+    </ClCompile>
+    <ClCompile Include="SLLScreen.cpp">
+      <Filter>Source Files\SLL</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SLLScreen.h">
       <Filter>Header Files\SLL</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIState.h">
-      <Filter>Header Files\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIText.h">
-      <Filter>Header Files\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIObject.h">
-      <Filter>Header Files\Base</Filter>
     </ClInclude>
     <ClInclude Include="TextBox.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
     <ClInclude Include="SLL.h">
       <Filter>Header Files\SLL</Filter>
-    </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Header Files\Base</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Header Files\Base</Filter>
@@ -149,17 +122,41 @@
     <ClInclude Include="Menu Screen.h">
       <Filter>Header Files\Menu Screen</Filter>
     </ClInclude>
-    <ClInclude Include="ControllerBoard.h">
-      <Filter>Header Files\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Setting.h">
-      <Filter>Header Files\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Pointer.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
     <ClInclude Include="Motion.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pointer.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ShPController.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="ShPNode.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="ShPPointer.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="ShortestPath.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="ShPTextBox.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyfiledialogs.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="SLLNode.h">
+      <Filter>Header Files\SLL</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="AVLScreen.h">
+      <Filter>Header Files\AVLTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

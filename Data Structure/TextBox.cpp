@@ -1,5 +1,19 @@
 #include "TextBox.h"
 
+#include "Setting.h"
+TextBox::TextBox() {
+	m_box.x = 0;
+	m_box.y = 0;
+	m_box.width = 200;
+	m_box.height = 100;
+	m_boxColor = textBoxColor;
+	m_textColor = BLACK;
+	m_maxLength = 0;
+	m_isTyping = false;
+	m_showBlinker = false;
+	m_timer = 0;
+	m_isHovering = false;
+}
 TextBox::TextBox(Vector2 position, Vector2 size, Color boxColor, Color textColor, int maxLength) {
     m_box.x = position.x;
     m_box.y = position.y;
@@ -68,7 +82,8 @@ void TextBox::update() {
             int input = GetCharPressed();
             while (input > 0) {//Check if there is input
                 //Only allow alphabet and digit
-                if (isalpha(input) || isdigit(input) || input == '-')
+
+                if (isalpha(input) || isdigit(input)||input==' '|| input == '-')
                     m_content += (char)(input);
                 //Multiple input in 1 second
                 input = GetCharPressed();

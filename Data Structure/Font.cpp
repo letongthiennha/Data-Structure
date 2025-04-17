@@ -23,3 +23,4 @@ void unloadFonts() {
     UnloadFont(FuturaMedium);
     UnloadFont(FuturaBold); 
 }
+

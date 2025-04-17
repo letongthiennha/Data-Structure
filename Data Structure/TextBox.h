@@ -29,12 +29,13 @@ private:
     float m_timer;
 public:
     //Constructor
+    TextBox();
     TextBox(Vector2 position,Vector2 size, Color boxColor, Color textColor,int maxLength);
-
+	void setMaxLength(int maxLength) { m_maxLength = maxLength; };
     //=============Set and Get Text=======================
     void setText(std::string content);
     std::string getText();
-
+	bool isEmpty() { return m_content.empty(); };
     //=============================Set Title===============
     void setBoxTitle(std::string title);
 

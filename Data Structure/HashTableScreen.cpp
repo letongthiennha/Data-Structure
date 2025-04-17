@@ -1,4 +1,5 @@
 #include "HashTableScreen.h"
+#include "Setting.h"
 #include "Icons.h"
 HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 50}, LIGHTGRAY, BLACK, 30), goBack(false), inputTask(false), addMode(false), removeMode(false), searchMode(false), randomMode(false), resizeMode(false) {    
     bold = FuturaBold;
@@ -74,6 +75,12 @@ HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 5
     finalize.setText("Finalize", 25);
     finalize.setSize({ 50, 50 });
     finalize.SetColor(BEIGE, BROWN, DARKBROWN);
+    
+  Home = Button(homeButtonPosition, homeButtonSize, "Home");
+	Home.SetIdleColor(controllerIdleColor);
+	Home.SetHoverColor(controllerHoveringColor);
+	Home.SetActiveColor(controllerActiveColor);
+	Home.setTexture("assets/Icon/home.png");
 }
 HashTableScreen::~HashTableScreen() {
     hashTable.~HashTable();
@@ -136,14 +143,6 @@ void HashTableScreen::update() {
         disableModes();
     }
 
-    if (back.isClicked()) {
-        hashTable.setAnimationState(FINALIZE);
-        hashTable = HashTable(10);
-        hashTable.clearRedo();
-        hashTable.clearHistory();
-        goBack = true;
-        disableModes();
-    }
 
     if (add.isClicked()) {
         hashTable.setAnimationState(FINALIZE);
@@ -326,8 +325,6 @@ void HashTableScreen::render() {
     std::ostringstream currentSpeed;
     currentSpeed << std::fixed << std::setprecision(1) << hashTable.coefficients[hashTable.currentCoefficient%4] << "x";
 
-    back.drawRectangle();
-    //back.drawOutline(0, 0, 1, BLACK);
 
     clear.drawRectangle();
     clear.drawOutline(0, 0, 2, BLACK);
@@ -411,9 +408,19 @@ void HashTableScreen::render() {
     else DrawTextureEx(play, {pause.getPosition().x + 15, pause.getPosition().y + 15}, 0, 0.04f, WHITE);
     DrawTextureEx(fastforward, {finalize.getPosition().x + 10, finalize.getPosition().y + 10}, 0, 0.06f, WHITE);
 
-    DrawTextureEx(home, {back.getPosition().x + 4, back.getPosition().y + 10}, 0, 0.045f, WHITE);
     if (hashTable.getAnimationState() == PAUSED) {
         DrawRectangleLinesEx(Rectangle{0, 0, 1600, 900}, 5, RED);
     }
-
-}
+   Home.drawTexture();
+	DrawText("Hash Table Screen", 800, 400, 20, BLACK);
+bool HashTableScreen::goBack() {
+	if (Home.isClicked()) {
+        hashTable.setAnimationState(FINALIZE);
+        hashTable = HashTable(10);
+        hashTable.clearRedo();
+        hashTable.clearHistory();
+        goBack = true;
+        disableModes();
+		return true;
+	}
+	return false;
