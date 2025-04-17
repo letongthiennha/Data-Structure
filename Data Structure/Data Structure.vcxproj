@@ -147,7 +147,6 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="AVLScreen.h" />
-    <ClInclude Include="ControllerBoard.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="HashTableScreen.h" />
     <ClInclude Include="Menu Screen.h" />

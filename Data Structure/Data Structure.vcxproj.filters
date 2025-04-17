@@ -122,9 +122,6 @@
     <ClInclude Include="Menu Screen.h">
       <Filter>Header Files\Menu Screen</Filter>
     </ClInclude>
-    <ClInclude Include="ControllerBoard.h">
-      <Filter>Header Files\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Setting.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
