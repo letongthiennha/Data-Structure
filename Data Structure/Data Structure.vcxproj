@@ -130,32 +130,23 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AVLScreen.cpp" />
-    <ClCompile Include="AVLScreen.h" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="ControllerBoard.cpp" />
-    <ClCompile Include="GUIAnimatingObject.cpp" />
-    <ClCompile Include="GUIObject.cpp" />
-    <ClCompile Include="GUIState.cpp" />
-    <ClCompile Include="GUIText.cpp" />
     <ClCompile Include="HashTableScreen.cpp" />
-    <ClCompile Include="ListNode.cpp" />
-    <ClCompile Include="ListNode.h" />
+    <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="SLLNode.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="GUIAnimatingObject.h" />
     <ClCompile Include="Menu Screen.cpp" />
     <ClCompile Include="Motion.cpp" />
     <ClCompile Include="Pointer.cpp" />
     <ClCompile Include="ShortestPathScreen.cpp" />
     <ClCompile Include="SLL.cpp" />
+    <ClCompile Include="SLLOperation.h" />
+    <ClCompile Include="SLLScreen.cpp" />
     <ClCompile Include="TextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
-    <ClInclude Include="ControllerBoard.h" />
-    <ClInclude Include="Font.h" />
-    <ClInclude Include="GUIObject.h" />
-    <ClInclude Include="GUIState.h" />
-    <ClInclude Include="GUIText.h" />
+    <ClInclude Include="AVLScreen.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="HashTableScreen.h" />
     <ClInclude Include="Menu Screen.h" />
@@ -163,7 +154,9 @@
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="ShortestPathScreen.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="SLL.h" />
+    <ClInclude Include="SLLNode.h" />
     <ClInclude Include="SLLScreen.h" />
     <ClInclude Include="TextBox.h" />
   </ItemGroup>
