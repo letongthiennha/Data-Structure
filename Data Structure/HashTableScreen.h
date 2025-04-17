@@ -4,6 +4,7 @@
 #include "TextBox.h"
 #include "HashTable.h"
 #include "Font.h"
+#include "Icons.h"
 #include "HashTableCode.h"
 
 class HashTableScreen {
@@ -32,6 +33,11 @@ private:
     Button randomConfirm;
     Button resize;
     Button clear;
+
+    Button undo;
+    Button redo;
+    Button pause;
+    Button finalize;
     Button speedToggle;
 
     TextBox input;

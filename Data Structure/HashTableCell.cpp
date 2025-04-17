@@ -83,7 +83,7 @@ void HashTableCell::render() {
                 DrawTextEx(FuturaMedium, std::to_string(val).c_str(), {textX, textY}, 22, 1, BLACK);
             }
         }
-        if (!areFontsLoaded) DrawText(std::to_string(index).c_str(), position.x + 20, position.y + 60, 15, textColor);
+        if (!areFontsLoaded()) DrawText(std::to_string(index).c_str(), position.x + 20, position.y + 60, 15, textColor);
         else {
             float indexWidth = MeasureTextEx(FuturaMedium, std::to_string(index).c_str(), 17, 1).x;
             float indexHeight = MeasureTextEx(FuturaMedium, std::to_string(index).c_str(), 17, 1).y;
