@@ -1,30 +1,28 @@
 #include "HashTableScreen.h"
 #include "Setting.h"
-#include "Icons.h"
-HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 50}, LIGHTGRAY, BLACK, 30), inputTask(false), addMode(false), removeMode(false), searchMode(false), randomMode(false), resizeMode(false) {    
+HashTableScreen::HashTableScreen() : hashTable(10), input({ startX, 820 }, { 1000, 50 }, LIGHTGRAY, BLACK, 30), inputTask(false), addMode(false), removeMode(false), searchMode(false), randomMode(false), resizeMode(false) {
     bold = FuturaBold;
     normal = FuturaMedium;
     FontsLoaded = areFontsLoaded();
 
-
     clear.setPosition({ 60, 310 });
     clear.setText("Clear", 25);
-    clear.setSize({175, 50 });
+    clear.setSize({ 175, 50 });
     clear.SetColor(BEIGE, BROWN, DARKBROWN);
 
     add.setPosition({ 60, 380 });
     add.setText("Add", 25);
-    add.setSize({175, 50 });
+    add.setSize({ 175, 50 });
     add.SetColor(BEIGE, BROWN, DARKBROWN);
 
     remove.setPosition({ 60, 450 });
     remove.setText("Remove", 25);
-    remove.setSize({175, 50 });
+    remove.setSize({ 175, 50 });
     remove.SetColor(BEIGE, BROWN, DARKBROWN);
-    
+
     search.setPosition({ 60, 520 });
     search.setText("Search", 25);
-    search.setSize({175, 50 });
+    search.setSize({ 175, 50 });
     search.SetColor(BEIGE, BROWN, DARKBROWN);
 
     random.setPosition({ 60, 590 });
@@ -34,6 +32,7 @@ HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 5
 
     randomConfirm.setPosition({ 235, 590 });
     randomConfirm.setText("GO", 22);
+    randomConfirm.setTexture("assets/Icon/accept.png");
     randomConfirm.setSize({ 52, 50 });
     randomConfirm.SetColor(BLANK, BLANK, BLANK);
 
@@ -42,7 +41,7 @@ HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 5
     resize.setSize({ 175, 50 });
     resize.SetColor(BEIGE, BROWN, DARKBROWN);
 
-    speedToggle.setPosition({ 60, 730});
+    speedToggle.setPosition({ 60, 730 });
     speedToggle.setText("Speed", 25);
     speedToggle.setSize({ 100, 50 });
     speedToggle.SetColor(BEIGE, BROWN, DARKBROWN);
@@ -55,25 +54,25 @@ HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 5
     undo.setPosition({ 35, 820 });
     undo.setText("Undo", 25);
     undo.setSize({ 50, 50 });
-    undo.setTexture("assets/Icon/prev.png");
+    undo.setTexture("assets/Icon/canundo.png");
     undo.SetColor(BEIGE, BROWN, DARKBROWN);
 
     redo.setPosition({ 90, 820 });
     redo.setText("Redo", 25);
     redo.setSize({ 50, 50 });
-    redo.setTexture("assets/Icon/next.png");
-
+    redo.setTexture("assets/Icon/canredo");
     redo.SetColor(BEIGE, BROWN, DARKBROWN);
 
-    pause.setPosition({ 160, 820 });
+    pause.setPosition({ 145, 815 });
     pause.setText("Pause", 25);
     pause.setTexture("assets/Icon/pause.png");
     pause.setSize({ 50, 50 });
     pause.SetColor(BEIGE, BROWN, DARKBROWN);
 
-    finalize.setPosition({ 210, 820 });
+    finalize.setPosition({ 212, 816 });
     finalize.setText("Finalize", 25);
-    finalize.setTexture("assets/Icon/skip.png");
+    finalize.setSize({50, 50});
+    finalize.setTexture("assets/Icon/skip45.png");
     finalize.SetColor(BEIGE, BROWN, DARKBROWN);
     
   Home = Button(homeButtonPosition, homeButtonSize, "Home");
@@ -282,27 +281,28 @@ void HashTableScreen::update() {
 
         if (hashTable.getAnimationState() == PAUSED) {
             hashTable.setAnimationState(PLAYING);
-            pause.setTexture("assets/Icon/pause.png");
-
         }
         else if (hashTable.getAnimationState() == PLAYING) {
             hashTable.setAnimationState(PAUSED);
-            pause.setTexture("assets/Icon/play.png");
-
         }
     }
 
-    if (hashTable.getAnimationState() == FINALIZE || hashTable.getAnimationState() == PLAYING) {
-        pause.setText("Pause", 25);
+    if (hashTable.getAnimationState() == PAUSED) {
+        pause.setTexture("assets/Icon/play.png");
     } else {
-        pause.setText("Play", 25);
+        pause.setTexture("assets/Icon/pause.png");
     }
 
-    if (!hashTable.canUndo()) undo.SetColor({ 128, 128, 128, 150 }, { 128, 128, 128, 150 }, { 128, 128, 128, 150 });
-    else undo.SetColor(BEIGE, BROWN, DARKBROWN);
-    if (!hashTable.canRedo()) redo.SetColor({ 128, 128, 128, 150 }, { 128, 128, 128, 150 }, { 128, 128, 128, 150 });
-    else redo.SetColor(BEIGE, BROWN, DARKBROWN);
-    
+    if (!hashTable.canUndo()) undo.setTexture("assets/Icon/noundo.png");
+    else { 
+        undo.setTexture("assets/Icon/canundo.png");
+        if (undo.isHover()) undo.setTexture("assets/Icon/hoverundo.png");
+    }
+    if (!hashTable.canRedo()) redo.setTexture("assets/Icon/noredo.png");
+    else {
+        redo.setTexture("assets/Icon/canredo.png");
+        if (redo.isHover()) redo.setTexture("assets/Icon/hoverredo.png");
+    }
     if (hashTable.getAnimationState() == IDLESTATE) { 
         finalize.SetColor({ 128, 128, 128, 150 }, { 128, 128, 128, 150 }, { 128, 128, 128, 150 });
         pause.SetColor({ 128, 128, 128, 150 }, { 128, 128, 128, 150 }, { 128, 128, 128, 150 });
@@ -314,8 +314,8 @@ void HashTableScreen::update() {
 
 void HashTableScreen::render() {
     DrawRectangle(0, 0, 300, 900, { 211, 176, 131, 100 });
-    DrawRectangle(15, 15, 270, 870, { 211, 176, 131, 120 });
-
+    DrawRectangle(15, 15, 270, 870, { 211, 176, 131, 120 });        
+    if (hashTable.getSize() < 33)DrawText("Hash Table Screen", 800, 450, 20, {0, 0, 0, 50});
     if (!FontsLoaded) {
         DrawText("HASH TABLE", 50, 150, 30, BLACK);
         //DrawText("----------", 75, 190, 30, BLACK);
@@ -357,13 +357,21 @@ void HashTableScreen::render() {
     resize.renderRectangle();
     resize.drawOutline(0, 0, 2, BLACK);
 
+	//undo.renderRectangle();
     undo.drawTexture();
+	//undo.drawOutline(0, 0, 2, BLACK);
 
+	//redo.renderRectangle();
     redo.drawTexture();
+	//redo.drawOutline(0, 0, 2, BLACK);
 
+	//pause.renderRectangle();
     pause.drawTexture();
+	//pause.drawOutline(0, 0, 2, BLACK);
 
+	//finalize.renderRectangle();
     finalize.drawTexture();
+	//finalize.drawOutline(0, 0, 2, BLACK);
 
     if (!FontsLoaded) {
         speedToggle.drawText(BLACK);
@@ -402,8 +410,9 @@ void HashTableScreen::render() {
     }
     if (randomMode) {
         randomConfirm.renderRectangle();
-        if (!FontsLoaded) randomConfirm.drawText(BLACK);
-        else DrawTextEx(bold, "GO", { 245, 610 + 15 }, 30, 1, BLACK);
+        //if (!FontsLoaded) randomConfirm.drawText(BLACK);
+        //else DrawTextEx(bold, "GO", { 245, 590 + 15 }, 30, 1, BLACK);
+        randomConfirm.drawTexture();
     }
 
     //DrawTextureEx(undoIcon, { undo.getPosition().x + 6, undo.getPosition().y + 8 }, 0, 0.075f, WHITE);
@@ -416,7 +425,7 @@ void HashTableScreen::render() {
         DrawRectangleLinesEx(Rectangle{ 0, 0, 1600, 900 }, 5, RED);
     }
     Home.drawTexture();
-    DrawText("Hash Table Screen", 800, 400, 20, BLACK);
+    
 }
 bool HashTableScreen::goBack() {
     if (Home.isClicked()) {

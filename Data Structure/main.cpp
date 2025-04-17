@@ -7,10 +7,12 @@
 #include <cmath>
 #include "Application.h"
 int main() {    
-	InitWindow(1600, 900, "CS163 DSA Visulization");
+	InitWindow(1600, 900, "CS163 DSA Visualization");
+	loadFonts();
 	SetTargetFPS(60);
 	Application app;
 	app.run();
 	CloseWindow();
+	unloadFonts();
     return 0;
 }
