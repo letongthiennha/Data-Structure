@@ -8,7 +8,7 @@ public:
 	HashTableScreen();
 	bool goBack();
 
-	void renderList();
+	void render();
 	void update();
 };
 

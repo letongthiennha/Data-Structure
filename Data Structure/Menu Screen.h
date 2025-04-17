@@ -13,7 +13,7 @@ class MenuScreen {
 public:  
 	Screen screenChoose=Screen::MainMenu;
     MenuScreen();
-    void renderList();
+    void render();
     void update();
 private:
     Texture2D background;

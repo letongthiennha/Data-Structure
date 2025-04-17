@@ -58,7 +58,9 @@ private:
     void renderCode();
     void renderList();
 
-    void handleOperations();
+    //Handle operation input
+    void handleOperationsInput();
+    //Assure to complete the current operation before moving to the next
     void updateOperations();
     void updateAnimation();
     //==============Function===========

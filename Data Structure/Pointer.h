@@ -28,7 +28,7 @@ public:
     Vector2 getHeadPos();
 
 
-     void renderList();
+     void render();
 
 };
 

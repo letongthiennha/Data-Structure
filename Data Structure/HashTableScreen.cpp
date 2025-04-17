@@ -7,7 +7,7 @@ HashTableScreen::HashTableScreen() {
 	Home.SetActiveColor(controllerActiveColor);
 	Home.setTexture("assets/Icon/home.png");
 }
-void HashTableScreen::renderList() {
+void HashTableScreen::render() {
 	Home.drawTexture();
 	DrawText("Hash Table Screen", 800, 400, 20, BLACK);
 }

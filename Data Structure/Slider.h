@@ -12,5 +12,5 @@ public:
 	void setProgress(float progress);
 	float getProgress()const;
 	void update();
-	void renderList();
+	void render();
 };

@@ -37,7 +37,7 @@ MenuScreen::MenuScreen() {
 
 	background = LoadTexture("assets/background.png");
 }
-void MenuScreen::renderList() {
+void MenuScreen::render() {
 	DrawTexture(background, 0, 0, WHITE);
 
 	SLL.drawTexture();

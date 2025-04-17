@@ -32,7 +32,7 @@ private:
 public:
     SLLScreen();
 	bool goBack();
-	void renderList();
+	void render();
     void updateList();
 	void update();
 };	

@@ -189,7 +189,7 @@ void SLLScreen::update() {
 	updateList();
 	inputBox.update();
 }
-void SLLScreen::renderList() {
+void SLLScreen::render() {
 	Create.renderRectangle();
 	Create.drawTexture();
 	Create.drawOutline(10, 10, 2, BLACK);
@@ -230,12 +230,12 @@ void SLLScreen::renderList() {
 	Pause.drawTexture();
 
 	if (inputting) {
-		inputBox.renderList();
+		inputBox.render();
 		Accept.drawTexture();
 	}
 
 
-	speedChooser.renderList();
+	speedChooser.render();
 
 	myList.render();
 }

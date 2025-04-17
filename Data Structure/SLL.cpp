@@ -635,7 +635,7 @@ void SLL::renderList() {
             Vector2 pointerPos = { newPosPointerHeadX, newPosPointerHeadY };
 			pNext.setTailPos(curr->m_currentPosition);
 			pNext.setHeadPos(pointerPos);
-            pNext.renderList();
+            pNext.render();
         }
         curr = curr->m_pNext;
     }
@@ -671,11 +671,13 @@ void SLL::render() {
     renderCode();
 }
 void SLL::update() {
+    handleOperationsInput();
+
     updateAnimation();
-    handleOperations();
+    
     updateOperations();
 }
-void SLL::handleOperations() {
+void SLL::handleOperationsInput() {
     if (m_current_function != 0 || functionQueue.empty()) return;
 
     listFunctionWithParameter currOperation = functionQueue.front();

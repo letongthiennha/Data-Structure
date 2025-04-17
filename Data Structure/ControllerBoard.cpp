@@ -58,7 +58,7 @@ void ControllerBoard::update() {
 
 
 //Render Control Button
-void ControllerBoard::renderList() {
+void ControllerBoard::render() {
     // Draw buttons
     Home.renderRectangle();
     Home.drawTexture();

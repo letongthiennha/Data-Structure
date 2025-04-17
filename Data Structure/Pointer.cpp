@@ -40,7 +40,7 @@ Vector2 Pointer::getHeadPos() {
 
 
 
-void Pointer::renderList() {
+void Pointer::render() {
     //Tinh huong cua mui ten
     Vector2 direction = { head.x - m_tailPos.x,head.y - m_tailPos.y };
     //Neu nhu khong co do dai thi khong ve
