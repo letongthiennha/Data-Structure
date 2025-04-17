@@ -14,7 +14,7 @@ const float endX = 1500;
 const float defaultHighlightDuration = 0.3f;
 const float defaultSequentialDuration = 0.05f;
 
-enum AnimationState { IDLE, PLAYING, PAUSED, FINALIZE };
+enum AnimationState { IDLESTATE, PLAYING, PAUSED, FINALIZE };
 struct Action {
     enum ActionType { ADD, REMOVE, RANDOMIZE, RESIZE, SEARCH } type;
     int index;      // Index in the hash table

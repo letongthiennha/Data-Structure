@@ -6,7 +6,7 @@ std::uniform_int_distribution<> radElement(-500, 500);
 
 HashTable::HashTable(int initsize)
     : table(initsize, HashTableCell(EMPTY)), current(0), size(initsize), hashPrime(7), currentCoefficient(1) {
-    animationState = IDLE;
+    animationState = IDLESTATE;
     highlightDuration = defaultHighlightDuration;
     sequentialDuration = defaultSequentialDuration;
     highlightedIndex = -1;
@@ -362,7 +362,7 @@ void HashTable::update() {
             table[index].setPersistentHighlight();
         }
         if (sequentialRender) sequentialRender = false;
-        animationState = IDLE;
+        animationState = IDLESTATE;
         return;
     }
     static float highlightTimer = 0.0f; 
@@ -384,21 +384,21 @@ void HashTable::update() {
             int value = addQueue.front().second;
             addQueue.pop();
             table[index].setValue(value);
-            animationState = IDLE;
+            animationState = IDLESTATE;
             highlightedIndex = -1;
         }
         if (!removeQueue.empty()) {
             int index = removeQueue.front();
             removeQueue.pop();
             table[index].setValue(EMPTY);
-            animationState = IDLE;
+            animationState = IDLESTATE;
             highlightedIndex = -1;
         }
         if (!findQueue.empty()) {
             int index = findQueue.front();
             findQueue.pop();
             table[index].setPersistentHighlight();
-            animationState = IDLE;
+            animationState = IDLESTATE;
             highlightedIndex = -1;
         }
     }
@@ -425,7 +425,7 @@ void HashTable::render() {
                 renderTimer = sequentialDuration; 
             } else {
                 sequentialRender = false;
-                animationState = IDLE;
+                animationState = IDLESTATE;
                 toRender = 0;
             }
         }

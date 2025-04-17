@@ -96,6 +96,33 @@
     <ClCompile Include="Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShortestPath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShPController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShPNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShPPointer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShPTextBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyfiledialogs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HashTable.cpp">
+      <Filter>Header Files\HashTable</Filter>
+    </ClCompile>
+    <ClCompile Include="HashTableCell.cpp">
+      <Filter>Header Files\HashTable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SLLScreen.h">
@@ -131,19 +158,7 @@
     <ClInclude Include="Pointer.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
-    <ClInclude Include="ShPController.h">
-      <Filter>Header Files\ShortestPath</Filter>
-    </ClInclude>
-    <ClInclude Include="ShPNode.h">
-      <Filter>Header Files\ShortestPath</Filter>
-    </ClInclude>
-    <ClInclude Include="ShPPointer.h">
-      <Filter>Header Files\ShortestPath</Filter>
-    </ClInclude>
     <ClInclude Include="ShortestPath.h">
-      <Filter>Header Files\ShortestPath</Filter>
-    </ClInclude>
-    <ClInclude Include="ShPTextBox.h">
       <Filter>Header Files\ShortestPath</Filter>
     </ClInclude>
     <ClInclude Include="tinyfiledialogs.h">
@@ -152,11 +167,20 @@
     <ClInclude Include="SLLNode.h">
       <Filter>Header Files\SLL</Filter>
     </ClInclude>
-    <ClInclude Include="Slider.h">
-      <Filter>Header Files\Base</Filter>
-    </ClInclude>
     <ClInclude Include="AVLScreen.h">
       <Filter>Header Files\AVLTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HashTable.h">
+      <Filter>Header Files\HashTable</Filter>
+    </ClInclude>
+    <ClInclude Include="HashTableCell.h">
+      <Filter>Header Files\HashTable</Filter>
+    </ClInclude>
+    <ClInclude Include="HashTableCode.h">
+      <Filter>Header Files\HashTable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
