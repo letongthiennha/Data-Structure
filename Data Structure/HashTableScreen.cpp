@@ -1,15 +1,11 @@
 #include "HashTableScreen.h"
 #include "Setting.h"
 #include "Icons.h"
-HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 50}, LIGHTGRAY, BLACK, 30), goBack(false), inputTask(false), addMode(false), removeMode(false), searchMode(false), randomMode(false), resizeMode(false) {    
+HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 50}, LIGHTGRAY, BLACK, 30), inputTask(false), addMode(false), removeMode(false), searchMode(false), randomMode(false), resizeMode(false) {    
     bold = FuturaBold;
     normal = FuturaMedium;
     FontsLoaded = areFontsLoaded();
 
-    back.setPosition({ 30, 25 });
-    back.setText("<<<", 35);
-    back.setSize({35, 50 });
-    back.SetColor(BLANK, BEIGE, BLANK);
 
     clear.setPosition({ 60, 310 });
     clear.setText("Clear", 25);
@@ -59,21 +55,25 @@ HashTableScreen::HashTableScreen(): hashTable(10), input({startX, 820}, {1000, 5
     undo.setPosition({ 35, 820 });
     undo.setText("Undo", 25);
     undo.setSize({ 50, 50 });
+    undo.setTexture("assets/Icon/prev.png");
     undo.SetColor(BEIGE, BROWN, DARKBROWN);
 
-    redo.setPosition({ 85, 820 });
+    redo.setPosition({ 90, 820 });
     redo.setText("Redo", 25);
     redo.setSize({ 50, 50 });
+    redo.setTexture("assets/Icon/next.png");
+
     redo.SetColor(BEIGE, BROWN, DARKBROWN);
 
     pause.setPosition({ 160, 820 });
     pause.setText("Pause", 25);
+    pause.setTexture("assets/Icon/pause.png");
     pause.setSize({ 50, 50 });
     pause.SetColor(BEIGE, BROWN, DARKBROWN);
 
     finalize.setPosition({ 210, 820 });
     finalize.setText("Finalize", 25);
-    finalize.setSize({ 50, 50 });
+    finalize.setTexture("assets/Icon/skip.png");
     finalize.SetColor(BEIGE, BROWN, DARKBROWN);
     
   Home = Button(homeButtonPosition, homeButtonSize, "Home");
@@ -118,7 +118,6 @@ void HashTableScreen::disableModes() {
 
 void HashTableScreen::update() {
     hashTable.update();
-    back.update();
     add.update();
     speedToggle.update();
     randomConfirm.update();
@@ -280,8 +279,17 @@ void HashTableScreen::update() {
     }
 
     if (pause.isClicked()) {
-        if (hashTable.getAnimationState() == PAUSED) hashTable.setAnimationState(PLAYING);
-        else if (hashTable.getAnimationState() == PLAYING) hashTable.setAnimationState(PAUSED);
+
+        if (hashTable.getAnimationState() == PAUSED) {
+            hashTable.setAnimationState(PLAYING);
+            pause.setTexture("assets/Icon/pause.png");
+
+        }
+        else if (hashTable.getAnimationState() == PLAYING) {
+            hashTable.setAnimationState(PAUSED);
+            pause.setTexture("assets/Icon/play.png");
+
+        }
     }
 
     if (hashTable.getAnimationState() == FINALIZE || hashTable.getAnimationState() == PLAYING) {
@@ -295,7 +303,7 @@ void HashTableScreen::update() {
     if (!hashTable.canRedo()) redo.SetColor({ 128, 128, 128, 150 }, { 128, 128, 128, 150 }, { 128, 128, 128, 150 });
     else redo.SetColor(BEIGE, BROWN, DARKBROWN);
     
-    if (hashTable.getAnimationState() == IDLE) { 
+    if (hashTable.getAnimationState() == IDLESTATE) { 
         finalize.SetColor({ 128, 128, 128, 150 }, { 128, 128, 128, 150 }, { 128, 128, 128, 150 });
         pause.SetColor({ 128, 128, 128, 150 }, { 128, 128, 128, 150 }, { 128, 128, 128, 150 });
     } else {
@@ -311,56 +319,52 @@ void HashTableScreen::render() {
     if (!FontsLoaded) {
         DrawText("HASH TABLE", 50, 150, 30, BLACK);
         //DrawText("----------", 75, 190, 30, BLACK);
-        DrawLineEx({50 + (float)(MeasureText("HASH TABLE", 30) - 145)/2, 200}, {50 + (float)(MeasureText("HASH TABLE", 30) - 145)/2 + 145, 200}, 3, BLACK);
-        DrawText("Linear Probing", (300.0 - (float)MeasureText("Linear Probing", 30))/2.0, 230, 30, BLACK);
-    } else {
-        float firstX = (300-MeasureTextEx(bold, "HASH TABLE", 50, 2).x)/2;
-        DrawTextEx(bold, "HASH TABLE", {firstX,150}, 50, 2, BLACK);
-        DrawLineEx({firstX + (MeasureTextEx(bold, "HASH TABLE", 50, 2).x - 145)/2, 212}, {50 + (MeasureTextEx(bold, "HASH TABLE", 50, 2).x - 145)/2 + 145,212}, 2, BLACK);
-        DrawTextEx(normal, "Linear Probing", {(300 - MeasureTextEx(normal, "Linear Probing", 40, 2).x)/2, 230}, 40, 2, BLACK);
+        DrawLineEx({ 50 + (float)(MeasureText("HASH TABLE", 30) - 145) / 2, 200 }, { 50 + (float)(MeasureText("HASH TABLE", 30) - 145) / 2 + 145, 200 }, 3, BLACK);
+        DrawText("Linear Probing", (300.0 - (float)MeasureText("Linear Probing", 30)) / 2.0, 230, 30, BLACK);
     }
-    
-    speedToggle.drawRectangle();
+    else {
+        float firstX = (300 - MeasureTextEx(bold, "HASH TABLE", 50, 2).x) / 2;
+        DrawTextEx(bold, "HASH TABLE", { firstX,150 }, 50, 2, BLACK);
+        DrawLineEx({ firstX + (MeasureTextEx(bold, "HASH TABLE", 50, 2).x - 145) / 2, 212 }, { 50 + (MeasureTextEx(bold, "HASH TABLE", 50, 2).x - 145) / 2 + 145,212 }, 2, BLACK);
+        DrawTextEx(normal, "Linear Probing", { (300 - MeasureTextEx(normal, "Linear Probing", 40, 2).x) / 2, 230 }, 40, 2, BLACK);
+    }
+
+    speedToggle.renderRectangle();
     speedToggle.drawOutline(0, 0, 2, BLACK);
     std::ostringstream currentSpeed;
-    currentSpeed << std::fixed << std::setprecision(1) << hashTable.coefficients[hashTable.currentCoefficient%4] << "x";
+    currentSpeed << std::fixed << std::setprecision(1) << hashTable.coefficients[hashTable.currentCoefficient % 4] << "x";
 
 
-    clear.drawRectangle();
+    clear.renderRectangle();
     clear.drawOutline(0, 0, 2, BLACK);
 
-    add.drawRectangle();
+    add.renderRectangle();
     add.drawOutline(0, 0, 2, BLACK);
-    
 
-    remove.drawRectangle();
+
+    remove.renderRectangle();
     remove.drawOutline(0, 0, 2, BLACK);
-    
 
-    search.drawRectangle();
+
+    search.renderRectangle();
     search.drawOutline(0, 0, 2, BLACK);
-    
 
-    random.drawRectangle();
+
+    random.renderRectangle();
     random.drawOutline(0, 0, 2, BLACK);
-    
 
-    resize.drawRectangle();
+
+    resize.renderRectangle();
     resize.drawOutline(0, 0, 2, BLACK);
 
-    undo.drawRectangle();
-    undo.drawOutline(0, 0, 2, BLACK);
+    undo.drawTexture();
 
-    redo.drawRectangle();
-    redo.drawOutline(0, 0, 2, BLACK);
+    redo.drawTexture();
 
-    pause.drawRectangle();
-    pause.drawOutline(0, 0, 2, BLACK);
+    pause.drawTexture();
 
-    finalize.drawRectangle();
-    finalize.drawOutline(0, 0, 2, BLACK);
+    finalize.drawTexture();
 
-    
     if (!FontsLoaded) {
         speedToggle.drawText(BLACK);
         DrawText(currentSpeed.str().c_str(), 170, 750.0 + 12.5, 25, BLACK);
@@ -378,49 +382,50 @@ void HashTableScreen::render() {
     }
     else {
         //DrawTextEx(normal, "<<<", { 30 + (50 - MeasureTextEx(bold, "<<<", 25, 0.5).x)/2 , 25 + (50 - MeasureTextEx(bold, "<<<", 25, 0.5).y)/2}, 25, 0.5, BLACK);
-        DrawTextEx(normal, "Speed", { 60 + (100 - MeasureTextEx(normal, "Speed", 30, 1).x)/2 , 730 + (50 - MeasureTextEx(normal, "Speed", 30, 1).y)/2}, 30, 1, BLACK);
-        DrawTextEx(bold, currentSpeed.str().c_str(), { 180, 730 + 15}, 30, 1, BLACK);
-        DrawTextEx(normal, "Clear", { 60 + (175 - MeasureTextEx(normal, "Clear", 30, 1).x)/2 , 310 + (50 - MeasureTextEx(normal, "Clear", 30, 1).y)/2}, 30, 1, BLACK);
-        DrawTextEx(normal, "Add", { 60 + (175 - MeasureTextEx(normal, "Add", 30, 1).x)/2 , 380 + (50 - MeasureTextEx(normal, "Add", 30, 1).y)/2}, 30, 1, BLACK);
-        DrawTextEx(normal, "Remove", { 60 + (175 - MeasureTextEx(normal, "Remove", 30, 1).x)/2 , 450 + (50 - MeasureTextEx(normal, "Remove", 30, 1).y)/2}, 30, 1, BLACK);
-        DrawTextEx(normal, "Search", { 60 + (175 - MeasureTextEx(normal, "Search", 30, 1).x)/2 , 520 + (50 - MeasureTextEx(normal, "Search", 30, 1).y)/2}, 30, 1, BLACK);
-        DrawTextEx(normal, "Randomize", { 60 + (175 - MeasureTextEx(normal, "Randomize", 30, 1).x)/2 , 590 + (50 - MeasureTextEx(normal, "Randomize", 30, 1).y)/2}, 30, 1, BLACK);
-        DrawTextEx(normal, "Resize", { 60 + (175 - MeasureTextEx(normal, "Resize", 30, 1).x)/2 , 660 + (50 - MeasureTextEx(normal, "Resize", 30, 1).y)/2}, 30, 1, BLACK);
+        DrawTextEx(normal, "Speed", { 60 + (100 - MeasureTextEx(normal, "Speed", 30, 1).x) / 2 , 730 + (50 - MeasureTextEx(normal, "Speed", 30, 1).y) / 2 }, 30, 1, BLACK);
+        DrawTextEx(bold, currentSpeed.str().c_str(), { 180, 730 + 15 }, 30, 1, BLACK);
+        DrawTextEx(normal, "Clear", { 60 + (175 - MeasureTextEx(normal, "Clear", 30, 1).x) / 2 , 310 + (50 - MeasureTextEx(normal, "Clear", 30, 1).y) / 2 }, 30, 1, BLACK);
+        DrawTextEx(normal, "Add", { 60 + (175 - MeasureTextEx(normal, "Add", 30, 1).x) / 2 , 380 + (50 - MeasureTextEx(normal, "Add", 30, 1).y) / 2 }, 30, 1, BLACK);
+        DrawTextEx(normal, "Remove", { 60 + (175 - MeasureTextEx(normal, "Remove", 30, 1).x) / 2 , 450 + (50 - MeasureTextEx(normal, "Remove", 30, 1).y) / 2 }, 30, 1, BLACK);
+        DrawTextEx(normal, "Search", { 60 + (175 - MeasureTextEx(normal, "Search", 30, 1).x) / 2 , 520 + (50 - MeasureTextEx(normal, "Search", 30, 1).y) / 2 }, 30, 1, BLACK);
+        DrawTextEx(normal, "Randomize", { 60 + (175 - MeasureTextEx(normal, "Randomize", 30, 1).x) / 2 , 590 + (50 - MeasureTextEx(normal, "Randomize", 30, 1).y) / 2 }, 30, 1, BLACK);
+        DrawTextEx(normal, "Resize", { 60 + (175 - MeasureTextEx(normal, "Resize", 30, 1).x) / 2 , 660 + (50 - MeasureTextEx(normal, "Resize", 30, 1).y) / 2 }, 30, 1, BLACK);
     }
 
     hashTable.render();
 
     if (inputTask) {
         input.render();
-        confirm.drawRectangle();
+        confirm.renderRectangle();
         confirm.drawText(BLACK);
         confirm.drawOutline(0, 0, 2, BLACK);
     }
     if (randomMode) {
-        randomConfirm.drawRectangle();
+        randomConfirm.renderRectangle();
         if (!FontsLoaded) randomConfirm.drawText(BLACK);
-        else DrawTextEx(bold, "GO", { 245, 610+15}, 30, 1, BLACK);
+        else DrawTextEx(bold, "GO", { 245, 610 + 15 }, 30, 1, BLACK);
     }
 
-    DrawTextureEx(undoIcon, {undo.getPosition().x + 6, undo.getPosition().y + 8}, 0, 0.075f, WHITE);
-    DrawTextureEx(redoIcon, {redo.getPosition().x + 6,  redo.getPosition().y + 8}, 0, 0.075f, WHITE);
-    if (hashTable.getAnimationState() == PLAYING) DrawTextureEx(pauseIcon, {pause.getPosition().x + 9, pause.getPosition().y + 10}, 0, 0.06f, WHITE);
-    else DrawTextureEx(play, {pause.getPosition().x + 15, pause.getPosition().y + 15}, 0, 0.04f, WHITE);
-    DrawTextureEx(fastforward, {finalize.getPosition().x + 10, finalize.getPosition().y + 10}, 0, 0.06f, WHITE);
+    //DrawTextureEx(undoIcon, { undo.getPosition().x + 6, undo.getPosition().y + 8 }, 0, 0.075f, WHITE);
+    //DrawTextureEx(redoIcon, { redo.getPosition().x + 6,  redo.getPosition().y + 8 }, 0, 0.075f, WHITE);
+    //if (hashTable.getAnimationState() == PLAYING) DrawTextureEx(pauseIcon, { pause.getPosition().x + 9, pause.getPosition().y + 10 }, 0, 0.06f, WHITE);
+    //else DrawTextureEx(play, { pause.getPosition().x + 15, pause.getPosition().y + 15 }, 0, 0.04f, WHITE);
+    //DrawTextureEx(fastforward, { finalize.getPosition().x + 10, finalize.getPosition().y + 10 }, 0, 0.06f, WHITE);
 
     if (hashTable.getAnimationState() == PAUSED) {
-        DrawRectangleLinesEx(Rectangle{0, 0, 1600, 900}, 5, RED);
+        DrawRectangleLinesEx(Rectangle{ 0, 0, 1600, 900 }, 5, RED);
     }
-   Home.drawTexture();
-	DrawText("Hash Table Screen", 800, 400, 20, BLACK);
+    Home.drawTexture();
+    DrawText("Hash Table Screen", 800, 400, 20, BLACK);
+}
 bool HashTableScreen::goBack() {
-	if (Home.isClicked()) {
+    if (Home.isClicked()) {
         hashTable.setAnimationState(FINALIZE);
         hashTable = HashTable(10);
         hashTable.clearRedo();
         hashTable.clearHistory();
-        goBack = true;
         disableModes();
-		return true;
-	}
-	return false;
+        return true;
+    }
+    return false;
+};

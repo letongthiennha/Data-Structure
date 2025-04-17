@@ -132,6 +132,8 @@
     <ClCompile Include="AVLScreen.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Font.cpp" />
+    <ClCompile Include="HashTable.cpp" />
+    <ClCompile Include="HashTableCell.cpp" />
     <ClCompile Include="HashTableScreen.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SLLNode.cpp" />
@@ -156,6 +158,9 @@
     <ClInclude Include="AVLScreen.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Font.h" />
+    <ClInclude Include="HashTable.h" />
+    <ClInclude Include="HashTableCell.h" />
+    <ClInclude Include="HashTableCode.h" />
     <ClInclude Include="HashTableScreen.h" />
     <ClInclude Include="Menu Screen.h" />
     <ClInclude Include="Motion.h" />

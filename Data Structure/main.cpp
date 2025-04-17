@@ -1,5 +1,4 @@
-
-﻿#include "raylib.h"
+#include "raylib.h"
 #include <vector>
 #include <string>
 #include <fstream>
