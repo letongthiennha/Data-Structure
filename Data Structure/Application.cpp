@@ -4,7 +4,7 @@ Application::Application() {
 
 	mainMenu = MenuScreen();
 	SLL = SLLScreen();
-	AVL = AVLScreen();
+    tree = AVLTree();
 	HashTable = HashTableScreen();
 	ShortestPath = ShortestPathScreen();
 }
@@ -27,18 +27,29 @@ void Application::run() {
             }
             break;
         case Screen::AVL:
-            AVL.update();
-            AVL.render();
-            if (AVL.goBack()) {
-                mainMenu.screenChoose = Screen::MainMenu;
+
+            std::string inputText = "";
+
+            if (IsKeyPressed(KEY_ENTER) && !inputText.empty()) {
+                tree.insert(std::stoi(inputText));
+                inputText = "";
             }
+            if (IsKeyPressed(KEY_BACKSPACE) && !inputText.empty()) {
+                inputText.pop_back();
+            }
+            int key = GetCharPressed();
+            if (key >= '0' && key <= '9') {
+                inputText += static_cast<char>(key);
+            }
+            tree.processInsertion();
+            tree.updateNodePosition(tree.root);
+            tree.drawTree();
+            DrawText(("Enter number: " + inputText).c_str(), 10, 10, 20, DARKGRAY);
             break;
         case Screen::HashTable:
             HashTable.update();
             HashTable.render();
-            if (AVL.goBack()) {
-                mainMenu.screenChoose = Screen::MainMenu;
-            }
+            
             break;
         case Screen::ShortestPath:
             ShortestPath.update();

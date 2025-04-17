@@ -14,7 +14,7 @@ public:
 private:
     MenuScreen mainMenu;
     SLLScreen SLL;
-    AVLScreen AVL;
+    AVLTree tree;
     HashTableScreen HashTable;
     ShortestPathScreen ShortestPath;
 };
