@@ -110,5 +110,7 @@ void Button::drawTexture() {
 }
 
 void Button::drawText(Color color) {
+
     DrawText(m_text.c_str(), m_position.x  +5, m_position.y , m_textSize, color);
+
 }
