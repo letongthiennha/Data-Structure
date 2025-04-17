@@ -131,6 +131,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AVLScreen.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="HashTableScreen.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SLLNode.cpp" />
@@ -138,27 +139,35 @@
     <ClCompile Include="Menu Screen.cpp" />
     <ClCompile Include="Motion.cpp" />
     <ClCompile Include="Pointer.cpp" />
+    <ClCompile Include="ShortestPath.cpp" />
     <ClCompile Include="ShortestPathScreen.cpp" />
+    <ClCompile Include="ShPController.cpp" />
+    <ClCompile Include="ShPNode.cpp" />
+    <ClCompile Include="ShPPointer.cpp" />
+    <ClCompile Include="ShPTextBox.cpp" />
     <ClCompile Include="SLL.cpp" />
     <ClCompile Include="SLLOperation.h" />
     <ClCompile Include="SLLScreen.cpp" />
     <ClCompile Include="TextBox.cpp" />
+    <ClCompile Include="tinyfiledialogs.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="AVLScreen.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="HashTableScreen.h" />
     <ClInclude Include="Menu Screen.h" />
     <ClInclude Include="Motion.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="Setting.h" />
+    <ClInclude Include="ShortestPath.h" />
     <ClInclude Include="ShortestPathScreen.h" />
-    <ClInclude Include="Slider.h" />
     <ClInclude Include="SLL.h" />
     <ClInclude Include="SLLNode.h" />
     <ClInclude Include="SLLScreen.h" />
     <ClInclude Include="TextBox.h" />
+    <ClInclude Include="tinyfiledialogs.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="..\include\arial.ttf" />

@@ -125,11 +125,29 @@
     <ClInclude Include="Setting.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Motion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Pointer.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Motion.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ShPController.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="ShPNode.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="ShPPointer.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="ShortestPath.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="ShPTextBox.h">
+      <Filter>Header Files\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyfiledialogs.h">
+      <Filter>Header Files\Base</Filter>
     </ClInclude>
     <ClInclude Include="SLLNode.h">
       <Filter>Header Files\SLL</Filter>
