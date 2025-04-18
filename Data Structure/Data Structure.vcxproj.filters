@@ -96,32 +96,32 @@
     <ClCompile Include="Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShortestPath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShPController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShPNode.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ShPTextBox.cpp">
+      <Filter>Source Files\ShortestPath</Filter>
     </ClCompile>
     <ClCompile Include="ShPPointer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\ShortestPath</Filter>
     </ClCompile>
-    <ClCompile Include="ShPTextBox.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ShPNode.cpp">
+      <Filter>Source Files\ShortestPath</Filter>
+    </ClCompile>
+    <ClCompile Include="ShPController.cpp">
+      <Filter>Source Files\ShortestPath</Filter>
+    </ClCompile>
+    <ClCompile Include="ShortestPath.cpp">
+      <Filter>Source Files\ShortestPath</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="tinyfiledialogs.c">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\ShortestPath</Filter>
     </ClCompile>
     <ClCompile Include="HashTable.cpp">
-      <Filter>Header Files\HashTable</Filter>
+      <Filter>Source Files\HashTable</Filter>
     </ClCompile>
     <ClCompile Include="HashTableCell.cpp">
-      <Filter>Header Files\HashTable</Filter>
+      <Filter>Source Files\HashTable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,9 +170,6 @@
     <ClInclude Include="AVLScreen.h">
       <Filter>Header Files\AVLTree</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="HashTable.h">
       <Filter>Header Files\HashTable</Filter>
     </ClInclude>
@@ -181,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="HashTableCode.h">
       <Filter>Header Files\HashTable</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
