@@ -34,28 +34,32 @@ void AVLNode::render(Vector2 pos) {
 }
 void AVLNode::updateAnimation(float speed) {
     if (currentAnimation == AVL_IDLE) return;
-
-    animationPhase += GetFrameTime() * speed;
-    if (animationPhase >= 1.0f) {
+    animationPhase += GetFrameTime() * speed; 
+    if (animationPhase >= 1.0f) { 
         animationPhase = 1.0f;
+        if (currentAnimation == AVL_CHANGINGOPACITY) {
+            opacity = 1.0f; 
+        }
+        else if (currentAnimation == AVL_MOVING) {
+            position = destination; 
+        }
         currentAnimation = AVL_IDLE;
     }
-
-    // Simple linear interpolation for smooth transitions
-    float t = animationPhase; // Assuming linear progression; adjust if Motion.h provides a function
-
-    switch (currentAnimation) {
-    case AVL_MOVING:
-        position.x = position.x + (destination.x - position.x) * t;
-        position.y = position.y + (destination.y - position.y) * t;
-        break;
-    case AVL_CHANGINGOPACITY:
-        opacity = opacity + ((isHighlighted ? 1.0f : 0.0f) - opacity) * t;
-        break;
-    case AVL_HIGHLIGHT:
-        isHighlighted = true;
-        break;
-    default:
-        break;
+    else {
+        float t = animationPhase;
+        switch (currentAnimation) {
+        case AVL_MOVING:
+            position.x = position.x * (1 - t) + destination.x * t;
+            position.y = position.y * (1 - t) + destination.y * t;
+            break;
+        case AVL_CHANGINGOPACITY:
+            opacity = opacity + (1.0f - opacity) * t;
+            break;
+        case AVL_HIGHLIGHT:
+            isHighlighted = true;
+            break;
+        default:
+            break;
+        }
     }
 }

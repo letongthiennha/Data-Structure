@@ -140,7 +140,20 @@ void AVLTree::updatePointers() {
 }
 
 void AVLTree::update() {
-    if (isPaused) return;
+    if (isPaused) return; 
+    if (!operationQueue.empty()) { 
+        currentOperation = operationQueue.front(); 
+        operationQueue.pop(); 
+        switch (currentOperation.type) {
+        case INSERT:
+            insert(currentOperation.value); 
+            break;
+        case REMOVE:
+            break;
+        case SEARCH:
+            break;
+        }
+    }
     std::function<void(AVLNode*)> updateNode = [&](AVLNode* node) {
         if (!node) return;
         node->updateAnimation(treeSpeed);
@@ -203,8 +216,11 @@ void AVLTree::create(const std::vector<int>& vals) {
 }
 
 void AVLTree::storeOperation(AVLOperationType type, int value, int secondValue) {
-    AVLOperation op{ type, value, secondValue };
-    operationQueue.push(op);
+    AVLOperation op;
+    op.type = type;
+    op.value = value;
+    op.secondValue = secondValue;
+    operationQueue.push(op); 
 }
 
 void AVLTree::setSpeed(float speed) {
