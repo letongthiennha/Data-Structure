@@ -78,7 +78,10 @@ AVLScreen::AVLScreen() {
 void AVLScreen::updateList() {
     myTree.update();
 
-    myTree.setSpeed(speedChooser.getProgress());
+    float speed = speedChooser.getProgress();
+    if (speed < 0.01f) speed = 0.01f;  // Đảm bảo tốc độ tối thiểu là 0.01
+    myTree.setSpeed(speed);
+
     if (inputting) {
         inputBox.update();
         Accept.update();

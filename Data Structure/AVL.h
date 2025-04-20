@@ -10,11 +10,15 @@ enum AVLOperationType {
     NONE,
     INSERT,
     REMOVE,
-    SEARCH,
     CREATE,
     RANDOM,
-	UPDATE,
-	FIND
+    UPDATE,
+    FIND
+};
+
+enum OperationPhase {
+    PATH_FINDING,
+    MODIFICATION
 };
 
 struct AVLOperation {
@@ -44,18 +48,30 @@ private:
         bool isStarted;
         bool isComplete;
         bool isFound;
+        std::vector<AVLNode*> path;
+        float highlightTimer;
+        size_t currentPathIndex;
+        bool skipAnimations;
+        OperationPhase phase;
         OperationInfo() : currNode(nullptr), newNode(nullptr), removeVal(0), findVal(0),
-            isStarted(false), isComplete(false), isFound(false) {
+            isStarted(false), isComplete(false), isFound(false), highlightTimer(0.0f),
+            currentPathIndex(0), skipAnimations(false), phase(PATH_FINDING) {
         }
     } currOperationInfo;
 
     // AVL Tree operations
-    AVLNode* insertNode(AVLNode* node, int value);
+    AVLNode* insertNode(AVLNode* node, int value, std::vector<AVLNode*>& path);
     AVLNode* balanceNode(AVLNode* node);
+    AVLNode* findHelper(AVLNode* node, int value, std::vector<AVLNode*>& path);
+    AVLNode* removeHelper(AVLNode* node, int value, std::vector<AVLNode*>& path);
+    AVLNode* findMin(AVLNode* node);
     int getHeight(AVLNode* node);
     int getBalanceFactor(AVLNode* node);
     AVLNode* rotateLeft(AVLNode* node);
     AVLNode* rotateRight(AVLNode* node);
+    void findInsertionPath(AVLNode* node, int value, std::vector<AVLNode*>& path);
+    void findRemovalPath(AVLNode* node, int value, std::vector<AVLNode*>& path);
+    void findPath(AVLNode* node, int value, std::vector<AVLNode*>& path);
 
     void updatePointers();
     void repositionNodes(AVLNode* node, float x, float y, float spacing);
@@ -76,6 +92,8 @@ public:
     void create(const std::vector<int>& vals);
     void randomCreate(int amount);
     void LoadFromFile(const std::string& path);
+    AVLNode* find(int value);
+    void remove(int value);
 
     void clearTree(AVLNode* node);
 };

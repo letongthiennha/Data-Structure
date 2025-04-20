@@ -43,6 +43,9 @@ void AVLNode::updateAnimation(float speed) {
         else if (currentAnimation == AVL_MOVING) {
             position = destination; 
         }
+        else if (currentAnimation == AVL_HIGHLIGHT) {
+            isHighlighted = false; 
+        }
         currentAnimation = AVL_IDLE;
     }
     else {
@@ -53,7 +56,7 @@ void AVLNode::updateAnimation(float speed) {
             position.y = position.y * (1 - t) + destination.y * t;
             break;
         case AVL_CHANGINGOPACITY:
-            opacity = opacity + (1.0f - opacity) * t;
+            opacity = t;
             break;
         case AVL_HIGHLIGHT:
             isHighlighted = true;
