@@ -6,6 +6,8 @@
 #include <string>
 #include "TextBox.h"
 #include "Slider.h"
+#include "tinyfiledialogs.h"
+
 class SLLScreen {
 private:
     Button Home;
@@ -15,6 +17,7 @@ private:
     Button Remove;
     Button Find;
     Button Update;
+    Button LoadFile;
     Button Accept;
     Button Pause;
     Button Skip;

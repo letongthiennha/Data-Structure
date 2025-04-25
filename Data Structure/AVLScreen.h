@@ -6,16 +6,18 @@
 #include <string>
 #include "TextBox.h"
 #include "Slider.h"
-
+#include "tinyfiledialogs.h"
+    
 class AVLScreen {
 private:
-    Button HomeButton;  // Đổi tên để tránh trùng lặp
+    Button HomeButton;  
     Button Create;
     Button Random;
     Button Insert;
     Button Remove;
     Button Find;
     Button Update;
+    Button LoadFile;
     Button Accept;
     Button Pause;
     Button Skip;
@@ -32,7 +34,7 @@ private:
 
 public:
     AVLScreen();
-    bool goBack();  // Hàm goBack tương thích với SLLScreen
+    bool goBack();  
     void render();
     void updateList();
     void update();
