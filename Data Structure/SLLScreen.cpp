@@ -206,7 +206,7 @@ void SLLScreen::render() {
 	Insert.drawText({ 0,0,0,255 });
 
 	Remove.renderRectangle();
-	Remove.drawTexture();
+	/*Remove.drawTexture();*/
 	Remove.drawOutline(10, 10, 2, BLACK);
 	Remove.drawText({ 0,0,0,255 });
 
