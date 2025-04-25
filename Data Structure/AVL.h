@@ -34,10 +34,15 @@ private:
     AVLOperation currentOperation;
     bool isPaused;
     float treeSpeed;
-    int highlighted_line;
+    int highlighted_line; // Dòng code đang được highlight
     std::string messageLog;
     std::vector<Pointer> pointers;
     bool skipCurrentStep;
+
+    // Lưu trữ pseudocode cho từng hàm
+    std::vector<std::string> insertPseudocode;
+    std::vector<std::string> findPseudocode;
+    std::vector<std::string> removePseudocode;
 
     // Operation information
     struct OperationInfo {
@@ -46,6 +51,7 @@ private:
         float highlightTimer;
         bool skipAnimations;
         OperationPhase phase;
+        std::vector<int> highlightLines; // Danh sách các dòng highlight
         OperationInfo() : currentPathIndex(0), highlightTimer(0.0f), skipAnimations(false), phase(PATH_FINDING) {}
     } currOperationInfo;
 
@@ -76,10 +82,12 @@ public:
     void setStop(bool stop);
     bool isStop() const;
     void setSkip();
+    void skipAnimations();
     void update();
     void render();
     void insert(int value);
     void create(const std::vector<int>& vals);
+    void updateVal(int oldValue, int newValue);
     void randomCreate(int amount);
     void LoadFromFile(const std::string& path);
     AVLNode* find(int value);
