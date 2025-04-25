@@ -41,7 +41,6 @@ AVLNode* AVLTree::rotateRight(AVLNode* y) {
     y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
     x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
 
-    // Set animation for rotation
     if (!currOperationInfo.skipAnimations) {
         x->currentAnimation = AVLAnimation::AVL_MOVING;
         x->animationPhase = 0.0f;
@@ -52,7 +51,6 @@ AVLNode* AVLTree::rotateRight(AVLNode* y) {
             T2->animationPhase = 0.0f;
         }
     }
-    // Defer repositioning to update
     return x;
 }
 
@@ -64,7 +62,6 @@ AVLNode* AVLTree::rotateLeft(AVLNode* x) {
     x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
     y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
 
-    // Set animation for rotation
     if (!currOperationInfo.skipAnimations) {
         x->currentAnimation = AVLAnimation::AVL_MOVING;
         x->animationPhase = 0.0f;
@@ -75,7 +72,6 @@ AVLNode* AVLTree::rotateLeft(AVLNode* x) {
             T2->animationPhase = 0.0f;
         }
     }
-    // Defer repositioning to update
     return y;
 }
 
@@ -96,7 +92,7 @@ AVLNode* AVLTree::balanceNode(AVLNode* node) {
     return node;
 }
 
-AVLNode* AVLTree::insertNode(AVLNode* node, int value, std::vector<AVLNode*>& path) {
+AVLNode* AVLTree::insertNode(AVLNode* node, int value, std::vector<AVLNode*>* path) {
     if (!node) {
         AVLNode* newNode = new AVLNode(value);
         if (!currOperationInfo.skipAnimations) {
@@ -106,10 +102,10 @@ AVLNode* AVLTree::insertNode(AVLNode* node, int value, std::vector<AVLNode*>& pa
         else {
             newNode->opacity = 1.0f;
         }
-        path.push_back(newNode); // Include new node in path
+        if (path) path->push_back(newNode);
         return newNode;
     }
-    path.push_back(node); // Add current node to path
+    if (path) path->push_back(node);
     if (value < node->value) {
         node->left = insertNode(node->left, value, path);
     }
@@ -117,45 +113,37 @@ AVLNode* AVLTree::insertNode(AVLNode* node, int value, std::vector<AVLNode*>& pa
         node->right = insertNode(node->right, value, path);
     }
     else {
-        return node; // Duplicate values not allowed
+        return node;
     }
     node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
     return balanceNode(node);
 }
 
 void AVLTree::insert(int value) {
-    std::vector<AVLNode*> path;
-    root = insertNode(root, value, path);
-    currOperationInfo.path = path;
-    currOperationInfo.currentPathIndex = 0;
-    currOperationInfo.highlightTimer = 0.0f;
+    // Handled via operation queue in update()
 }
 
-AVLNode* AVLTree::findHelper(AVLNode* node, int value, std::vector<AVLNode*>& path) {
+AVLNode* AVLTree::findHelper(AVLNode* node, int value, std::vector<AVLNode*>* path) {
     if (!node) return nullptr;
-    path.push_back(node);
+    if (path) path->push_back(node);
     if (value == node->value) return node;
     if (value < node->value) return findHelper(node->left, value, path);
     return findHelper(node->right, value, path);
 }
 
 AVLNode* AVLTree::find(int value) {
-    std::vector<AVLNode*> path;
-    AVLNode* result = findHelper(root, value, path);
-    currOperationInfo.path = path;
-    currOperationInfo.currentPathIndex = 0;
-    currOperationInfo.highlightTimer = 0.0f;
-    return result;
+    // Handled via operation queue in update()
+    return nullptr;
 }
 
 AVLNode* AVLTree::findMin(AVLNode* node) {
-    while (node->left) node = node->left;
+    while (node && node->left) node = node->left;
     return node;
 }
 
-AVLNode* AVLTree::removeHelper(AVLNode* node, int value, std::vector<AVLNode*>& path) {
+AVLNode* AVLTree::removeHelper(AVLNode* node, int value, std::vector<AVLNode*>* path) {
     if (!node) return nullptr;
-    path.push_back(node);
+    if (path) path->push_back(node);
     if (value < node->value) {
         node->left = removeHelper(node->left, value, path);
     }
@@ -167,7 +155,7 @@ AVLNode* AVLTree::removeHelper(AVLNode* node, int value, std::vector<AVLNode*>& 
             AVLNode* temp = node->right;
             if (!currOperationInfo.skipAnimations) {
                 node->currentAnimation = AVLAnimation::AVL_CHANGINGOPACITY;
-                node->opacity = 1.0f; // Fade out
+                node->opacity = 1.0f;
                 node->animationPhase = 0.0f;
             }
             delete node;
@@ -177,7 +165,7 @@ AVLNode* AVLTree::removeHelper(AVLNode* node, int value, std::vector<AVLNode*>& 
             AVLNode* temp = node->left;
             if (!currOperationInfo.skipAnimations) {
                 node->currentAnimation = AVLAnimation::AVL_CHANGINGOPACITY;
-                node->opacity = 1.0f; // Fade out
+                node->opacity = 1.0f;
                 node->animationPhase = 0.0f;
             }
             delete node;
@@ -192,11 +180,44 @@ AVLNode* AVLTree::removeHelper(AVLNode* node, int value, std::vector<AVLNode*>& 
 }
 
 void AVLTree::remove(int value) {
-    std::vector<AVLNode*> path;
-    root = removeHelper(root, value, path);
-    currOperationInfo.path = path;
-    currOperationInfo.currentPathIndex = 0;
-    currOperationInfo.highlightTimer = 0.0f;
+    // Handled via operation queue in update()
+}
+
+void AVLTree::findInsertionPath(AVLNode* node, int value, std::vector<AVLNode*>& path) {
+    if (!node) return;
+    path.push_back(node);
+    if (value < node->value) {
+        findInsertionPath(node->left, value, path);
+    }
+    else if (value > node->value) {
+        findInsertionPath(node->right, value, path);
+    }
+}
+
+void AVLTree::findRemovalPath(AVLNode* node, int value, std::vector<AVLNode*>& path) {
+    if (!node) return;
+    path.push_back(node);
+    if (value < node->value) {
+        findRemovalPath(node->left, value, path);
+    }
+    else if (value > node->value) {
+        findRemovalPath(node->right, value, path);
+    }
+    else {
+        return; // Found the node
+    }
+}
+
+void AVLTree::findPath(AVLNode* node, int value, std::vector<AVLNode*>& path) {
+    if (!node) return;
+    path.push_back(node);
+    if (value == node->value) return;
+    if (value < node->value) {
+        findPath(node->left, value, path);
+    }
+    else {
+        findPath(node->right, value, path);
+    }
 }
 
 void AVLTree::repositionNodes(AVLNode* node, float x, float y, float spacing) {
@@ -234,7 +255,6 @@ void AVLTree::updatePointers() {
 void AVLTree::update() {
     if (isPaused) return;
 
-    // Only clear highlights for nodes not in the current path
     std::function<void(AVLNode*)> clearHighlights = [&](AVLNode* node) {
         if (!node) return;
         bool inPath = false;
@@ -252,7 +272,6 @@ void AVLTree::update() {
         };
     clearHighlights(root);
 
-    // Handle highlighting sequence
     bool isAnimating = false;
     if (!currOperationInfo.path.empty() && currOperationInfo.currentPathIndex < currOperationInfo.path.size()) {
         isAnimating = true;
@@ -269,61 +288,92 @@ void AVLTree::update() {
         }
     }
     else if (!currOperationInfo.path.empty()) {
-        // Operation complete
-        if (currentOperation.type == FIND) {
-            AVLNode* lastNode = currOperationInfo.path.back();
-            if (lastNode->value == currentOperation.value) {
-                lastNode->isHighlighted = true; // Keep final node highlighted for FIND
+        if (currentOperation.type == INSERT) {
+            root = insertNode(root, currentOperation.value, nullptr);
+            repositionNodes(root, GetScreenWidth() / 2, 100, 200);
+            messageLog = std::to_string(currentOperation.value) + " Inserted";
+        }
+        else if (currentOperation.type == REMOVE) {
+            root = removeHelper(root, currentOperation.value, nullptr);
+            repositionNodes(root, GetScreenWidth() / 2, 100, 200);
+            messageLog = std::to_string(currentOperation.value) + " Removed";
+        }
+        else if (currentOperation.type == FIND) {
+            if (!currOperationInfo.path.empty()) {
+                AVLNode* lastNode = currOperationInfo.path.back();
+                if (lastNode && lastNode->value == currentOperation.value) {
+                    lastNode->isHighlighted = true;
+                    messageLog = std::to_string(currentOperation.value) + " Found";
+                }
+                else {
+                    messageLog = std::to_string(currentOperation.value) + " Not found";
+                }
+            }
+            else {
+                messageLog = std::to_string(currentOperation.value) + " Not found";
             }
         }
         currOperationInfo.path.clear();
         currOperationInfo.currentPathIndex = 0;
         currOperationInfo.highlightTimer = 0.0f;
-        // Reposition nodes after animations
-        repositionNodes(root, GetScreenWidth() / 2, 100, 200);
     }
 
-    // Process operation queue only when no animations are active
     if (!operationQueue.empty() && !isAnimating) {
         currentOperation = operationQueue.front();
         operationQueue.pop();
         currOperationInfo.skipAnimations = (currentOperation.type == RANDOM);
-        switch (currentOperation.type) {
-        case INSERT:
-            insert(currentOperation.value);
-            messageLog = std::to_string(currentOperation.value) + " Inserted";
-            break;
-        case REMOVE:
-            remove(currentOperation.value);
-            messageLog = std::to_string(currentOperation.value) + " Removed";
-            break;
-        case FIND:
-        {
-            AVLNode* found = find(currentOperation.value);
-            messageLog = std::to_string(currentOperation.value) + (found ? " Found" : " Not found");
-        }
-        break;
-        case RANDOM:
-            randomCreate(currentOperation.value);
-            messageLog = std::to_string(currentOperation.value) + " Random nodes created.";
-            break;
-        case UPDATE:
-        {
-            AVLNode* node = find(currentOperation.value);
-            int oldValue = node ? node->value : currentOperation.value;
-            if (node) {
-                node->value = currentOperation.secondValue;
-                messageLog = "Updated from " + std::to_string(oldValue) + " to " + std::to_string(currentOperation.secondValue);
+        if (currOperationInfo.skipAnimations) {
+            switch (currentOperation.type) {
+            case INSERT:
+                root = insertNode(root, currentOperation.value, nullptr);
+                repositionNodes(root, GetScreenWidth() / 2, 100, 200);
+                messageLog = std::to_string(currentOperation.value) + " Inserted";
+                break;
+            case REMOVE:
+                root = removeHelper(root, currentOperation.value, nullptr);
+                repositionNodes(root, GetScreenWidth() / 2, 100, 200);
+                messageLog = std::to_string(currentOperation.value) + " Removed";
+                break;
+            case RANDOM:
+                randomCreate(currentOperation.value);
+                break;
+            case UPDATE:
+            {
+                AVLNode* node = findHelper(root, currentOperation.value, nullptr);
+                int oldValue = node ? node->value : currentOperation.value;
+                if (node) {
+                    node->value = currentOperation.secondValue;
+                    messageLog = "Updated from " + std::to_string(oldValue) + " to " + std::to_string(currentOperation.secondValue);
+                }
+                else {
+                    messageLog = "Cannot find " + std::to_string(oldValue);
+                }
             }
-            else {
-                messageLog = "Cannot find " + std::to_string(oldValue);
+            break;
             }
         }
-        break;
+        else {
+            std::vector<AVLNode*> path;
+            switch (currentOperation.type) {
+            case INSERT:
+                findInsertionPath(root, currentOperation.value, path);
+                break;
+            case REMOVE:
+                findRemovalPath(root, currentOperation.value, path);
+                break;
+            case FIND:
+                findPath(root, currentOperation.value, path);
+                break;
+            case UPDATE:
+                findPath(root, currentOperation.value, path);
+                break;
+            }
+            currOperationInfo.path = path;
+            currOperationInfo.currentPathIndex = 0;
+            currOperationInfo.highlightTimer = 0.0f;
         }
     }
 
-    // Update node animations
     std::function<void(AVLNode*)> updateNode = [&](AVLNode* node) {
         if (!node) return;
         node->updateAnimation(treeSpeed);
@@ -337,16 +387,15 @@ void AVLTree::update() {
 void AVLTree::randomCreate(int amount) {
     clearTree(root);
     root = nullptr;
-    std::vector<int> vals;
     for (int i = 0; i < amount; ++i) {
         int val = GetRandomValue(0, 100);
-        while (find(val) != nullptr) {
+        while (findHelper(root, val, nullptr) != nullptr) {
             val = GetRandomValue(0, 100);
         }
-        vals.push_back(val);
+        root = insertNode(root, val, nullptr);
     }
-    currOperationInfo.skipAnimations = true;
-    create(vals);
+    repositionNodes(root, GetScreenWidth() / 2, 100, 200);
+    messageLog = std::to_string(amount) + " Random nodes created.";
 }
 
 void AVLTree::render() {
@@ -401,8 +450,9 @@ void AVLTree::create(const std::vector<int>& vals) {
     clearTree(root);
     root = nullptr;
     for (int val : vals) {
-        insert(val);
+        root = insertNode(root, val, nullptr);
     }
+    repositionNodes(root, GetScreenWidth() / 2, 100, 200);
 }
 
 void AVLTree::storeOperation(AVLOperationType type, int value, int secondValue) {

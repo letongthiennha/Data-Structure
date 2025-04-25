@@ -41,29 +41,19 @@ private:
 
     // Operation information
     struct OperationInfo {
-        AVLNode* currNode;
-        AVLNode* newNode;
-        int removeVal;
-        int findVal;
-        bool isStarted;
-        bool isComplete;
-        bool isFound;
         std::vector<AVLNode*> path;
-        float highlightTimer;
         size_t currentPathIndex;
+        float highlightTimer;
         bool skipAnimations;
         OperationPhase phase;
-        OperationInfo() : currNode(nullptr), newNode(nullptr), removeVal(0), findVal(0),
-            isStarted(false), isComplete(false), isFound(false), highlightTimer(0.0f),
-            currentPathIndex(0), skipAnimations(false), phase(PATH_FINDING) {
-        }
+        OperationInfo() : currentPathIndex(0), highlightTimer(0.0f), skipAnimations(false), phase(PATH_FINDING) {}
     } currOperationInfo;
 
     // AVL Tree operations
-    AVLNode* insertNode(AVLNode* node, int value, std::vector<AVLNode*>& path);
+    AVLNode* insertNode(AVLNode* node, int value, std::vector<AVLNode*>* path = nullptr);
     AVLNode* balanceNode(AVLNode* node);
-    AVLNode* findHelper(AVLNode* node, int value, std::vector<AVLNode*>& path);
-    AVLNode* removeHelper(AVLNode* node, int value, std::vector<AVLNode*>& path);
+    AVLNode* findHelper(AVLNode* node, int value, std::vector<AVLNode*>* path = nullptr);
+    AVLNode* removeHelper(AVLNode* node, int value, std::vector<AVLNode*>* path = nullptr);
     AVLNode* findMin(AVLNode* node);
     int getHeight(AVLNode* node);
     int getBalanceFactor(AVLNode* node);
