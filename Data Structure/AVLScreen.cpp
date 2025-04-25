@@ -56,6 +56,11 @@ AVLScreen::AVLScreen() {
     Update.SetHoverColor({ 85, 156, 236, 255 });
     Update.SetActiveColor(controllerActiveColor);
 
+    LoadFile = Button({ 100, 450 }, stateControlButtonSize, "Load File");
+    LoadFile.SetIdleColor(controllerIdleColor);
+    LoadFile.SetHoverColor(controllerHoveringColor);
+    LoadFile.SetActiveColor(controllerActiveColor);
+
     Accept = Button({ 300, 850 }, stateControlButtonSize, "");
     Accept.setTexture("assets/Icon/accept.png");
     Accept.SetIdleColor(controllerIdleColor);
@@ -128,6 +133,7 @@ void AVLScreen::update() {
     Remove.update();
     Find.update();
     Update.update();
+    LoadFile.update();
     HomeButton.update();
     Pause.update();
     Skip.update();
@@ -163,6 +169,21 @@ void AVLScreen::update() {
         choose = AVLOperationType::UPDATE;
         inputBox.setBoxTitle("Input (OldValue NewValue)");
     }
+    if (LoadFile.isClicked()) {
+        // Mở hộp thoại chọn file bằng TinyFileDialogs
+        const char* filters[] = { "*.txt" };
+        const char* filePath = tinyfd_openFileDialog(
+            "Select Input File", 
+            "",                
+            1,                  
+            filters,           
+            "Text Files",
+            0
+        );
+        if (filePath) {
+            myTree.LoadFromFile(filePath); // Gọi hàm LoadFromFile với đường dẫn file
+        }
+    }
     if (Pause.isClicked()) {
         myTree.setStop(!myTree.isStop());
         if (myTree.isStop()) {
@@ -187,34 +208,32 @@ void AVLScreen::update() {
 
 void AVLScreen::render() {
     Create.renderRectangle();
-    Create.drawTexture();
     Create.drawOutline(10, 10, 2, BLACK);
     Create.drawText({ 0, 0, 0, 255 });
 
     Random.renderRectangle();
-    Random.drawTexture();
     Random.drawOutline(10, 10, 2, BLACK);
     Random.drawText({ 0, 0, 0, 255 });
 
     Insert.renderRectangle();
-    Insert.drawTexture();
     Insert.drawOutline(10, 10, 2, BLACK);
     Insert.drawText({ 0, 0, 0, 255 });
 
     Remove.renderRectangle();
-    Remove.drawTexture();
     Remove.drawOutline(10, 10, 2, BLACK);
     Remove.drawText({ 0, 0, 0, 255 });
 
     Find.renderRectangle();
-    Find.drawTexture();
     Find.drawOutline(10, 10, 2, BLACK);
     Find.drawText({ 0, 0, 0, 255 });
 
     Update.renderRectangle();
-    Update.drawTexture();
     Update.drawOutline(10, 10, 2, BLACK);
     Update.drawText({ 0, 0, 0, 255 });
+
+    LoadFile.renderRectangle();
+    LoadFile.drawOutline(10, 10, 2, BLACK);
+    LoadFile.drawText({ 0, 0, 0, 255 });
 
     HomeButton.drawTexture();
 
