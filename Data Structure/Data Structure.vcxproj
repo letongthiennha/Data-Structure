@@ -130,6 +130,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AVL.cpp" />
+    <ClCompile Include="AVLNode.cpp" />
     <ClCompile Include="AVLScreen.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -156,6 +158,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AVL.h" />
+    <ClInclude Include="AVLNode.h" />
     <ClInclude Include="AVLScreen.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Font.h" />
