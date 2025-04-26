@@ -143,11 +143,16 @@ AVLNode* AVLTree::balanceNode(AVLNode* node) {
     return node;
 }
 
+
+void AVLTree::insert(int value) {
+    // Handled via operation queue in update()
+}
+
 AVLNode* AVLTree::insertNode(AVLNode* node, int value, std::vector<AVLNode*>* path) {
     if (!node) {
-        currOperationInfo.highlightLines.push_back(1); // If node is null
+        currOperationInfo.modificationHighlightLines.push_back(1); // If node is null
         AVLNode* newNode = new AVLNode(value);
-        currOperationInfo.highlightLines.push_back(2); // Create new node
+        currOperationInfo.modificationHighlightLines.push_back(2); // Create new node
         if (!currOperationInfo.skipAnimations) {
             newNode->currentAnimation = AVLAnimation::AVL_CHANGINGOPACITY;
             newNode->opacity = 0.0f;
@@ -160,50 +165,45 @@ AVLNode* AVLTree::insertNode(AVLNode* node, int value, std::vector<AVLNode*>* pa
     }
     if (path) path->push_back(node);
     if (value < node->value) {
-        currOperationInfo.highlightLines.push_back(3); // value < node.value
+        currOperationInfo.modificationHighlightLines.push_back(3); // value < node.value
         node->left = insertNode(node->left, value, path);
-        currOperationInfo.highlightLines.push_back(4); // node.left = insert
+        currOperationInfo.modificationHighlightLines.push_back(4); // node.left = insert
     }
     else if (value > node->value) {
-        currOperationInfo.highlightLines.push_back(5); // value > node.value
+        currOperationInfo.modificationHighlightLines.push_back(5); // value > node.value
         node->right = insertNode(node->right, value, path);
-        currOperationInfo.highlightLines.push_back(6); // node.right = insert
+        currOperationInfo.modificationHighlightLines.push_back(6); // node.right = insert
     }
     else {
         return node;
     }
-    currOperationInfo.highlightLines.push_back(7); // Update height
+    currOperationInfo.modificationHighlightLines.push_back(7); // Update height
     node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-    currOperationInfo.highlightLines.push_back(8); // Balance node
+    currOperationInfo.modificationHighlightLines.push_back(8); // Balance node
     return balanceNode(node);
-}
-
-void AVLTree::insert(int value) {
-    // Handled via operation queue in update()
 }
 
 AVLNode* AVLTree::findHelper(AVLNode* node, int value, std::vector<AVLNode*>* path) {
     if (!node) {
-        currOperationInfo.highlightLines.push_back(1); // If node is null
-        currOperationInfo.highlightLines.push_back(2); // Return null
+        currOperationInfo.modificationHighlightLines.push_back(1); // If node is null
+        currOperationInfo.modificationHighlightLines.push_back(2); // Return null
         return nullptr;
     }
     if (path) path->push_back(node);
     if (value == node->value) {
-        currOperationInfo.highlightLines.push_back(3); // value == node.value
-        currOperationInfo.highlightLines.push_back(4); // Return node
+        currOperationInfo.modificationHighlightLines.push_back(3); // value == node.value
+        currOperationInfo.modificationHighlightLines.push_back(4); // Return node
         return node;
     }
     if (value < node->value) {
-        currOperationInfo.highlightLines.push_back(5); // value < node.value
-        currOperationInfo.highlightLines.push_back(6); // find(node.left, value)
+        currOperationInfo.modificationHighlightLines.push_back(5); // value < node.value
+        currOperationInfo.modificationHighlightLines.push_back(6); // find(node.left, value)
         return findHelper(node->left, value, path);
     }
-    currOperationInfo.highlightLines.push_back(7); // Else
-    currOperationInfo.highlightLines.push_back(8); // find(node.right, value)
+    currOperationInfo.modificationHighlightLines.push_back(7); // Else
+    currOperationInfo.modificationHighlightLines.push_back(8); // find(node.right, value)
     return findHelper(node->right, value, path);
 }
-
 AVLNode* AVLTree::findMin(AVLNode* node) {
     while (node && node->left) node = node->left;
     return node;
@@ -211,27 +211,27 @@ AVLNode* AVLTree::findMin(AVLNode* node) {
 
 AVLNode* AVLTree::removeHelper(AVLNode* node, int value, std::vector<AVLNode*>* path) {
     if (!node) {
-        currOperationInfo.highlightLines.push_back(1); // If node is null
-        currOperationInfo.highlightLines.push_back(2); // Return null
+        currOperationInfo.modificationHighlightLines.push_back(1); // If node is null
+        currOperationInfo.modificationHighlightLines.push_back(2); // Return null
         return nullptr;
     }
     if (path) path->push_back(node);
     if (value < node->value) {
-        currOperationInfo.highlightLines.push_back(3); // value < node.value
+        currOperationInfo.modificationHighlightLines.push_back(3); // value < node.value
         node->left = removeHelper(node->left, value, path);
-        currOperationInfo.highlightLines.push_back(4); // node.left = remove
+        currOperationInfo.modificationHighlightLines.push_back(4); // node.left = remove
     }
     else if (value > node->value) {
-        currOperationInfo.highlightLines.push_back(5); // value > node.value
+        currOperationInfo.modificationHighlightLines.push_back(5); // value > node.value
         node->right = removeHelper(node->right, value, path);
-        currOperationInfo.highlightLines.push_back(6); // node.right = remove
+        currOperationInfo.modificationHighlightLines.push_back(6); // node.right = remove
     }
     else {
-        currOperationInfo.highlightLines.push_back(7); // Else
+        currOperationInfo.modificationHighlightLines.push_back(7); // Else
         if (!node->left) {
-            currOperationInfo.highlightLines.push_back(8); // No left child
+            currOperationInfo.modificationHighlightLines.push_back(8); // No left child
             AVLNode* temp = node->right;
-            currOperationInfo.highlightLines.push_back(9); // Return node.right
+            currOperationInfo.modificationHighlightLines.push_back(9); // Return node.right
             if (!currOperationInfo.skipAnimations) {
                 node->currentAnimation = AVLAnimation::AVL_CHANGINGOPACITY;
                 node->opacity = 1.0f;
@@ -241,9 +241,9 @@ AVLNode* AVLTree::removeHelper(AVLNode* node, int value, std::vector<AVLNode*>* 
             return temp;
         }
         else if (!node->right) {
-            currOperationInfo.highlightLines.push_back(10); // No right child
+            currOperationInfo.modificationHighlightLines.push_back(10); // No right child
             AVLNode* temp = node->left;
-            currOperationInfo.highlightLines.push_back(11); // Return node.left
+            currOperationInfo.modificationHighlightLines.push_back(11); // Return node.left
             if (!currOperationInfo.skipAnimations) {
                 node->currentAnimation = AVLAnimation::AVL_CHANGINGOPACITY;
                 node->opacity = 1.0f;
@@ -252,29 +252,30 @@ AVLNode* AVLTree::removeHelper(AVLNode* node, int value, std::vector<AVLNode*>* 
             delete node;
             return temp;
         }
-        currOperationInfo.highlightLines.push_back(12); // Else
-        currOperationInfo.highlightLines.push_back(13); // Find min node
+        currOperationInfo.modificationHighlightLines.push_back(12); // Else
+        currOperationInfo.modificationHighlightLines.push_back(13); // Find min node
         AVLNode* temp = findMin(node->right);
-        currOperationInfo.highlightLines.push_back(14); // node.value = min.value
+        currOperationInfo.modificationHighlightLines.push_back(14); // node.value = min.value
         node->value = temp->value;
-        currOperationInfo.highlightLines.push_back(15); // node.right = remove
+        currOperationInfo.modificationHighlightLines.push_back(15); // node.right = remove
         node->right = removeHelper(node->right, temp->value, path);
     }
-    currOperationInfo.highlightLines.push_back(16); // Update height
+    currOperationInfo.modificationHighlightLines.push_back(16); // Update height
     node->height = 1 + std::max(getHeight(node->left), getHeight(node->right));
-    currOperationInfo.highlightLines.push_back(17); // Balance node
+    currOperationInfo.modificationHighlightLines.push_back(17); // Balance node
     return balanceNode(node);
 }
+
 
 void AVLTree::findInsertionPath(AVLNode* node, int value, std::vector<AVLNode*>& path) {
     if (!node) return;
     path.push_back(node);
-    currOperationInfo.highlightLines.push_back(3); // value < node.value (tương ứng pseudocode insert)
+    currOperationInfo.pathHighlightLines.push_back(3); // value < node.value
     if (value < node->value) {
         findInsertionPath(node->left, value, path);
     }
     else if (value > node->value) {
-        currOperationInfo.highlightLines.push_back(5); // value > node.value (tương ứng pseudocode insert)
+        currOperationInfo.pathHighlightLines.push_back(5); // value > node.value
         findInsertionPath(node->right, value, path);
     }
 }
@@ -282,16 +283,16 @@ void AVLTree::findInsertionPath(AVLNode* node, int value, std::vector<AVLNode*>&
 void AVLTree::findRemovalPath(AVLNode* node, int value, std::vector<AVLNode*>& path) {
     if (!node) return;
     path.push_back(node);
-    currOperationInfo.highlightLines.push_back(3); // value < node.value (tương ứng pseudocode remove)
+    currOperationInfo.pathHighlightLines.push_back(3); // value < node.value
     if (value < node->value) {
         findRemovalPath(node->left, value, path);
     }
     else if (value > node->value) {
-        currOperationInfo.highlightLines.push_back(5); // value > node.value (tương ứng pseudocode remove)
+        currOperationInfo.pathHighlightLines.push_back(5); // value > node.value
         findRemovalPath(node->right, value, path);
     }
     else {
-        currOperationInfo.highlightLines.push_back(7); // Found the node (tương ứng pseudocode remove)
+        currOperationInfo.pathHighlightLines.push_back(7); // Found the node
         return;
     }
 }
@@ -299,16 +300,16 @@ void AVLTree::findRemovalPath(AVLNode* node, int value, std::vector<AVLNode*>& p
 void AVLTree::findPath(AVLNode* node, int value, std::vector<AVLNode*>& path) {
     if (!node) return;
     path.push_back(node);
-    currOperationInfo.highlightLines.push_back(3); // value == node.value (tương ứng pseudocode find)
+    currOperationInfo.pathHighlightLines.push_back(3); // value == node.value
     if (value == node->value) {
         return;
     }
-    currOperationInfo.highlightLines.push_back(5); // value < node.value (tương ứng pseudocode find)
     if (value < node->value) {
+        currOperationInfo.pathHighlightLines.push_back(5); // value < node.value
         findPath(node->left, value, path);
     }
     else {
-        currOperationInfo.highlightLines.push_back(7); // Else (tương ứng pseudocode find)
+        currOperationInfo.pathHighlightLines.push_back(7); // Else
         findPath(node->right, value, path);
     }
 }
@@ -350,13 +351,20 @@ void AVLTree::skipAnimations() {
 
     // Hoàn thành ngay lập tức thao tác hiện tại
     if (!currOperationInfo.path.empty()) {
+        currOperationInfo.modificationHighlightLines.clear();
         if (currentOperation.type == INSERT) {
             root = insertNode(root, currentOperation.value, nullptr);
             messageLog = std::to_string(currentOperation.value) + " Inserted";
+            if (!currOperationInfo.modificationHighlightLines.empty()) {
+                highlighted_line = currOperationInfo.modificationHighlightLines.back();
+            }
         }
         else if (currentOperation.type == REMOVE) {
             root = removeHelper(root, currentOperation.value, nullptr);
             messageLog = std::to_string(currentOperation.value) + " Removed";
+            if (!currOperationInfo.modificationHighlightLines.empty()) {
+                highlighted_line = currOperationInfo.modificationHighlightLines.back();
+            }
         }
         else if (currentOperation.type == FIND) {
             if (!currOperationInfo.path.empty()) {
@@ -364,19 +372,26 @@ void AVLTree::skipAnimations() {
                 if (lastNode && lastNode->value == currentOperation.value) {
                     lastNode->isHighlighted = true;
                     messageLog = std::to_string(currentOperation.value) + " Found";
+                    currOperationInfo.modificationHighlightLines.push_back(4); // "Return node"
                 }
                 else {
                     messageLog = std::to_string(currentOperation.value) + " Not found";
+                    currOperationInfo.modificationHighlightLines.push_back(2); // "Return null"
                 }
+                highlighted_line = currOperationInfo.modificationHighlightLines.back();
             }
             else {
                 messageLog = std::to_string(currentOperation.value) + " Not found";
+                currOperationInfo.modificationHighlightLines.push_back(2); // "Return null"
+                highlighted_line = 2;
             }
         }
         else if (currentOperation.type == UPDATE) {
             AVLNode* node = findHelper(root, currentOperation.value, nullptr);
             if (!node) {
                 messageLog = "Cannot find " + std::to_string(currentOperation.value);
+                currOperationInfo.modificationHighlightLines.push_back(2); // "Return null"
+                highlighted_line = 2;
             }
             else if (findHelper(root, currentOperation.secondValue, nullptr) != nullptr) {
                 messageLog = "Value " + std::to_string(currentOperation.secondValue) + " already exists";
@@ -425,10 +440,6 @@ void AVLTree::skipAnimations() {
         };
     resetNodeAnimations(root);
 
-    // Đặt lại highlighted_line và highlightLines
-    highlighted_line = 0;
-    currOperationInfo.highlightLines.clear();
-
     // Cập nhật vị trí cây và con trỏ
     repositionNodes(root, GetScreenWidth() / 2, 100, 200);
     updatePointers();
@@ -438,6 +449,8 @@ void AVLTree::skipAnimations() {
     currOperationInfo.currentPathIndex = 0;
     currOperationInfo.highlightTimer = 0.0f;
     currOperationInfo.skipAnimations = false;
+    currOperationInfo.pathHighlightLines.clear();
+    currOperationInfo.modificationHighlightLines.clear();
 }
 
 void AVLTree::setSkip() {
@@ -448,6 +461,7 @@ void AVLTree::setSkip() {
 void AVLTree::update() {
     if (isPaused) return;
 
+    // Xóa highlight cho các node không nằm trong path
     std::function<void(AVLNode*)> clearHighlights = [&](AVLNode* node) {
         if (!node) return;
         bool inPath = false;
@@ -476,27 +490,30 @@ void AVLTree::update() {
             }
             AVLNode* currentNode = currOperationInfo.path[currOperationInfo.currentPathIndex];
             currentNode->isHighlighted = true;
-            // Cập nhật highlighted_line dựa trên highlightLines
-            size_t highlightIndex = currOperationInfo.currentPathIndex * 2; // Mỗi node có thể có 2 dòng highlight
-            if (highlightIndex < currOperationInfo.highlightLines.size()) {
-                highlighted_line = currOperationInfo.highlightLines[highlightIndex];
+
+            // Cập nhật highlighted_line từ pathHighlightLines
+            if (currOperationInfo.currentPathIndex < currOperationInfo.pathHighlightLines.size()) {
+                highlighted_line = currOperationInfo.pathHighlightLines[currOperationInfo.currentPathIndex];
             }
             else {
                 highlighted_line = 0;
             }
+
             currOperationInfo.currentPathIndex++;
             currOperationInfo.highlightTimer = 0.0f;
         }
     }
     else if (!currOperationInfo.path.empty()) {
+        // Chuyển sang phase MODIFICATION
+        currOperationInfo.phase = MODIFICATION;
+        currOperationInfo.modificationHighlightLines.clear(); // Xóa highlightLines cho MODIFICATION
+
         if (currentOperation.type == INSERT) {
-            currOperationInfo.highlightLines.clear(); // Xóa highlightLines trước khi gọi insertNode
             root = insertNode(root, currentOperation.value, nullptr);
             repositionNodes(root, GetScreenWidth() / 2, 100, 200);
             messageLog = std::to_string(currentOperation.value) + " Inserted";
         }
         else if (currentOperation.type == REMOVE) {
-            currOperationInfo.highlightLines.clear(); // Xóa highlightLines trước khi gọi removeHelper
             root = removeHelper(root, currentOperation.value, nullptr);
             repositionNodes(root, GetScreenWidth() / 2, 100, 200);
             messageLog = std::to_string(currentOperation.value) + " Removed";
@@ -507,20 +524,23 @@ void AVLTree::update() {
                 if (lastNode && lastNode->value == currentOperation.value) {
                     lastNode->isHighlighted = true;
                     messageLog = std::to_string(currentOperation.value) + " Found";
+                    currOperationInfo.modificationHighlightLines.push_back(4); // "Return node"
                 }
                 else {
                     messageLog = std::to_string(currentOperation.value) + " Not found";
+                    currOperationInfo.modificationHighlightLines.push_back(2); // "Return null"
                 }
             }
             else {
                 messageLog = std::to_string(currentOperation.value) + " Not found";
+                currOperationInfo.modificationHighlightLines.push_back(2); // "Return null"
             }
         }
         else if (currentOperation.type == UPDATE) {
-            currOperationInfo.highlightLines.clear(); // Xóa highlightLines trước khi gọi findHelper
             AVLNode* node = findHelper(root, currentOperation.value, nullptr);
             if (!node) {
                 messageLog = "Cannot find " + std::to_string(currentOperation.value);
+                currOperationInfo.modificationHighlightLines.push_back(2); // "Return null"
             }
             else if (findHelper(root, currentOperation.secondValue, nullptr) != nullptr) {
                 messageLog = "Value " + std::to_string(currentOperation.secondValue) + " already exists";
@@ -554,18 +574,27 @@ void AVLTree::update() {
                 }
             }
         }
+
+        // Highlight dòng đầu tiên của MODIFICATION (nếu có)
+        if (!currOperationInfo.modificationHighlightLines.empty()) {
+            highlighted_line = currOperationInfo.modificationHighlightLines[0];
+        }
+        else {
+            highlighted_line = 0;
+        }
+
         currOperationInfo.path.clear();
         currOperationInfo.currentPathIndex = 0;
         currOperationInfo.highlightTimer = 0.0f;
-        currOperationInfo.highlightLines.clear();
-        highlighted_line = 0; // Reset highlighted_line sau khi hoàn thành thao tác
+        currOperationInfo.phase = PATH_FINDING; // Reset phase
     }
 
     if (!operationQueue.empty() && !isAnimating) {
         currentOperation = operationQueue.front();
         operationQueue.pop();
-        highlighted_line = 0; // Reset highlighted_line khi bắt đầu thao tác mới
-        currOperationInfo.highlightLines.clear(); // Xóa highlightLines khi bắt đầu thao tác mới
+        highlighted_line = 0;
+        currOperationInfo.pathHighlightLines.clear();
+        currOperationInfo.modificationHighlightLines.clear();
         currOperationInfo.skipAnimations = (currentOperation.type == RANDOM);
         if (currOperationInfo.skipAnimations) {
             switch (currentOperation.type) {

@@ -260,7 +260,7 @@ void SLL::updateForInsert() {
         if (currOperationInfo.newNode) {
             val = currOperationInfo.newNode->m_val;
         }
-        messageLog = std::to_string(val) + "was added to the list";
+        messageLog = std::to_string(val) + " was added to the list";
 
         currOperationInfo.newNode = nullptr;
         currOperationInfo.currNode = nullptr;
@@ -525,7 +525,7 @@ void SLL::create(std::vector<int>vals) {
     }
 }
 void SLL::randomCreate(int Amount) {
-    messageLog = "Create " + std::to_string(Amount) + "random nodes.";
+    messageLog = "Create " + std::to_string(Amount) + " random nodes.";
     resetList();
     resetOperation();
 	Vector2 pos = LinkedListInitPosition;

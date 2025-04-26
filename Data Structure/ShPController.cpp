@@ -135,30 +135,31 @@ void ShPController::update() {
         if (Option05x.isClicked()) {
             currentSpeed = 0.5f;
             isSpeedDropdownOpen = false;
-            SpeedButton.setText((formatSpeed(currentSpeed)).c_str(), 18);
+            SpeedButton.setText((formatSpeed(currentSpeed)).c_str(), 20);
         }
         Option1x.update();
         if (Option1x.isClicked()) {
             currentSpeed = 1.0f;
             isSpeedDropdownOpen = false;
-            SpeedButton.setText((formatSpeed(currentSpeed)).c_str(), 18);
+            SpeedButton.setText((formatSpeed(currentSpeed)).c_str(), 20);
         }
         Option2x.update();
         if (Option2x.isClicked()) {
             currentSpeed = 2.0f;
             isSpeedDropdownOpen = false;
-            SpeedButton.setText((formatSpeed(currentSpeed)).c_str(), 18);
+            SpeedButton.setText((formatSpeed(currentSpeed)).c_str(), 20);
         }
         Option4x.update();
         if (Option4x.isClicked()) {
             currentSpeed = 4.0f;
             isSpeedDropdownOpen = false;
-            SpeedButton.setText((formatSpeed(currentSpeed)).c_str(), 18);
+            SpeedButton.setText((formatSpeed(currentSpeed)).c_str(), 20);
         }
 		Skip.update();
         if (Skip.isClicked()) {
             currentSpeed = 10000000.0f;
             isSpeedDropdownOpen = false;
+            SpeedButton.setText("Skipping", 20);
         }
     }
 }

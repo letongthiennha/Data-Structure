@@ -51,7 +51,8 @@ private:
         float highlightTimer;
         bool skipAnimations;
         OperationPhase phase;
-        std::vector<int> highlightLines; // Danh sách các dòng highlight
+        std::vector<int> pathHighlightLines; 
+        std::vector<int> modificationHighlightLines;
         OperationInfo() : currentPathIndex(0), highlightTimer(0.0f), skipAnimations(false), phase(PATH_FINDING) {}
     } currOperationInfo;
 
